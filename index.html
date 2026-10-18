@@ -80,10 +80,10 @@
         <button onclick="showDashboard()" class="text-xs sm:text-sm font-medium text-slate-300 hover:text-white px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition">
           All Tools
         </button>
-        <a href="https://github.com/justdineshsingh1-jpg/pdf-orbit-360" target="_blank" class="flex items-center gap-2 text-xs sm:text-sm text-slate-400 hover:text-white px-3 py-1.5 rounded-lg border border-slate-800 hover:border-slate-700 transition">
-          <i data-lucide="github" class="w-4 h-4"></i>
-          <span class="hidden sm:inline">GitHub</span>
-        </a>
+        <button onclick="shareApp()" class="flex items-center gap-1.5 text-xs sm:text-sm font-medium text-blue-400 hover:text-white px-3.5 py-1.5 rounded-lg border border-blue-500/30 bg-blue-600/10 hover:bg-blue-600 transition">
+          <i data-lucide="share-2" class="w-4 h-4"></i>
+          <span>Share</span>
+        </button>
       </div>
     </div>
   </header>
@@ -1042,6 +1042,24 @@
       document.getElementById('view-dashboard').classList.remove('hidden');
       document.getElementById('view-workspace').classList.add('hidden');
       document.querySelectorAll('.tool-content').forEach(el => el.classList.add('hidden'));
+    }
+
+    function shareApp() {
+      const url = window.location.href.split('#')[0];
+      const shareData = {
+        title: 'PDF Orbit 360',
+        text: 'PDF Orbit 360 - 100% Free Visual PDF Studio & Document Converter',
+        url: url
+      };
+      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        navigator.share(shareData).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url).then(() => {
+          showToast('Link copied to clipboard! You can share it with anyone.');
+        }).catch(() => {
+          prompt('Copy this link to share:', url);
+        });
+      }
     }
 
     function openTool(toolKey) {
