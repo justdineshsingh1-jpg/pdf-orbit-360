@@ -3,269 +3,787 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PDF Orbit 360 | Modern PDF Studio</title>
+  <title>PDF Orbit 360 | Complete Free PDF Suite</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- PDF-LIB CDN for fast in-browser PDF manipulation -->
+  <!-- PDF-LIB for in-browser client-side PDF creation & editing -->
   <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <!-- PDF.js for in-browser PDF rendering, thumbnail generation & text extraction -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <!-- JSZip for multi-file bundle downloads -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script>
+    // Set PDF.js worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
     tailwind.config = {
       theme: {
         extend: {
           colors: {
             brand: {
-              50: '#f0f9ff',
-              100: '#e0f2fe',
-              500: '#0284c7',
-              600: '#0369a1',
-              700: '#075985',
+              50: '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
             }
           }
         }
       }
-    }
+    };
   </script>
   <style>
     .gradient-hero {
-      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.15), transparent 40%),
-                  radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.1), transparent 40%);
+      background: radial-gradient(circle at 15% 15%, rgba(37, 99, 235, 0.12), transparent 45%),
+                  radial-gradient(circle at 85% 85%, rgba(59, 130, 246, 0.08), transparent 45%);
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background-color: #334155;
+      border-radius: 4px;
     }
   </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans gradient-hero antialiased">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans gradient-hero antialiased">
 
   <!-- Header -->
-  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
+  <header class="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-sky-500/20">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="showDashboard()">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-sky-400 flex items-center justify-center shadow-lg shadow-blue-600/30">
           <i data-lucide="layers" class="w-5 h-5 text-white"></i>
         </div>
         <div>
-          <span class="text-xl font-bold bg-gradient-to-r from-sky-400 to-indigo-300 bg-clip-text text-transparent">PDF Orbit 360</span>
-          <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">v1.0 Live</span>
+          <span class="text-xl font-bold bg-gradient-to-r from-blue-400 via-sky-300 to-indigo-200 bg-clip-text text-transparent">PDF Orbit 360</span>
+          <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-blue-600/20 text-blue-400 border border-blue-500/30">100% Free &amp; Offline</span>
         </div>
       </div>
-      <div class="flex items-center gap-4">
-        <a href="https://github.com/justdineshsingh1-jpg/pdf-orbit-360" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors">
+      
+      <div class="flex items-center gap-3">
+        <button onclick="showDashboard()" class="text-xs sm:text-sm font-medium text-slate-300 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition">
+          All Tools
+        </button>
+        <a href="https://github.com/justdineshsingh1-jpg/pdf-orbit-360" target="_blank" class="flex items-center gap-2 text-xs sm:text-sm text-slate-400 hover:text-white px-3 py-1.5 rounded-lg border border-slate-800 hover:border-slate-700 transition">
           <i data-lucide="github" class="w-4 h-4"></i>
-          <span>GitHub Repo</span>
+          <span class="hidden sm:inline">GitHub</span>
         </a>
       </div>
     </div>
   </header>
 
-  <!-- Hero & Tool Tabs -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="text-center max-w-2xl mx-auto mb-10">
-      <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-3">
-        All-in-One Browser PDF Studio
-      </h1>
-      <p class="text-slate-400 text-sm sm:text-base">
-        Fast, secure, and runs 100% in your browser. No files are ever sent to external servers.
-      </p>
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col">
+    
+    <!-- DASHBOARD VIEW: iLovePDF Style Tool Grid -->
+    <div id="view-dashboard">
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-3">
+          Every PDF Tool You Need, 100% Free &amp; Secure
+        </h1>
+        <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+          Zero paid APIs. Zero server uploads. All processing happens locally in your browser memory with military-grade privacy.
+        </p>
+      </div>
+
+      <!-- Tools Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+
+        <!-- Tool 1: Merge -->
+        <div onclick="openTool('merge')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="combine" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Merge PDF</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Combine multiple PDFs in the order you want with ease.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- Tool 2: Split -->
+        <div onclick="openTool('split')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="scissors" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Split PDF</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Extract page ranges or separate all pages into individual files.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- Tool 3: Compress -->
+        <div onclick="openTool('compress')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="minimize-2" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Compress PDF</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Reduce PDF file size by recompressing pages in browser memory.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- Tool 4: PDF to Image -->
+        <div onclick="openTool('pdf2img')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="file-image" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">PDF to Image (JPG/PNG)</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Render PDF pages to high-res images and download singly or in ZIP.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- Tool 5: Image to PDF -->
+        <div onclick="openTool('img2pdf')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="images" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Image to PDF</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Convert JPG and PNG photos into a beautiful PDF document.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- Tool 6: Organize & Delete Pages -->
+        <div onclick="openTool('organize')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="layout-grid" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Organize / Delete Pages</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Visual thumbnail viewer to delete unwanted pages or rearrange.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- Tool 7: Rotate PDF -->
+        <div onclick="openTool('rotate')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="rotate-cw" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Rotate PDF</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Rotate pages clockwise or counter-clockwise by 90°, 180° or 270°.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- Tool 8: Add Watermark -->
+        <div onclick="openTool('watermark')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="stamp" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Add Watermark</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Stamp custom text watermarks across all pages with custom opacity.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- Tool 9: Add Page Numbers -->
+        <div onclick="openTool('pagenums')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="hash" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Page Numbers</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Add page numbering to your PDF with customized position &amp; typography.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- Tool 10: Extract Text -->
+        <div onclick="openTool('extracttext')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="file-text" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">PDF to Text</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Extract raw textual content from PDF files for copy or .txt export.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- Tool 11: Protect / Password -->
+        <div onclick="openTool('protect')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="lock" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Protect PDF</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Encrypt your PDF with a secure password to prevent unauthorized access.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- Tool 12: Metadata Inspector -->
+        <div onclick="openTool('metadata')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="info" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">PDF Info &amp; Metadata</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Inspect page dimensions, author, subject, keywords and PDF version.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+      </div>
     </div>
 
-    <!-- Tool Selector Nav -->
-    <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8">
-      <button onclick="switchTab('merge')" id="tab-merge" class="tool-tab flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all bg-sky-500 text-white shadow-lg shadow-sky-500/25">
-        <i data-lucide="combine" class="w-4 h-4"></i> Merge PDFs
-      </button>
-      <button onclick="switchTab('rotate')" id="tab-rotate" class="tool-tab flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all bg-slate-800 hover:bg-slate-700/80 text-slate-300">
-        <i data-lucide="rotate-cw" class="w-4 h-4"></i> Rotate Pages
-      </button>
-      <button onclick="switchTab('img2pdf')" id="tab-img2pdf" class="tool-tab flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all bg-slate-800 hover:bg-slate-700/80 text-slate-300">
-        <i data-lucide="image" class="w-4 h-4"></i> Image to PDF
-      </button>
-      <button onclick="switchTab('info')" id="tab-info" class="tool-tab flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all bg-slate-800 hover:bg-slate-700/80 text-slate-300">
-        <i data-lucide="file-text" class="w-4 h-4"></i> Inspect PDF
-      </button>
-    </div>
-
-    <!-- PANEL 1: MERGE PDFs -->
-    <div id="panel-merge" class="tool-panel max-w-3xl mx-auto bg-slate-800/60 border border-slate-700/70 rounded-2xl p-6 sm:p-8 backdrop-blur shadow-2xl">
-      <div class="flex items-center gap-3 mb-6">
-        <div class="p-2.5 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20">
-          <i data-lucide="combine" class="w-5 h-5"></i>
-        </div>
-        <div>
-          <h2 class="text-xl font-semibold text-white">Merge Multiple PDFs</h2>
-          <p class="text-xs text-slate-400">Combine multiple PDF documents into a single organized file.</p>
-        </div>
-      </div>
-
-      <!-- Drag & Drop Zone -->
-      <div id="merge-dropzone" class="border-2 border-dashed border-slate-600 hover:border-sky-500 rounded-xl p-8 text-center cursor-pointer transition-colors bg-slate-900/40">
-        <input type="file" id="merge-input" multiple accept="application/pdf" class="hidden">
-        <i data-lucide="upload-cloud" class="w-12 h-12 text-slate-400 mx-auto mb-3"></i>
-        <p class="text-sm font-medium text-white mb-1">Click to browse or drag and drop PDF files</p>
-        <p class="text-xs text-slate-500">Supports selecting 2 or more PDF files</p>
-      </div>
-
-      <!-- File list container -->
-      <div id="merge-list" class="mt-6 space-y-2.5 hidden">
-        <div class="flex items-center justify-between text-xs text-slate-400 px-1 font-semibold">
-          <span>Selected Files (<span id="merge-count">0</span>)</span>
-          <button onclick="clearMergeList()" class="text-red-400 hover:underline">Clear all</button>
-        </div>
-        <div id="merge-items" class="space-y-2"></div>
-      </div>
-
-      <!-- Action Button -->
-      <div class="mt-6 flex justify-end">
-        <button id="btn-merge" onclick="processMerge()" disabled class="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-sky-500 hover:bg-sky-400 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-lg shadow-sky-500/25">
-          <i data-lucide="download" class="w-4 h-4"></i> Merge & Download PDF
+    <!-- WORKSPACE VIEW: Active Tool Container -->
+    <div id="view-workspace" class="hidden flex-1 flex flex-col">
+      <!-- Back button & Breadcrumb -->
+      <div class="flex items-center justify-between mb-6">
+        <button onclick="showDashboard()" class="flex items-center gap-2 text-sm text-slate-400 hover:text-white px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to All Tools
         </button>
-      </div>
-    </div>
-
-    <!-- PANEL 2: ROTATE PAGES -->
-    <div id="panel-rotate" class="tool-panel max-w-3xl mx-auto bg-slate-800/60 border border-slate-700/70 rounded-2xl p-6 sm:p-8 backdrop-blur shadow-2xl hidden">
-      <div class="flex items-center gap-3 mb-6">
-        <div class="p-2.5 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-          <i data-lucide="rotate-cw" class="w-5 h-5"></i>
-        </div>
-        <div>
-          <h2 class="text-xl font-semibold text-white">Rotate PDF Pages</h2>
-          <p class="text-xs text-slate-400">Permanently rotate all pages in your PDF document.</p>
-        </div>
+        <span id="workspace-badge" class="text-xs font-medium px-3 py-1 rounded-full bg-blue-600/10 text-blue-400 border border-blue-500/20"></span>
       </div>
 
-      <div id="rotate-dropzone" class="border-2 border-dashed border-slate-600 hover:border-indigo-500 rounded-xl p-8 text-center cursor-pointer transition-colors bg-slate-900/40">
-        <input type="file" id="rotate-input" accept="application/pdf" class="hidden">
-        <i data-lucide="file-up" class="w-12 h-12 text-slate-400 mx-auto mb-3"></i>
-        <p id="rotate-filename" class="text-sm font-medium text-white mb-1">Click to select a PDF file</p>
-        <p class="text-xs text-slate-500">Rotate all pages by 90°, 180°, or 270°</p>
-      </div>
+      <!-- ACTIVE TOOL CARD -->
+      <div class="max-w-4xl w-full mx-auto bg-slate-900/80 border border-slate-800 rounded-3xl p-6 sm:p-10 backdrop-blur shadow-2xl flex-1 flex flex-col justify-between">
 
-      <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div class="flex items-center gap-3">
-          <label class="text-sm text-slate-300 font-medium">Rotation Angle:</label>
-          <select id="rotate-angle" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
-            <option value="90">90° Clockwise</option>
-            <option value="180">180° Half Turn</option>
-            <option value="270">270° Counter-Clockwise</option>
-          </select>
-        </div>
-        <button id="btn-rotate" onclick="processRotate()" disabled class="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-indigo-600 hover:bg-indigo-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-lg shadow-indigo-600/25">
-          <i data-lucide="download" class="w-4 h-4"></i> Rotate & Download
-        </button>
-      </div>
-    </div>
-
-    <!-- PANEL 3: IMAGE TO PDF -->
-    <div id="panel-img2pdf" class="tool-panel max-w-3xl mx-auto bg-slate-800/60 border border-slate-700/70 rounded-2xl p-6 sm:p-8 backdrop-blur shadow-2xl hidden">
-      <div class="flex items-center gap-3 mb-6">
-        <div class="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-          <i data-lucide="image" class="w-5 h-5"></i>
-        </div>
-        <div>
-          <h2 class="text-xl font-semibold text-white">Convert Images to PDF</h2>
-          <p class="text-xs text-slate-400">Convert JPG and PNG images into a clean PDF document.</p>
-        </div>
-      </div>
-
-      <div id="img-dropzone" class="border-2 border-dashed border-slate-600 hover:border-emerald-500 rounded-xl p-8 text-center cursor-pointer transition-colors bg-slate-900/40">
-        <input type="file" id="img-input" multiple accept="image/png, image/jpeg" class="hidden">
-        <i data-lucide="images" class="w-12 h-12 text-slate-400 mx-auto mb-3"></i>
-        <p class="text-sm font-medium text-white mb-1">Click to select JPG or PNG image files</p>
-        <p class="text-xs text-slate-500">Each image will become a page in your new PDF</p>
-      </div>
-
-      <div id="img-list" class="mt-6 space-y-2 hidden">
-        <p class="text-xs text-slate-400 font-semibold px-1">Selected Images: <span id="img-count">0</span></p>
-        <div id="img-preview-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
-      </div>
-
-      <div class="mt-6 flex justify-end">
-        <button id="btn-img2pdf" onclick="processImg2Pdf()" disabled class="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-emerald-600 hover:bg-emerald-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-lg shadow-emerald-600/25">
-          <i data-lucide="download" class="w-4 h-4"></i> Generate PDF
-        </button>
-      </div>
-    </div>
-
-    <!-- PANEL 4: INSPECT PDF -->
-    <div id="panel-info" class="tool-panel max-w-3xl mx-auto bg-slate-800/60 border border-slate-700/70 rounded-2xl p-6 sm:p-8 backdrop-blur shadow-2xl hidden">
-      <div class="flex items-center gap-3 mb-6">
-        <div class="p-2.5 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
-          <i data-lucide="file-text" class="w-5 h-5"></i>
-        </div>
-        <div>
-          <h2 class="text-xl font-semibold text-white">Inspect PDF Document</h2>
-          <p class="text-xs text-slate-400">View page count, page dimensions, author metadata and security info.</p>
-        </div>
-      </div>
-
-      <div id="info-dropzone" class="border-2 border-dashed border-slate-600 hover:border-amber-500 rounded-xl p-8 text-center cursor-pointer transition-colors bg-slate-900/40">
-        <input type="file" id="info-input" accept="application/pdf" class="hidden">
-        <i data-lucide="search" class="w-12 h-12 text-slate-400 mx-auto mb-3"></i>
-        <p class="text-sm font-medium text-white mb-1">Click to inspect any PDF file</p>
-        <p class="text-xs text-slate-500">Fast client-side metadata analysis</p>
-      </div>
-
-      <div id="info-results" class="mt-6 hidden bg-slate-900/70 border border-slate-700/80 rounded-xl p-5 space-y-3">
-        <h3 class="text-sm font-semibold text-amber-400 flex items-center gap-2">
-          <i data-lucide="check-circle" class="w-4 h-4"></i> Document Metadata
-        </h3>
-        <div class="grid grid-cols-2 gap-4 text-xs">
-          <div>
-            <span class="text-slate-500 block">Filename:</span>
-            <span id="info-name" class="font-medium text-slate-200"></span>
+        <!-- ================= TOOL 1: MERGE ================= -->
+        <div id="tool-merge-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="combine" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Merge Multiple PDFs</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Select two or more PDF files to merge into one.</p>
+            </div>
           </div>
-          <div>
-            <span class="text-slate-500 block">File Size:</span>
-            <span id="info-size" class="font-medium text-slate-200"></span>
+
+          <div id="dropzone-merge" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-merge" multiple accept="application/pdf" class="hidden">
+            <i data-lucide="upload-cloud" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p class="text-base font-semibold text-white mb-1">Click to browse or drag &amp; drop PDFs</p>
+            <p class="text-xs text-slate-400">Add as many PDF files as you like</p>
           </div>
-          <div>
-            <span class="text-slate-500 block">Total Pages:</span>
-            <span id="info-pages" class="font-medium text-slate-200"></span>
+
+          <div id="list-merge" class="mt-6 space-y-2 hidden">
+            <div class="flex items-center justify-between text-xs text-slate-400 px-1 font-semibold">
+              <span>Files to merge (<span id="count-merge">0</span>)</span>
+              <button onclick="clearMergeList()" class="text-slate-400 hover:text-white underline">Clear all</button>
+            </div>
+            <div id="items-merge" class="space-y-2 max-h-60 overflow-y-auto custom-scroll pr-1"></div>
           </div>
-          <div>
-            <span class="text-slate-500 block">Page Dimensions (P1):</span>
-            <span id="info-dim" class="font-medium text-slate-200"></span>
-          </div>
-          <div>
-            <span class="text-slate-500 block">Title:</span>
-            <span id="info-title" class="font-medium text-slate-200"></span>
-          </div>
-          <div>
-            <span class="text-slate-500 block">Author:</span>
-            <span id="info-author" class="font-medium text-slate-200"></span>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-merge" onclick="executeMerge()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="combine" class="w-4 h-4"></i> Merge and Download
+            </button>
           </div>
         </div>
+
+        <!-- ================= TOOL 2: SPLIT ================= -->
+        <div id="tool-split-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="scissors" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Split PDF</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Extract custom page ranges or separate all pages into a ZIP.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-split" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-split" accept="application/pdf" class="hidden">
+            <i data-lucide="file-up" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-split-file" class="text-base font-semibold text-white mb-1">Select a PDF file to split</p>
+            <p id="sublabel-split-file" class="text-xs text-slate-400">Fast client-side extraction</p>
+          </div>
+
+          <div id="config-split" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Split Mode:</label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <label class="flex items-center gap-2 p-3 rounded-lg border border-slate-700 bg-slate-900 cursor-pointer">
+                  <input type="radio" name="split-mode" value="range" checked onchange="toggleSplitMode()" class="text-blue-600">
+                  <span class="text-xs text-slate-200">Extract Specific Range (e.g. 1-3, 5)</span>
+                </label>
+                <label class="flex items-center gap-2 p-3 rounded-lg border border-slate-700 bg-slate-900 cursor-pointer">
+                  <input type="radio" name="split-mode" value="all" onchange="toggleSplitMode()" class="text-blue-600">
+                  <span class="text-xs text-slate-200">Separate Every Page into ZIP</span>
+                </label>
+              </div>
+            </div>
+
+            <div id="split-range-box">
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Page Ranges (Total Pages: <span id="split-total-pages" class="text-blue-400 font-bold"></span>):</label>
+              <input type="text" id="split-range-input" placeholder="e.g. 1-2, 4" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
+              <p class="text-[11px] text-slate-500 mt-1">Example: "1-3, 5" extracts pages 1, 2, 3 and 5 into a new PDF.</p>
+            </div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-split" onclick="executeSplit()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="scissors" class="w-4 h-4"></i> Split &amp; Download
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL 3: COMPRESS ================= -->
+        <div id="tool-compress-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="minimize-2" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Compress PDF</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Reduce document file size with optimized compression.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-compress" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-compress" accept="application/pdf" class="hidden">
+            <i data-lucide="file-down" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-compress-file" class="text-base font-semibold text-white mb-1">Select a PDF to compress</p>
+            <p id="sublabel-compress-file" class="text-xs text-slate-400">Optimizes image streams and document objects</p>
+          </div>
+
+          <div id="config-compress" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-4">
+            <label class="block text-xs font-semibold text-slate-300">Compression Level:</label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <label class="flex flex-col p-3 rounded-lg border border-slate-700 bg-slate-900 cursor-pointer">
+                <div class="flex items-center gap-2 mb-1">
+                  <input type="radio" name="comp-level" value="0.85" checked class="text-blue-600">
+                  <span class="text-xs font-bold text-slate-200">Recommended</span>
+                </div>
+                <span class="text-[11px] text-slate-400">Good quality, balanced size reduction.</span>
+              </label>
+              <label class="flex flex-col p-3 rounded-lg border border-slate-700 bg-slate-900 cursor-pointer">
+                <div class="flex items-center gap-2 mb-1">
+                  <input type="radio" name="comp-level" value="0.65" class="text-blue-600">
+                  <span class="text-xs font-bold text-slate-200">High Compression</span>
+                </div>
+                <span class="text-[11px] text-slate-400">Smallest size, standard quality.</span>
+              </label>
+              <label class="flex flex-col p-3 rounded-lg border border-slate-700 bg-slate-900 cursor-pointer">
+                <div class="flex items-center gap-2 mb-1">
+                  <input type="radio" name="comp-level" value="0.95" class="text-blue-600">
+                  <span class="text-xs font-bold text-slate-200">Light Compression</span>
+                </div>
+                <span class="text-[11px] text-slate-400">Maximum quality preservation.</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-compress" onclick="executeCompress()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="minimize-2" class="w-4 h-4"></i> Compress and Download
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL 4: PDF TO IMAGE ================= -->
+        <div id="tool-pdf2img-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="file-image" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">PDF to Image (JPG/PNG)</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Convert each PDF page into high-resolution JPG or PNG pictures.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-pdf2img" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-pdf2img" accept="application/pdf" class="hidden">
+            <i data-lucide="file-up" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-pdf2img-file" class="text-base font-semibold text-white mb-1">Select a PDF to convert to images</p>
+            <p id="sublabel-pdf2img-file" class="text-xs text-slate-400">Extracts pages at high DPI</p>
+          </div>
+
+          <div id="config-pdf2img" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <label class="text-xs font-semibold text-slate-300">Format:</label>
+              <select id="pdf2img-format" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+                <option value="jpeg">JPG Image (.jpg)</option>
+                <option value="png">PNG Image (.png)</option>
+              </select>
+            </div>
+            <div class="text-xs text-slate-400">
+              Total Pages to Export: <span id="pdf2img-pagecount" class="font-bold text-blue-400"></span>
+            </div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-pdf2img" onclick="executePdf2Img()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="file-image" class="w-4 h-4"></i> Convert &amp; Download Images (ZIP)
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL 5: IMAGE TO PDF ================= -->
+        <div id="tool-img2pdf-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="images" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Convert Images to PDF</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Combine JPG and PNG images into a clean PDF document.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-img2pdf" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-img2pdf" multiple accept="image/jpeg, image/png" class="hidden">
+            <i data-lucide="upload-cloud" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p class="text-base font-semibold text-white mb-1">Click to browse or drop JPG / PNG files</p>
+            <p class="text-xs text-slate-400">Select multiple photos</p>
+          </div>
+
+          <div id="list-img2pdf" class="mt-6 space-y-2 hidden">
+            <p class="text-xs text-slate-400 font-semibold px-1">Selected Images: <span id="count-img2pdf">0</span></p>
+            <div id="preview-img2pdf" class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-h-60 overflow-y-auto custom-scroll p-1"></div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-img2pdf" onclick="executeImg2Pdf()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="download" class="w-4 h-4"></i> Generate PDF
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL 6: ORGANIZE & DELETE ================= -->
+        <div id="tool-organize-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="layout-grid" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Organize &amp; Delete Pages</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Click any page thumbnail to delete or keep it.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-organize" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-organize" accept="application/pdf" class="hidden">
+            <i data-lucide="file-up" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-organize-file" class="text-base font-semibold text-white mb-1">Select a PDF to organize</p>
+            <p class="text-xs text-slate-400">Visual thumbnail inspector</p>
+          </div>
+
+          <div id="grid-organize" class="mt-6 hidden">
+            <div class="flex items-center justify-between mb-3 text-xs text-slate-400 px-1">
+              <span>Click on a page to toggle removal (red border = removed)</span>
+              <span id="organize-status-text" class="font-bold text-blue-400"></span>
+            </div>
+            <div id="thumbnails-organize" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4 max-h-96 overflow-y-auto custom-scroll p-2 bg-slate-950/60 rounded-xl border border-slate-800"></div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-organize" onclick="executeOrganize()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="download" class="w-4 h-4"></i> Save Organized PDF
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL 7: ROTATE ================= -->
+        <div id="tool-rotate-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="rotate-cw" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Rotate PDF Pages</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Permanently rotate pages by 90°, 180°, or 270°.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-rotate" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-rotate" accept="application/pdf" class="hidden">
+            <i data-lucide="file-up" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-rotate-file" class="text-base font-semibold text-white mb-1">Select a PDF to rotate</p>
+            <p class="text-xs text-slate-400">Supports rotating all pages</p>
+          </div>
+
+          <div id="config-rotate" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 flex items-center justify-between">
+            <label class="text-xs font-semibold text-slate-300">Rotation Angle:</label>
+            <select id="select-rotate-angle" class="bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-xs text-white">
+              <option value="90">90° Clockwise</option>
+              <option value="180">180° Upside Down</option>
+              <option value="270">270° Counter-Clockwise</option>
+            </select>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-rotate" onclick="executeRotate()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="rotate-cw" class="w-4 h-4"></i> Rotate &amp; Download
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL 8: WATERMARK ================= -->
+        <div id="tool-watermark-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="stamp" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Add Watermark</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Stamp custom text watermarks diagonally across every page.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-watermark" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-watermark" accept="application/pdf" class="hidden">
+            <i data-lucide="file-up" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-watermark-file" class="text-base font-semibold text-white mb-1">Select a PDF file</p>
+            <p class="text-xs text-slate-400">Stamp Confidential, Draft, or Custom Text</p>
+          </div>
+
+          <div id="config-watermark" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Watermark Text:</label>
+              <input type="text" id="watermark-text" value="CONFIDENTIAL" placeholder="e.g. CONFIDENTIAL / DRAFT" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Opacity: <span id="val-watermark-opacity">0.3</span></label>
+                <input type="range" id="watermark-opacity" min="0.1" max="1" step="0.05" value="0.3" oninput="document.getElementById('val-watermark-opacity').textContent = this.value" class="w-full accent-blue-600">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Font Size:</label>
+                <input type="number" id="watermark-size" value="48" min="16" max="120" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white">
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-watermark" onclick="executeWatermark()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="stamp" class="w-4 h-4"></i> Apply Watermark
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL 9: PAGE NUMBERS ================= -->
+        <div id="tool-pagenums-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="hash" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Add Page Numbers</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Stamp page numbers automatically onto your PDF.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-pagenums" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-pagenums" accept="application/pdf" class="hidden">
+            <i data-lucide="file-up" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-pagenums-file" class="text-base font-semibold text-white mb-1">Select a PDF file</p>
+            <p class="text-xs text-slate-400">Stamp Page X of Y</p>
+          </div>
+
+          <div id="config-pagenums" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Position:</label>
+                <select id="pagenums-pos" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+                  <option value="bottom-center">Bottom Center</option>
+                  <option value="bottom-right">Bottom Right</option>
+                  <option value="top-right">Top Right</option>
+                  <option value="top-center">Top Center</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Format:</label>
+                <select id="pagenums-format" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+                  <option value="page-x-of-y">Page X of Y</option>
+                  <option value="simple-x">Page X</option>
+                  <option value="just-number">1, 2, 3...</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-pagenums" onclick="executePageNums()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="hash" class="w-4 h-4"></i> Add Numbers &amp; Download
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL 10: EXTRACT TEXT ================= -->
+        <div id="tool-extracttext-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="file-text" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">PDF to Text Extractor</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Extract readable text from all pages for easy copying or .txt download.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-extracttext" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-extracttext" accept="application/pdf" class="hidden">
+            <i data-lucide="file-search" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-extracttext-file" class="text-base font-semibold text-white mb-1">Select a PDF to extract text</p>
+            <p class="text-xs text-slate-400">Powered by client-side PDF.js</p>
+          </div>
+
+          <div id="result-extracttext" class="mt-6 hidden space-y-3">
+            <div class="flex items-center justify-between text-xs text-slate-400 px-1 font-semibold">
+              <span>Extracted Text (<span id="extracttext-words">0</span> words)</span>
+              <button onclick="copyExtractedText()" class="text-blue-400 hover:underline">Copy to Clipboard</button>
+            </div>
+            <textarea id="textarea-extracttext" rows="8" readonly class="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-xs font-mono text-slate-300 focus:outline-none custom-scroll"></textarea>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-extracttext" onclick="downloadExtractedText()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="download" class="w-4 h-4"></i> Download .TXT File
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL 11: PROTECT / PASSWORD ================= -->
+        <div id="tool-protect-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="lock" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Protect PDF with Password</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Add a secure password to prevent unauthorized reading or opening.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-protect" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-protect" accept="application/pdf" class="hidden">
+            <i data-lucide="file-up" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-protect-file" class="text-base font-semibold text-white mb-1">Select a PDF to protect</p>
+            <p class="text-xs text-slate-400">Client-side encryption</p>
+          </div>
+
+          <div id="config-protect" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Password:</label>
+              <input type="password" id="protect-password" placeholder="Enter secure password" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Confirm Password:</label>
+              <input type="password" id="protect-password-confirm" placeholder="Re-enter password" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
+            </div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-protect" onclick="executeProtect()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="lock" class="w-4 h-4"></i> Protect &amp; Download
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL 12: METADATA INSPECTOR ================= -->
+        <div id="tool-metadata-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="info" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">PDF Info &amp; Metadata Inspector</h2>
+              <p class="text-xs sm:text-sm text-slate-400">View and edit document title, author, subject, and keywords.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-metadata" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-metadata" accept="application/pdf" class="hidden">
+            <i data-lucide="search" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-metadata-file" class="text-base font-semibold text-white mb-1">Select a PDF to inspect metadata</p>
+            <p class="text-xs text-slate-400">View and update document properties</p>
+          </div>
+
+          <div id="config-metadata" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-400 mb-1">File Name:</label>
+                <div id="meta-display-filename" class="text-xs font-mono text-slate-200 truncate"></div>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-400 mb-1">File Size &amp; Pages:</label>
+                <div id="meta-display-size" class="text-xs font-mono text-slate-200"></div>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Title:</label>
+                <input type="text" id="meta-input-title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Author:</label>
+                <input type="text" id="meta-input-author" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Subject:</label>
+                <input type="text" id="meta-input-subject" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Producer / Creator:</label>
+                <input type="text" id="meta-input-creator" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-metadata" onclick="executeMetadataSave()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="save" class="w-4 h-4"></i> Save Updated Metadata
+            </button>
+          </div>
+        </div>
+
       </div>
     </div>
 
     <!-- Notification Toast -->
-    <div id="toast" class="fixed bottom-6 right-6 max-w-sm bg-slate-800 border border-slate-700 shadow-2xl rounded-xl p-4 flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+    <div id="toast" class="fixed bottom-6 right-6 max-w-sm bg-slate-900 border border-blue-500/40 shadow-2xl rounded-2xl p-4 flex items-center gap-3 transform translate-y-24 opacity-0 transition-all duration-300 z-50">
       <div id="toast-icon"></div>
       <div id="toast-msg" class="text-xs font-medium text-slate-200"></div>
     </div>
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
-    <p>PDF Orbit 360 &copy; 2026. Built with pdf-lib & Tailwind CSS.</p>
+  <footer class="border-t border-slate-900 bg-slate-950/80 py-6 text-center text-xs text-slate-500">
+    <p>PDF Orbit 360 &copy; 2026. 100% Free Client-Side PDF Tools. Zero Paid APIs.</p>
   </footer>
 
   <script>
+    // Initialize icons
     lucide.createIcons();
 
-    // Tab Switching
-    function switchTab(tool) {
-      document.querySelectorAll('.tool-panel').forEach(p => p.classList.add('hidden'));
-      document.querySelectorAll('.tool-tab').forEach(t => {
-        t.className = 'tool-tab flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all bg-slate-800 hover:bg-slate-700/80 text-slate-300';
-      });
+    // Navigation & Views
+    function showDashboard() {
+      document.getElementById('view-dashboard').classList.remove('hidden');
+      document.getElementById('view-workspace').classList.add('hidden');
+      document.querySelectorAll('.tool-content').forEach(el => el.classList.add('hidden'));
+    }
 
-      const activeTab = document.getElementById(`tab-${tool}`);
-      const activePanel = document.getElementById(`panel-${tool}`);
-      
-      activePanel.classList.remove('hidden');
-      activeTab.className = 'tool-tab flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all bg-sky-500 text-white shadow-lg shadow-sky-500/25';
-      lucide.createIcons();
+    function openTool(toolKey) {
+      document.getElementById('view-dashboard').classList.add('hidden');
+      document.getElementById('view-workspace').classList.remove('hidden');
+      document.querySelectorAll('.tool-content').forEach(el => el.classList.add('hidden'));
+
+      const target = document.getElementById(`tool-${toolKey}-content`);
+      if (target) {
+        target.classList.remove('hidden');
+        document.getElementById('workspace-badge').textContent = `Tool: ${toolKey.toUpperCase()}`;
+        lucide.createIcons();
+      }
     }
 
     // Helper: Toast Notifications
@@ -276,16 +794,16 @@
 
       toastMsg.textContent = msg;
       toastIcon.innerHTML = isSuccess 
-        ? `<svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`
-        : `<svg class="w-5 h-5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`;
+        ? `<div class="p-1.5 rounded-full bg-blue-600/20 text-blue-400"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>`
+        : `<div class="p-1.5 rounded-full bg-amber-500/20 text-amber-400"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg></div>`;
 
-      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.remove('translate-y-24', 'opacity-0');
       setTimeout(() => {
-        toast.classList.add('translate-y-20', 'opacity-0');
+        toast.classList.add('translate-y-24', 'opacity-0');
       }, 4000);
     }
 
-    // Helper: Format bytes
+    // Helper: Format Bytes
     function formatBytes(bytes) {
       if (bytes === 0) return '0 Bytes';
       const k = 1024;
@@ -294,253 +812,7 @@
       return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
 
-    // ==========================================
-    // TOOL 1: MERGE PDFs
-    // ==========================================
-    let mergeFiles = [];
-    const mergeDropzone = document.getElementById('merge-dropzone');
-    const mergeInput = document.getElementById('merge-input');
-    const mergeList = document.getElementById('merge-list');
-    const mergeItems = document.getElementById('merge-items');
-    const mergeCount = document.getElementById('merge-count');
-    const btnMerge = document.getElementById('btn-merge');
-
-    mergeDropzone.onclick = () => mergeInput.click();
-    mergeInput.onchange = (e) => handleMergeFiles(Array.from(e.target.files));
-
-    mergeDropzone.ondragover = (e) => { e.preventDefault(); mergeDropzone.classList.add('border-sky-500'); };
-    mergeDropzone.ondragleave = () => mergeDropzone.classList.remove('border-sky-500');
-    mergeDropzone.ondrop = (e) => {
-      e.preventDefault();
-      mergeDropzone.classList.remove('border-sky-500');
-      handleMergeFiles(Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf'));
-    };
-
-    function handleMergeFiles(files) {
-      mergeFiles.push(...files);
-      renderMergeList();
-    }
-
-    function renderMergeList() {
-      mergeItems.innerHTML = '';
-      mergeCount.textContent = mergeFiles.length;
-
-      if (mergeFiles.length > 0) {
-        mergeList.classList.remove('hidden');
-        btnMerge.disabled = mergeFiles.length < 2;
-      } else {
-        mergeList.classList.add('hidden');
-        btnMerge.disabled = true;
-      }
-
-      mergeFiles.forEach((file, index) => {
-        const item = document.createElement('div');
-        item.className = 'flex items-center justify-between p-3 rounded-lg bg-slate-900/60 border border-slate-700/60 text-xs';
-        item.innerHTML = `
-          <div class="flex items-center gap-3 truncate">
-            <span class="w-6 h-6 rounded bg-slate-800 text-slate-400 flex items-center justify-center font-bold">${index + 1}</span>
-            <span class="font-medium text-slate-200 truncate">${file.name}</span>
-            <span class="text-slate-500">(${formatBytes(file.size)})</span>
-          </div>
-          <button onclick="removeMergeFile(${index})" class="text-slate-400 hover:text-red-400 ml-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-          </button>
-        `;
-        mergeItems.appendChild(item);
-      });
-    }
-
-    function removeMergeFile(idx) {
-      mergeFiles.splice(idx, 1);
-      renderMergeList();
-    }
-
-    function clearMergeList() {
-      mergeFiles = [];
-      renderMergeList();
-    }
-
-    async function processMerge() {
-      if (mergeFiles.length < 2) return;
-      btnMerge.disabled = true;
-      btnMerge.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Merging...`;
-
-      try {
-        const mergedPdf = await PDFLib.PDFDocument.create();
-        for (const file of mergeFiles) {
-          const arrayBuffer = await file.arrayBuffer();
-          const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
-          const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-          copiedPages.forEach((page) => mergedPdf.addPage(page));
-        }
-
-        const mergedPdfBytes = await mergedPdf.save();
-        downloadBlob(mergedPdfBytes, 'pdf-orbit-360-merged.pdf', 'application/pdf');
-        showToast('Successfully merged PDFs!');
-      } catch (err) {
-        console.error(err);
-        showToast('Error merging files: ' + err.message, false);
-      } finally {
-        btnMerge.disabled = false;
-        btnMerge.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i> Merge & Download PDF`;
-        lucide.createIcons();
-      }
-    }
-
-    // ==========================================
-    // TOOL 2: ROTATE PAGES
-    // ==========================================
-    let rotateFile = null;
-    const rotateDropzone = document.getElementById('rotate-dropzone');
-    const rotateInput = document.getElementById('rotate-input');
-    const rotateFilename = document.getElementById('rotate-filename');
-    const btnRotate = document.getElementById('btn-rotate');
-
-    rotateDropzone.onclick = () => rotateInput.click();
-    rotateInput.onchange = (e) => {
-      if (e.target.files[0]) {
-        rotateFile = e.target.files[0];
-        rotateFilename.textContent = `${rotateFile.name} (${formatBytes(rotateFile.size)})`;
-        btnRotate.disabled = false;
-      }
-    };
-
-    async function processRotate() {
-      if (!rotateFile) return;
-      btnRotate.disabled = true;
-      btnRotate.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Rotating...`;
-
-      try {
-        const deg = parseInt(document.getElementById('rotate-angle').value, 10);
-        const arrayBuffer = await rotateFile.arrayBuffer();
-        const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
-        const pages = pdfDoc.getPages();
-
-        pages.forEach(page => {
-          const currentRotation = page.getRotation().angle;
-          page.setRotation(PDFLib.degrees((currentRotation + deg) % 360));
-        });
-
-        const pdfBytes = await pdfDoc.save();
-        downloadBlob(pdfBytes, `rotated-${rotateFile.name}`, 'application/pdf');
-        showToast('PDF pages rotated successfully!');
-      } catch (err) {
-        console.error(err);
-        showToast('Error rotating PDF: ' + err.message, false);
-      } finally {
-        btnRotate.disabled = false;
-        btnRotate.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i> Rotate & Download`;
-        lucide.createIcons();
-      }
-    }
-
-    // ==========================================
-    // TOOL 3: IMAGE TO PDF
-    // ==========================================
-    let imgFiles = [];
-    const imgDropzone = document.getElementById('img-dropzone');
-    const imgInput = document.getElementById('img-input');
-    const imgList = document.getElementById('img-list');
-    const imgPreviewGrid = document.getElementById('img-preview-grid');
-    const imgCount = document.getElementById('img-count');
-    const btnImg2Pdf = document.getElementById('btn-img2pdf');
-
-    imgDropzone.onclick = () => imgInput.click();
-    imgInput.onchange = (e) => {
-      imgFiles = Array.from(e.target.files);
-      imgCount.textContent = imgFiles.length;
-      imgPreviewGrid.innerHTML = '';
-
-      if (imgFiles.length > 0) {
-        imgList.classList.remove('hidden');
-        btnImg2Pdf.disabled = false;
-
-        imgFiles.forEach((file) => {
-          const reader = new FileReader();
-          reader.onload = (ev) => {
-            const preview = document.createElement('div');
-            preview.className = 'relative aspect-video rounded-lg overflow-hidden border border-slate-700 bg-slate-900';
-            preview.innerHTML = `<img src="${ev.target.result}" class="w-full h-full object-cover">`;
-            imgPreviewGrid.appendChild(preview);
-          };
-          reader.readAsDataURL(file);
-        });
-      }
-    };
-
-    async function processImg2Pdf() {
-      if (imgFiles.length === 0) return;
-      btnImg2Pdf.disabled = true;
-      btnImg2Pdf.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Generating...`;
-
-      try {
-        const pdfDoc = await PDFLib.PDFDocument.create();
-
-        for (const file of imgFiles) {
-          const buffer = await file.arrayBuffer();
-          let image;
-          if (file.type === 'image/jpeg' || file.name.endsWith('.jpg') || file.name.endsWith('.jpeg')) {
-            image = await pdfDoc.embedJpg(buffer);
-          } else {
-            image = await pdfDoc.embedPng(buffer);
-          }
-
-          const page = pdfDoc.addPage([image.width, image.height]);
-          page.drawImage(image, {
-            x: 0,
-            y: 0,
-            width: image.width,
-            height: image.height,
-          });
-        }
-
-        const pdfBytes = await pdfDoc.save();
-        downloadBlob(pdfBytes, 'converted-images.pdf', 'application/pdf');
-        showToast('Images successfully converted to PDF!');
-      } catch (err) {
-        console.error(err);
-        showToast('Failed to convert images: ' + err.message, false);
-      } finally {
-        btnImg2Pdf.disabled = false;
-        btnImg2Pdf.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i> Generate PDF`;
-        lucide.createIcons();
-      }
-    }
-
-    // ==========================================
-    // TOOL 4: INSPECT PDF
-    // ==========================================
-    const infoDropzone = document.getElementById('info-dropzone');
-    const infoInput = document.getElementById('info-input');
-    const infoResults = document.getElementById('info-results');
-
-    infoDropzone.onclick = () => infoInput.click();
-    infoInput.onchange = async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      try {
-        const arrayBuffer = await file.arrayBuffer();
-        const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
-        const pages = pdfDoc.getPages();
-        const firstPage = pages[0];
-
-        document.getElementById('info-name').textContent = file.name;
-        document.getElementById('info-size').textContent = formatBytes(file.size);
-        document.getElementById('info-pages').textContent = pages.length;
-        document.getElementById('info-dim').textContent = firstPage ? `${Math.round(firstPage.getWidth())} x ${Math.round(firstPage.getHeight())} pt` : 'N/A';
-        document.getElementById('info-title').textContent = pdfDoc.getTitle() || '(None)';
-        document.getElementById('info-author').textContent = pdfDoc.getAuthor() || '(None)';
-
-        infoResults.classList.remove('hidden');
-        showToast('PDF inspection complete!');
-      } catch (err) {
-        console.error(err);
-        showToast('Could not parse PDF: ' + err.message, false);
-      }
-    };
-
-    // Helper: Trigger Download
+    // Helper: Download Blob
     function downloadBlob(data, filename, type) {
       const blob = new Blob([data], { type });
       const url = URL.createObjectURL(blob);
@@ -551,6 +823,901 @@
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
+    }
+
+    // ==========================================
+    // 1. MERGE PDF
+    // ==========================================
+    let mergeFiles = [];
+    const dropzoneMerge = document.getElementById('dropzone-merge');
+    const inputMerge = document.getElementById('input-merge');
+    const listMerge = document.getElementById('list-merge');
+    const itemsMerge = document.getElementById('items-merge');
+    const countMerge = document.getElementById('count-merge');
+    const btnRunMerge = document.getElementById('btn-run-merge');
+
+    dropzoneMerge.onclick = () => inputMerge.click();
+    inputMerge.onchange = (e) => handleMergeFiles(Array.from(e.target.files));
+
+    dropzoneMerge.ondragover = (e) => { e.preventDefault(); dropzoneMerge.classList.add('border-blue-500'); };
+    dropzoneMerge.ondragleave = () => dropzoneMerge.classList.remove('border-blue-500');
+    dropzoneMerge.ondrop = (e) => {
+      e.preventDefault();
+      dropzoneMerge.classList.remove('border-blue-500');
+      handleMergeFiles(Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf'));
+    };
+
+    function handleMergeFiles(files) {
+      mergeFiles.push(...files);
+      renderMergeList();
+    }
+
+    function renderMergeList() {
+      itemsMerge.innerHTML = '';
+      countMerge.textContent = mergeFiles.length;
+
+      if (mergeFiles.length > 0) {
+        listMerge.classList.remove('hidden');
+        btnRunMerge.disabled = mergeFiles.length < 2;
+      } else {
+        listMerge.classList.add('hidden');
+        btnRunMerge.disabled = true;
+      }
+
+      mergeFiles.forEach((file, index) => {
+        const item = document.createElement('div');
+        item.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs';
+        item.innerHTML = `
+          <div class="flex items-center gap-3 truncate">
+            <span class="w-6 h-6 rounded-lg bg-blue-600/20 text-blue-400 flex items-center justify-center font-bold text-[11px]">${index + 1}</span>
+            <span class="font-medium text-slate-200 truncate">${file.name}</span>
+            <span class="text-slate-500">(${formatBytes(file.size)})</span>
+          </div>
+          <button onclick="removeMergeFile(${index})" class="text-slate-500 hover:text-slate-300 p-1">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        `;
+        itemsMerge.appendChild(item);
+      });
+    }
+
+    function removeMergeFile(i) {
+      mergeFiles.splice(i, 1);
+      renderMergeList();
+    }
+
+    function clearMergeList() {
+      mergeFiles = [];
+      renderMergeList();
+    }
+
+    async function executeMerge() {
+      if (mergeFiles.length < 2) return;
+      btnRunMerge.disabled = true;
+      btnRunMerge.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Merging...`;
+
+      try {
+        const mergedDoc = await PDFLib.PDFDocument.create();
+        for (const file of mergeFiles) {
+          const buffer = await file.arrayBuffer();
+          const doc = await PDFLib.PDFDocument.load(buffer);
+          const pages = await mergedDoc.copyPages(doc, doc.getPageIndices());
+          pages.forEach(p => mergedDoc.addPage(p));
+        }
+
+        const bytes = await mergedDoc.save();
+        downloadBlob(bytes, 'merged-document.pdf', 'application/pdf');
+        showToast('PDFs merged successfully!');
+      } catch (err) {
+        showToast('Merge error: ' + err.message, false);
+      } finally {
+        btnRunMerge.disabled = false;
+        btnRunMerge.innerHTML = `<i data-lucide="combine" class="w-4 h-4"></i> Merge and Download`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // 2. SPLIT PDF
+    // ==========================================
+    let splitFile = null;
+    let splitDocCache = null;
+    let splitTotalPagesCount = 0;
+    const dropzoneSplit = document.getElementById('dropzone-split');
+    const inputSplit = document.getElementById('input-split');
+    const configSplit = document.getElementById('config-split');
+    const btnRunSplit = document.getElementById('btn-run-split');
+
+    dropzoneSplit.onclick = () => inputSplit.click();
+    inputSplit.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      splitFile = file;
+
+      try {
+        const buffer = await file.arrayBuffer();
+        splitDocCache = await PDFLib.PDFDocument.load(buffer);
+        splitTotalPagesCount = splitDocCache.getPageCount();
+
+        document.getElementById('label-split-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        document.getElementById('split-total-pages').textContent = splitTotalPagesCount;
+        configSplit.classList.remove('hidden');
+        btnRunSplit.disabled = false;
+        showToast(`Loaded PDF with ${splitTotalPagesCount} pages.`);
+      } catch (err) {
+        showToast('Error reading PDF: ' + err.message, false);
+      }
+    };
+
+    function toggleSplitMode() {
+      const mode = document.querySelector('input[name="split-mode"]:checked').value;
+      document.getElementById('split-range-box').style.display = mode === 'range' ? 'block' : 'none';
+    }
+
+    async function executeSplit() {
+      if (!splitFile || !splitDocCache) return;
+      btnRunSplit.disabled = true;
+      btnRunSplit.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Splitting...`;
+
+      try {
+        const mode = document.querySelector('input[name="split-mode"]:checked').value;
+
+        if (mode === 'all') {
+          // Extract each page to individual file inside ZIP
+          const zip = new JSZip();
+          for (let i = 0; i < splitTotalPagesCount; i++) {
+            const singleDoc = await PDFLib.PDFDocument.create();
+            const [copied] = await singleDoc.copyPages(splitDocCache, [i]);
+            singleDoc.addPage(copied);
+            const bytes = await singleDoc.save();
+            zip.file(`page-${i + 1}.pdf`, bytes);
+          }
+          const zipContent = await zip.generateAsync({ type: 'blob' });
+          downloadBlob(zipContent, `${splitFile.name.replace('.pdf', '')}-split-pages.zip`, 'application/zip');
+          showToast('All pages split and downloaded in ZIP!');
+        } else {
+          // Range mode
+          const rangeStr = document.getElementById('split-range-input').value.trim();
+          if (!rangeStr) throw new Error('Please specify a page range (e.g. 1-3, 5)');
+
+          const pageIndices = parsePageRanges(rangeStr, splitTotalPagesCount);
+          if (pageIndices.length === 0) throw new Error('No valid pages found in range.');
+
+          const newDoc = await PDFLib.PDFDocument.create();
+          const copiedPages = await newDoc.copyPages(splitDocCache, pageIndices);
+          copiedPages.forEach(p => newDoc.addPage(p));
+
+          const bytes = await newDoc.save();
+          downloadBlob(bytes, `extracted-${splitFile.name}`, 'application/pdf');
+          showToast(`Extracted ${pageIndices.length} pages successfully!`);
+        }
+      } catch (err) {
+        showToast(err.message, false);
+      } finally {
+        btnRunSplit.disabled = false;
+        btnRunSplit.innerHTML = `<i data-lucide="scissors" class="w-4 h-4"></i> Split &amp; Download`;
+        lucide.createIcons();
+      }
+    }
+
+    function parsePageRanges(str, maxPages) {
+      const indices = new Set();
+      const parts = str.split(',').map(s => s.trim());
+
+      parts.forEach(part => {
+        if (part.includes('-')) {
+          const [start, end] = part.split('-').map(n => parseInt(n.trim(), 10));
+          if (!isNaN(start) && !isNaN(end)) {
+            for (let i = Math.max(1, start); i <= Math.min(maxPages, end); i++) {
+              indices.add(i - 1);
+            }
+          }
+        } else {
+          const page = parseInt(part, 10);
+          if (!isNaN(page) && page >= 1 && page <= maxPages) {
+            indices.add(page - 1);
+          }
+        }
+      });
+      return Array.from(indices).sort((a, b) => a - b);
+    }
+
+    // ==========================================
+    // 3. COMPRESS PDF
+    // ==========================================
+    let compressFile = null;
+    const dropzoneCompress = document.getElementById('dropzone-compress');
+    const inputCompress = document.getElementById('input-compress');
+    const configCompress = document.getElementById('config-compress');
+    const btnRunCompress = document.getElementById('btn-run-compress');
+
+    dropzoneCompress.onclick = () => inputCompress.click();
+    inputCompress.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        compressFile = file;
+        document.getElementById('label-compress-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        configCompress.classList.remove('hidden');
+        btnRunCompress.disabled = false;
+      }
+    };
+
+    async function executeCompress() {
+      if (!compressFile) return;
+      btnRunCompress.disabled = true;
+      btnRunCompress.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Compressing in browser...`;
+
+      try {
+        const quality = parseFloat(document.querySelector('input[name="comp-level"]:checked').value);
+        const arrayBuffer = await compressFile.arrayBuffer();
+        
+        // Re-encode PDF with PDF.js canvas downsampler for authentic client-side reduction
+        const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+        const pdf = await loadingTask.promise;
+        const newPdfDoc = await PDFLib.PDFDocument.create();
+
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const viewport = page.getViewport({ scale: 1.5 });
+          const canvas = document.createElement('canvas');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          const ctx = canvas.getContext('2d');
+
+          await page.render({ canvasContext: ctx, viewport }).promise;
+
+          const imgDataUrl = canvas.toDataURL('image/jpeg', quality);
+          const imgBytes = await fetch(imgDataUrl).then(res => res.arrayBuffer());
+          const embeddedImg = await newPdfDoc.embedJpg(imgBytes);
+
+          const newPage = newPdfDoc.addPage([viewport.width, viewport.height]);
+          newPage.drawImage(embeddedImg, {
+            x: 0,
+            y: 0,
+            width: viewport.width,
+            height: viewport.height
+          });
+        }
+
+        const compressedBytes = await newPdfDoc.save();
+        const originalSize = compressFile.size;
+        const newSize = compressedBytes.length;
+        const savings = Math.max(0, Math.round(((originalSize - newSize) / originalSize) * 100));
+
+        downloadBlob(compressedBytes, `compressed-${compressFile.name}`, 'application/pdf');
+        showToast(`Compressed! ${formatBytes(originalSize)} → ${formatBytes(newSize)} (${savings}% saved)`);
+      } catch (err) {
+        showToast('Compress error: ' + err.message, false);
+      } finally {
+        btnRunCompress.disabled = false;
+        btnRunCompress.innerHTML = `<i data-lucide="minimize-2" class="w-4 h-4"></i> Compress and Download`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // 4. PDF TO IMAGE
+    // ==========================================
+    let pdf2ImgFile = null;
+    let pdf2ImgNumPages = 0;
+    const dropzonePdf2Img = document.getElementById('dropzone-pdf2img');
+    const inputPdf2Img = document.getElementById('input-pdf2img');
+    const configPdf2Img = document.getElementById('config-pdf2img');
+    const btnRunPdf2Img = document.getElementById('btn-run-pdf2img');
+
+    dropzonePdf2Img.onclick = () => inputPdf2Img.click();
+    inputPdf2Img.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      pdf2ImgFile = file;
+
+      try {
+        const buffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+        pdf2ImgNumPages = pdf.numPages;
+
+        document.getElementById('label-pdf2img-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        document.getElementById('pdf2img-pagecount').textContent = `${pdf2ImgNumPages} pages`;
+        configPdf2Img.classList.remove('hidden');
+        btnRunPdf2Img.disabled = false;
+      } catch (err) {
+        showToast('Failed to load PDF: ' + err.message, false);
+      }
+    };
+
+    async function executePdf2Img() {
+      if (!pdf2ImgFile) return;
+      btnRunPdf2Img.disabled = true;
+      btnRunPdf2Img.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Rendering pages...`;
+
+      try {
+        const format = document.getElementById('pdf2img-format').value;
+        const mime = format === 'png' ? 'image/png' : 'image/jpeg';
+        const ext = format === 'png' ? 'png' : 'jpg';
+
+        const buffer = await pdf2ImgFile.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+        const zip = new JSZip();
+
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const viewport = page.getViewport({ scale: 2.0 }); // High quality 2x
+          const canvas = document.createElement('canvas');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          const ctx = canvas.getContext('2d');
+
+          await page.render({ canvasContext: ctx, viewport }).promise;
+
+          const dataUrl = canvas.toDataURL(mime, 0.92);
+          const byteStr = atob(dataUrl.split(',')[1]);
+          const ab = new ArrayBuffer(byteStr.length);
+          const ia = new Uint8Array(ab);
+          for (let b = 0; b < byteStr.length; b++) ia[b] = byteStr.charCodeAt(b);
+
+          zip.file(`page-${i}.${ext}`, ab);
+        }
+
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        downloadBlob(zipBlob, `${pdf2ImgFile.name.replace('.pdf', '')}-images.zip`, 'application/zip');
+        showToast(`Rendered ${pdf.numPages} pages into images ZIP!`);
+      } catch (err) {
+        showToast('Render error: ' + err.message, false);
+      } finally {
+        btnRunPdf2Img.disabled = false;
+        btnRunPdf2Img.innerHTML = `<i data-lucide="file-image" class="w-4 h-4"></i> Convert &amp; Download Images (ZIP)`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // 5. IMAGE TO PDF
+    // ==========================================
+    let img2PdfFiles = [];
+    const dropzoneImg2Pdf = document.getElementById('dropzone-img2pdf');
+    const inputImg2Pdf = document.getElementById('input-img2pdf');
+    const listImg2Pdf = document.getElementById('list-img2pdf');
+    const previewImg2Pdf = document.getElementById('preview-img2pdf');
+    const countImg2Pdf = document.getElementById('count-img2pdf');
+    const btnRunImg2Pdf = document.getElementById('btn-run-img2pdf');
+
+    dropzoneImg2Pdf.onclick = () => inputImg2Pdf.click();
+    inputImg2Pdf.onchange = (e) => {
+      img2PdfFiles = Array.from(e.target.files);
+      countImg2Pdf.textContent = img2PdfFiles.length;
+      previewImg2Pdf.innerHTML = '';
+
+      if (img2PdfFiles.length > 0) {
+        listImg2Pdf.classList.remove('hidden');
+        btnRunImg2Pdf.disabled = false;
+
+        img2PdfFiles.forEach(file => {
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            const card = document.createElement('div');
+            card.className = 'relative aspect-video rounded-xl overflow-hidden border border-slate-800 bg-slate-900';
+            card.innerHTML = `<img src="${ev.target.result}" class="w-full h-full object-cover">`;
+            previewImg2Pdf.appendChild(card);
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+    };
+
+    async function executeImg2Pdf() {
+      if (img2PdfFiles.length === 0) return;
+      btnRunImg2Pdf.disabled = true;
+      btnRunImg2Pdf.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Generating PDF...`;
+
+      try {
+        const doc = await PDFLib.PDFDocument.create();
+
+        for (const file of img2PdfFiles) {
+          const buffer = await file.arrayBuffer();
+          let img;
+          if (file.type === 'image/jpeg' || file.name.match(/\.(jpg|jpeg)$/i)) {
+            img = await doc.embedJpg(buffer);
+          } else {
+            img = await doc.embedPng(buffer);
+          }
+
+          const page = doc.addPage([img.width, img.height]);
+          page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
+        }
+
+        const bytes = await doc.save();
+        downloadBlob(bytes, 'images-converted.pdf', 'application/pdf');
+        showToast('Converted images into PDF document!');
+      } catch (err) {
+        showToast('Image conversion error: ' + err.message, false);
+      } finally {
+        btnRunImg2Pdf.disabled = false;
+        btnRunImg2Pdf.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i> Generate PDF`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // 6. ORGANIZE & DELETE PAGES
+    // ==========================================
+    let organizeFile = null;
+    let organizeDocCache = null;
+    let organizePagesStatus = []; // array of { pageNum: int, deleted: bool }
+    const dropzoneOrganize = document.getElementById('dropzone-organize');
+    const inputOrganize = document.getElementById('input-organize');
+    const gridOrganize = document.getElementById('grid-organize');
+    const thumbsOrganize = document.getElementById('thumbnails-organize');
+    const btnRunOrganize = document.getElementById('btn-run-organize');
+
+    dropzoneOrganize.onclick = () => inputOrganize.click();
+    inputOrganize.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      organizeFile = file;
+
+      try {
+        document.getElementById('label-organize-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        const buffer = await file.arrayBuffer();
+        organizeDocCache = await PDFLib.PDFDocument.load(buffer);
+        const total = organizeDocCache.getPageCount();
+
+        organizePagesStatus = [];
+        for (let i = 0; i < total; i++) {
+          organizePagesStatus.push({ index: i, deleted: false });
+        }
+
+        gridOrganize.classList.remove('hidden');
+        btnRunOrganize.disabled = false;
+        renderOrganizeThumbnails(buffer, total);
+      } catch (err) {
+        showToast('Error loading document: ' + err.message, false);
+      }
+    };
+
+    async function renderOrganizeThumbnails(buffer, total) {
+      thumbsOrganize.innerHTML = '';
+      updateOrganizeStatus();
+
+      const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+      for (let i = 1; i <= total; i++) {
+        const page = await pdf.getPage(i);
+        const viewport = page.getViewport({ scale: 0.35 });
+        const canvas = document.createElement('canvas');
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        const ctx = canvas.getContext('2d');
+        await page.render({ canvasContext: ctx, viewport }).promise;
+
+        const thumb = document.createElement('div');
+        thumb.id = `thumb-${i - 1}`;
+        thumb.className = 'relative flex flex-col items-center p-2 rounded-xl border-2 border-slate-700 bg-slate-900 cursor-pointer hover:border-blue-500 transition-all';
+        thumb.onclick = () => togglePageDeletion(i - 1);
+
+        thumb.innerHTML = `
+          <img src="${canvas.toDataURL()}" class="rounded shadow w-full">
+          <span class="text-[11px] font-bold text-slate-400 mt-2">Page ${i}</span>
+          <div id="badge-del-${i - 1}" class="hidden absolute inset-0 bg-red-950/70 backdrop-blur-[2px] rounded-xl flex items-center justify-center text-xs font-bold text-red-300 border-2 border-red-500">
+            Deleted
+          </div>
+        `;
+        thumbsOrganize.appendChild(thumb);
+      }
+    }
+
+    function togglePageDeletion(idx) {
+      organizePagesStatus[idx].deleted = !organizePagesStatus[idx].deleted;
+      const badge = document.getElementById(`badge-del-${idx}`);
+      const thumb = document.getElementById(`thumb-${idx}`);
+
+      if (organizePagesStatus[idx].deleted) {
+        badge.classList.remove('hidden');
+        thumb.classList.add('border-red-500');
+      } else {
+        badge.classList.add('hidden');
+        thumb.classList.remove('border-red-500');
+      }
+      updateOrganizeStatus();
+    }
+
+    function updateOrganizeStatus() {
+      const remaining = organizePagesStatus.filter(p => !p.deleted).length;
+      document.getElementById('organize-status-text').textContent = `Keeping ${remaining} of ${organizePagesStatus.length} pages`;
+      btnRunOrganize.disabled = remaining === 0;
+    }
+
+    async function executeOrganize() {
+      if (!organizeDocCache) return;
+      btnRunOrganize.disabled = true;
+      btnRunOrganize.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Saving...`;
+
+      try {
+        const keptIndices = organizePagesStatus.filter(p => !p.deleted).map(p => p.index);
+        if (keptIndices.length === 0) throw new Error('You must keep at least 1 page!');
+
+        const newDoc = await PDFLib.PDFDocument.create();
+        const copied = await newDoc.copyPages(organizeDocCache, keptIndices);
+        copied.forEach(p => newDoc.addPage(p));
+
+        const bytes = await newDoc.save();
+        downloadBlob(bytes, `organized-${organizeFile.name}`, 'application/pdf');
+        showToast('Organized PDF saved successfully!');
+      } catch (err) {
+        showToast(err.message, false);
+      } finally {
+        btnRunOrganize.disabled = false;
+        btnRunOrganize.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i> Save Organized PDF`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // 7. ROTATE PDF
+    // ==========================================
+    let rotateFile = null;
+    const dropzoneRotate = document.getElementById('dropzone-rotate');
+    const inputRotate = document.getElementById('input-rotate');
+    const configRotate = document.getElementById('config-rotate');
+    const btnRunRotate = document.getElementById('btn-run-rotate');
+
+    dropzoneRotate.onclick = () => inputRotate.click();
+    inputRotate.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        rotateFile = file;
+        document.getElementById('label-rotate-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        configRotate.classList.remove('hidden');
+        btnRunRotate.disabled = false;
+      }
+    };
+
+    async function executeRotate() {
+      if (!rotateFile) return;
+      btnRunRotate.disabled = true;
+      btnRunRotate.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Rotating...`;
+
+      try {
+        const deg = parseInt(document.getElementById('select-rotate-angle').value, 10);
+        const buffer = await rotateFile.arrayBuffer();
+        const doc = await PDFLib.PDFDocument.load(buffer);
+        const pages = doc.getPages();
+
+        pages.forEach(p => {
+          const current = p.getRotation().angle;
+          p.setRotation(PDFLib.degrees((current + deg) % 360));
+        });
+
+        const bytes = await doc.save();
+        downloadBlob(bytes, `rotated-${rotateFile.name}`, 'application/pdf');
+        showToast('Pages rotated successfully!');
+      } catch (err) {
+        showToast('Rotate error: ' + err.message, false);
+      } finally {
+        btnRunRotate.disabled = false;
+        btnRunRotate.innerHTML = `<i data-lucide="rotate-cw" class="w-4 h-4"></i> Rotate &amp; Download`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // 8. ADD WATERMARK
+    // ==========================================
+    let watermarkFile = null;
+    const dropzoneWatermark = document.getElementById('dropzone-watermark');
+    const inputWatermark = document.getElementById('input-watermark');
+    const configWatermark = document.getElementById('config-watermark');
+    const btnRunWatermark = document.getElementById('btn-run-watermark');
+
+    dropzoneWatermark.onclick = () => inputWatermark.click();
+    inputWatermark.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        watermarkFile = file;
+        document.getElementById('label-watermark-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        configWatermark.classList.remove('hidden');
+        btnRunWatermark.disabled = false;
+      }
+    };
+
+    async function executeWatermark() {
+      if (!watermarkFile) return;
+      btnRunWatermark.disabled = true;
+      btnRunWatermark.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Stamping watermark...`;
+
+      try {
+        const text = document.getElementById('watermark-text').value.trim() || 'CONFIDENTIAL';
+        const opacity = parseFloat(document.getElementById('watermark-opacity').value);
+        const size = parseInt(document.getElementById('watermark-size').value, 10) || 48;
+
+        const buffer = await watermarkFile.arrayBuffer();
+        const doc = await PDFLib.PDFDocument.load(buffer);
+        const font = await doc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+        const pages = doc.getPages();
+
+        pages.forEach(page => {
+          const { width, height } = page.getSize();
+          const textWidth = font.widthOfTextAtSize(text, size);
+          const textHeight = font.heightAtSize(size);
+
+          page.drawText(text, {
+            x: width / 2 - textWidth / 2,
+            y: height / 2 - textHeight / 2,
+            size: size,
+            font: font,
+            color: PDFLib.rgb(0.2, 0.4, 0.9),
+            opacity: opacity,
+            rotate: PDFLib.degrees(45)
+          });
+        });
+
+        const bytes = await doc.save();
+        downloadBlob(bytes, `watermarked-${watermarkFile.name}`, 'application/pdf');
+        showToast('Watermark applied to all pages!');
+      } catch (err) {
+        showToast('Watermark error: ' + err.message, false);
+      } finally {
+        btnRunWatermark.disabled = false;
+        btnRunWatermark.innerHTML = `<i data-lucide="stamp" class="w-4 h-4"></i> Apply Watermark`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // 9. PAGE NUMBERS
+    // ==========================================
+    let pageNumsFile = null;
+    const dropzonePageNums = document.getElementById('dropzone-pagenums');
+    const inputPageNums = document.getElementById('input-pagenums');
+    const configPageNums = document.getElementById('config-pagenums');
+    const btnRunPageNums = document.getElementById('btn-run-pagenums');
+
+    dropzonePageNums.onclick = () => inputPageNums.click();
+    inputPageNums.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        pageNumsFile = file;
+        document.getElementById('label-pagenums-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        configPageNums.classList.remove('hidden');
+        btnRunPageNums.disabled = false;
+      }
+    };
+
+    async function executePageNums() {
+      if (!pageNumsFile) return;
+      btnRunPageNums.disabled = true;
+      btnRunPageNums.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Numbering...`;
+
+      try {
+        const pos = document.getElementById('pagenums-pos').value;
+        const format = document.getElementById('pagenums-format').value;
+
+        const buffer = await pageNumsFile.arrayBuffer();
+        const doc = await PDFLib.PDFDocument.load(buffer);
+        const font = await doc.embedFont(PDFLib.StandardFonts.Helvetica);
+        const pages = doc.getPages();
+        const total = pages.length;
+
+        pages.forEach((page, idx) => {
+          const pageNum = idx + 1;
+          let label = '';
+          if (format === 'page-x-of-y') label = `Page ${pageNum} of ${total}`;
+          else if (format === 'simple-x') label = `Page ${pageNum}`;
+          else label = `${pageNum}`;
+
+          const fontSize = 10;
+          const { width, height } = page.getSize();
+          const textWidth = font.widthOfTextAtSize(label, fontSize);
+
+          let x = 0, y = 0;
+          if (pos === 'bottom-center') {
+            x = (width - textWidth) / 2;
+            y = 25;
+          } else if (pos === 'bottom-right') {
+            x = width - textWidth - 35;
+            y = 25;
+          } else if (pos === 'top-right') {
+            x = width - textWidth - 35;
+            y = height - 25;
+          } else if (pos === 'top-center') {
+            x = (width - textWidth) / 2;
+            y = height - 25;
+          }
+
+          page.drawText(label, {
+            x, y,
+            size: fontSize,
+            font,
+            color: PDFLib.rgb(0.2, 0.2, 0.2)
+          });
+        });
+
+        const bytes = await doc.save();
+        downloadBlob(bytes, `numbered-${pageNumsFile.name}`, 'application/pdf');
+        showToast('Page numbers stamped successfully!');
+      } catch (err) {
+        showToast('Page numbers error: ' + err.message, false);
+      } finally {
+        btnRunPageNums.disabled = false;
+        btnRunPageNums.innerHTML = `<i data-lucide="hash" class="w-4 h-4"></i> Add Numbers &amp; Download`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // 10. EXTRACT TEXT
+    // ==========================================
+    let extractTextFile = null;
+    let extractedTextContent = '';
+    const dropzoneExtractText = document.getElementById('dropzone-extracttext');
+    const inputExtractText = document.getElementById('input-extracttext');
+    const resultExtractText = document.getElementById('result-extracttext');
+    const btnRunExtractText = document.getElementById('btn-run-extracttext');
+
+    dropzoneExtractText.onclick = () => inputExtractText.click();
+    inputExtractText.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      extractTextFile = file;
+
+      try {
+        document.getElementById('label-extracttext-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        const buffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+
+        let fullText = '';
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const content = await page.getTextContent();
+          const strings = content.items.map(item => item.str);
+          fullText += `--- Page ${i} ---\n` + strings.join(' ') + '\n\n';
+        }
+
+        extractedTextContent = fullText;
+        const words = fullText.trim().split(/\s+/).filter(Boolean).length;
+        document.getElementById('extracttext-words').textContent = words;
+        document.getElementById('textarea-extracttext').value = fullText;
+        resultExtractText.classList.remove('hidden');
+        btnRunExtractText.disabled = false;
+        showToast(`Extracted text from ${pdf.numPages} pages!`);
+      } catch (err) {
+        showToast('Text extraction error: ' + err.message, false);
+      }
+    };
+
+    function copyExtractedText() {
+      if (!extractedTextContent) return;
+      navigator.clipboard.writeText(extractedTextContent);
+      showToast('Text copied to clipboard!');
+    }
+
+    function downloadExtractedText() {
+      if (!extractedTextContent) return;
+      downloadBlob(extractedTextContent, `${extractTextFile.name.replace('.pdf', '')}-text.txt`, 'text/plain');
+    }
+
+    // ==========================================
+    // 11. PROTECT / PASSWORD
+    // ==========================================
+    let protectFile = null;
+    const dropzoneProtect = document.getElementById('dropzone-protect');
+    const inputProtect = document.getElementById('input-protect');
+    const configProtect = document.getElementById('config-protect');
+    const btnRunProtect = document.getElementById('btn-run-protect');
+
+    dropzoneProtect.onclick = () => inputProtect.click();
+    inputProtect.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        protectFile = file;
+        document.getElementById('label-protect-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        configProtect.classList.remove('hidden');
+        btnRunProtect.disabled = false;
+      }
+    };
+
+    async function executeProtect() {
+      if (!protectFile) return;
+      const p1 = document.getElementById('protect-password').value;
+      const p2 = document.getElementById('protect-password-confirm').value;
+
+      if (!p1) {
+        showToast('Please enter a password', false);
+        return;
+      }
+      if (p1 !== p2) {
+        showToast('Passwords do not match', false);
+        return;
+      }
+
+      btnRunProtect.disabled = true;
+      btnRunProtect.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Encrypting...`;
+
+      try {
+        const buffer = await protectFile.arrayBuffer();
+        const doc = await PDFLib.PDFDocument.load(buffer);
+        doc.encrypt({
+          userPassword: p1,
+          ownerPassword: p1 + '_owner',
+          permissions: {
+            printing: 'highResolution',
+            modifying: false,
+            copying: false,
+            annotating: false,
+            fillingForms: true,
+            contentAccessibility: true,
+            documentAssembly: false
+          }
+        });
+
+        const bytes = await doc.save();
+        downloadBlob(bytes, `protected-${protectFile.name}`, 'application/pdf');
+        showToast('PDF encrypted with password!');
+      } catch (err) {
+        showToast('Encryption error: ' + err.message, false);
+      } finally {
+        btnRunProtect.disabled = false;
+        btnRunProtect.innerHTML = `<i data-lucide="lock" class="w-4 h-4"></i> Protect &amp; Download`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // 12. METADATA INSPECTOR & EDITOR
+    // ==========================================
+    let metadataFile = null;
+    let metadataDoc = null;
+    const dropzoneMetadata = document.getElementById('dropzone-metadata');
+    const inputMetadata = document.getElementById('input-metadata');
+    const configMetadata = document.getElementById('config-metadata');
+    const btnRunMetadata = document.getElementById('btn-run-metadata');
+
+    dropzoneMetadata.onclick = () => inputMetadata.click();
+    inputMetadata.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      metadataFile = file;
+
+      try {
+        document.getElementById('label-metadata-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        const buffer = await file.arrayBuffer();
+        metadataDoc = await PDFLib.PDFDocument.load(buffer);
+
+        document.getElementById('meta-display-filename').textContent = file.name;
+        document.getElementById('meta-display-size').textContent = `${formatBytes(file.size)} • ${metadataDoc.getPageCount()} pages`;
+
+        document.getElementById('meta-input-title').value = metadataDoc.getTitle() || '';
+        document.getElementById('meta-input-author').value = metadataDoc.getAuthor() || '';
+        document.getElementById('meta-input-subject').value = metadataDoc.getSubject() || '';
+        document.getElementById('meta-input-creator').value = metadataDoc.getCreator() || '';
+
+        configMetadata.classList.remove('hidden');
+        btnRunMetadata.disabled = false;
+        showToast('Document properties loaded!');
+      } catch (err) {
+        showToast('Metadata read error: ' + err.message, false);
+      }
+    };
+
+    async function executeMetadataSave() {
+      if (!metadataDoc || !metadataFile) return;
+      btnRunMetadata.disabled = true;
+      btnRunMetadata.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Saving...`;
+
+      try {
+        metadataDoc.setTitle(document.getElementById('meta-input-title').value.trim());
+        metadataDoc.setAuthor(document.getElementById('meta-input-author').value.trim());
+        metadataDoc.setSubject(document.getElementById('meta-input-subject').value.trim());
+        metadataDoc.setCreator(document.getElementById('meta-input-creator').value.trim());
+
+        const bytes = await metadataDoc.save();
+        downloadBlob(bytes, `updated-${metadataFile.name}`, 'application/pdf');
+        showToast('Updated metadata saved!');
+      } catch (err) {
+        showToast('Save error: ' + err.message, false);
+      } finally {
+        btnRunMetadata.disabled = false;
+        btnRunMetadata.innerHTML = `<i data-lucide="save" class="w-4 h-4"></i> Save Updated Metadata`;
+        lucide.createIcons();
+      }
     }
   </script>
 </body>
