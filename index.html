@@ -1152,6 +1152,56 @@
                 </div>
               </div>
 
+              <!-- Scope & Human Natural Randomizer Option -->
+              <div class="p-4 bg-slate-900/90 border border-slate-800 rounded-2xl space-y-3">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                  <div class="flex items-center gap-2">
+                    <label class="text-xs text-slate-300 font-bold">Apply Signature To:</label>
+                    <select id="sign-scope-select" class="bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-blue-500">
+                      <option value="single">Current Selected Page Only</option>
+                      <option value="all">All Pages in Document</option>
+                      <option value="last">Last Page Only</option>
+                    </select>
+                  </div>
+                  
+                  <button type="button" onclick="testHumanJitter()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-500/30 text-xs font-bold transition" title="Preview natural random jitter">
+                    <i data-lucide="dice-5" class="w-3.5 h-3.5"></i> Test Human Jitter (Preview)
+                  </button>
+                </div>
+
+                <!-- Checkbox for Human Realism -->
+                <div class="flex items-start gap-3 pt-2.5 border-t border-slate-800">
+                  <div class="flex items-center h-5 mt-0.5">
+                    <input type="checkbox" id="sign-randomize-chk" checked class="w-4 h-4 rounded bg-slate-950 border-slate-700 text-blue-600 focus:ring-blue-500">
+                  </div>
+                  <div class="flex-1">
+                    <label for="sign-randomize-chk" class="text-xs font-bold text-white cursor-pointer flex items-center gap-2">
+                      <span>Human Natural Placement (Realistic Hand-Signed Variation)</span>
+                      <span class="text-[10px] bg-blue-600/20 text-blue-300 px-2 py-0.5 rounded-full font-semibold border border-blue-500/30">Natural Jitter</span>
+                    </label>
+                    <p class="text-[11px] text-slate-400 mt-0.5 leading-relaxed">
+                      Slightly shifts each signature a bit up/down, forward/backward, and applies subtle natural angle variations so multi-page documents look hand-signed one by one by a human rather than a machine.
+                    </p>
+                  </div>
+                </div>
+
+                <div id="sign-jitter-settings" class="flex flex-wrap items-center gap-4 text-xs pt-1">
+                  <span class="text-slate-400 font-semibold">Jitter Range:</span>
+                  <label class="flex items-center gap-1.5 cursor-pointer text-slate-300">
+                    <input type="radio" name="sign-jitter-level" value="subtle" checked class="text-blue-600">
+                    <span>Subtle (±1.5%, ±1.2°)</span>
+                  </label>
+                  <label class="flex items-center gap-1.5 cursor-pointer text-slate-300">
+                    <input type="radio" name="sign-jitter-level" value="organic" class="text-blue-600">
+                    <span>Organic (±3%, ±2.5°)</span>
+                  </label>
+                  <label class="flex items-center gap-1.5 cursor-pointer text-slate-300">
+                    <input type="radio" name="sign-jitter-level" value="pronounced" class="text-blue-600">
+                    <span>Pronounced (±5%, ±4.0°)</span>
+                  </label>
+                </div>
+              </div>
+
               <!-- Interactive Live Preview Canvas -->
               <div class="relative border border-slate-800 rounded-2xl bg-slate-950 p-4 flex flex-col items-center justify-center overflow-auto max-h-[560px]">
                 <p class="text-xs text-blue-400 mb-2 font-semibold flex items-center gap-1.5 select-none">
@@ -3656,6 +3706,45 @@
       signOverlayStamp.style.top = `${posY}%`;
       signOverlayStamp.style.width = `${scale}px`;
       signOverlayStamp.style.height = `${Math.round(scale * 0.45)}px`;
+      signOverlayStamp.style.transform = 'translate(-50%, -50%)';
+    }
+
+    function getSelectedJitterParams() {
+      const isRandom = document.getElementById('sign-randomize-chk')?.checked ?? false;
+      if (!isRandom) return { posRange: 0, angleRange: 0, scaleRange: 0 };
+      const levelEl = document.querySelector('input[name="sign-jitter-level"]:checked');
+      const level = levelEl ? levelEl.value : 'subtle';
+      if (level === 'pronounced') {
+        return { posRange: 0.05, angleRange: 4.0, scaleRange: 0.05 };
+      } else if (level === 'organic') {
+        return { posRange: 0.03, angleRange: 2.5, scaleRange: 0.03 };
+      } else {
+        return { posRange: 0.015, angleRange: 1.2, scaleRange: 0.02 };
+      }
+    }
+
+    function testHumanJitter() {
+      const basePosX = parseInt(document.getElementById('sign-pos-x').value) || 50;
+      const basePosY = parseInt(document.getElementById('sign-pos-y').value) || 85;
+      const baseScale = parseInt(document.getElementById('sign-scale').value) || 140;
+      const { posRange, angleRange, scaleRange } = getSelectedJitterParams();
+
+      const jitterX = (Math.random() * 2 - 1) * (posRange > 0 ? posRange * 100 : 2);
+      const jitterY = (Math.random() * 2 - 1) * (posRange > 0 ? posRange * 100 : 2);
+      const angle = (Math.random() * 2 - 1) * (angleRange > 0 ? angleRange : 1.5);
+      const scaleMult = 1 + (Math.random() * 2 - 1) * (scaleRange > 0 ? scaleRange : 0.02);
+
+      const previewX = Math.max(5, Math.min(95, basePosX + jitterX));
+      const previewY = Math.max(5, Math.min(95, basePosY + jitterY));
+      const previewScale = Math.round(baseScale * scaleMult);
+
+      signOverlayStamp.style.left = `${previewX}%`;
+      signOverlayStamp.style.top = `${previewY}%`;
+      signOverlayStamp.style.width = `${previewScale}px`;
+      signOverlayStamp.style.height = `${Math.round(previewScale * 0.45)}px`;
+      signOverlayStamp.style.transform = `translate(-50%, -50%) rotate(${angle.toFixed(1)}deg)`;
+
+      showToast(`Natural Jitter: X:${jitterX >= 0 ? '+' : ''}${jitterX.toFixed(1)}%, Y:${jitterY >= 0 ? '+' : ''}${jitterY.toFixed(1)}%, Angle:${angle >= 0 ? '+' : ''}${angle.toFixed(1)}°`);
     }
 
     async function executeSignPdf() {
@@ -3670,36 +3759,76 @@
         const buffer = await signFile.arrayBuffer();
         const pdfDoc = await PDFLib.PDFDocument.load(buffer, { ignoreEncryption: true });
         const embeddedSig = await pdfDoc.embedPng(sigPngBytes);
+        const totalPages = pdfDoc.getPageCount();
 
-        const pageIndex = Math.max(0, Math.min(pdfDoc.getPageCount() - 1, signTargetPage - 1));
-        const targetPdfPage = pdfDoc.getPage(pageIndex);
-        const { width: pdfPageWidth, height: pdfPageHeight } = targetPdfPage.getSize();
+        const scope = document.getElementById('sign-scope-select')?.value || 'single';
+        const isRandom = document.getElementById('sign-randomize-chk')?.checked ?? false;
+        const jitterParams = getSelectedJitterParams();
 
-        const posXPercent = (parseInt(document.getElementById('sign-pos-x').value) || 50) / 100;
-        const posYPercent = (parseInt(document.getElementById('sign-pos-y').value) || 85) / 100;
-        const scalePx = parseInt(document.getElementById('sign-scale').value) || 140;
+        let targetIndices = [];
+        if (scope === 'all') {
+          for (let i = 0; i < totalPages; i++) targetIndices.push(i);
+        } else if (scope === 'last') {
+          targetIndices = [totalPages - 1];
+        } else {
+          const currentTarget = Math.max(0, Math.min(totalPages - 1, signTargetPage - 1));
+          targetIndices = [currentTarget];
+        }
 
-        // Preview canvas reference width
-        const canvasW = signPreviewCanvas.width || 600;
-        const ratio = pdfPageWidth / canvasW;
+        const basePosXPercent = (parseInt(document.getElementById('sign-pos-x').value) || 50) / 100;
+        const basePosYPercent = (parseInt(document.getElementById('sign-pos-y').value) || 85) / 100;
+        const baseScalePx = parseInt(document.getElementById('sign-scale').value) || 140;
 
-        const sigWidth = scalePx * ratio;
-        const sigHeight = (scalePx * 0.45) * ratio;
+        for (let idx of targetIndices) {
+          const page = pdfDoc.getPage(idx);
+          const { width: pWidth, height: pHeight } = page.getSize();
 
-        // PDF coordinate origin is bottom-left, while web coordinates are top-left
-        const xPos = (pdfPageWidth * posXPercent) - (sigWidth / 2);
-        const yPos = pdfPageHeight - (pdfPageHeight * posYPercent) - (sigHeight / 2);
+          // Calculate jitter for natural human hand-signing look
+          let jitterX = 0;
+          let jitterY = 0;
+          let jitterAngle = 0;
+          let jitterScaleMult = 1.0;
 
-        targetPdfPage.drawImage(embeddedSig, {
-          x: Math.max(0, xPos),
-          y: Math.max(0, yPos),
-          width: sigWidth,
-          height: sigHeight
-        });
+          if (isRandom) {
+            jitterX = (Math.random() * 2 - 1) * jitterParams.posRange;
+            jitterY = (Math.random() * 2 - 1) * jitterParams.posRange;
+            jitterAngle = (Math.random() * 2 - 1) * jitterParams.angleRange;
+            jitterScaleMult = 1.0 + (Math.random() * 2 - 1) * jitterParams.scaleRange;
+          }
+
+          const effPosXPercent = Math.max(0.04, Math.min(0.96, basePosXPercent + jitterX));
+          const effPosYPercent = Math.max(0.04, Math.min(0.96, basePosYPercent + jitterY));
+          const effScalePx = baseScalePx * jitterScaleMult;
+
+          const canvasW = signPreviewCanvas.width || 600;
+          const ratio = pWidth / canvasW;
+
+          const sigWidth = effScalePx * ratio;
+          const sigHeight = (effScalePx * 0.45) * ratio;
+
+          // PDF coordinate origin is bottom-left, while web coordinates are top-left
+          const xPos = (pWidth * effPosXPercent) - (sigWidth / 2);
+          const yPos = pHeight - (pHeight * effPosYPercent) - (sigHeight / 2);
+
+          const drawOptions = {
+            x: Math.max(0, xPos),
+            y: Math.max(0, yPos),
+            width: sigWidth,
+            height: sigHeight
+          };
+
+          if (isRandom && Math.abs(jitterAngle) > 0.01) {
+            drawOptions.rotate = PDFLib.degrees(jitterAngle);
+          }
+
+          page.drawImage(embeddedSig, drawOptions);
+        }
 
         const signedBytes = await pdfDoc.save();
         downloadBlob(signedBytes, `signed-${signFile.name}`, 'application/pdf');
-        showToast('Document signed and downloaded successfully!');
+        showToast(targetIndices.length > 1 
+          ? `Document signed across ${targetIndices.length} pages with realistic natural variation!` 
+          : 'Document signed and downloaded successfully!');
       } catch (err) {
         showToast('Signing error: ' + err.message, false);
       } finally {
