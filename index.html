@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF Orbit 360 | Modern PDF Studio</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- PDF-LIB CDN for fast in-browser PDF manipulation -->
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .gradient-hero {
+      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.15), transparent 40%),
+                  radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.1), transparent 40%);
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans gradient-hero antialiased">
+
+  <!-- Header -->
+  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-sky-500/20">
+          <i data-lucide="layers" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <span class="text-xl font-bold bg-gradient-to-r from-sky-400 to-indigo-300 bg-clip-text text-transparent">PDF Orbit 360</span>
+          <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">v1.0 Live</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="https://github.com/justdineshsingh1-jpg/pdf-orbit-360" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors">
+          <i data-lucide="github" class="w-4 h-4"></i>
+          <span>GitHub Repo</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero & Tool Tabs -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="text-center max-w-2xl mx-auto mb-10">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-3">
+        All-in-One Browser PDF Studio
+      </h1>
+      <p class="text-slate-400 text-sm sm:text-base">
+        Fast, secure, and runs 100% in your browser. No files are ever sent to external servers.
+      </p>
+    </div>
+
+    <!-- Tool Selector Nav -->
+    <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8">
+      <button onclick="switchTab('merge')" id="tab-merge" class="tool-tab flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all bg-sky-500 text-white shadow-lg shadow-sky-500/25">
+        <i data-lucide="combine" class="w-4 h-4"></i> Merge PDFs
+      </button>
+      <button onclick="switchTab('rotate')" id="tab-rotate" class="tool-tab flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all bg-slate-800 hover:bg-slate-700/80 text-slate-300">
+        <i data-lucide="rotate-cw" class="w-4 h-4"></i> Rotate Pages
+      </button>
+      <button onclick="switchTab('img2pdf')" id="tab-img2pdf" class="tool-tab flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all bg-slate-800 hover:bg-slate-700/80 text-slate-300">
+        <i data-lucide="image" class="w-4 h-4"></i> Image to PDF
+      </button>
+      <button onclick="switchTab('info')" id="tab-info" class="tool-tab flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all bg-slate-800 hover:bg-slate-700/80 text-slate-300">
+        <i data-lucide="file-text" class="w-4 h-4"></i> Inspect PDF
+      </button>
+    </div>
+
+    <!-- PANEL 1: MERGE PDFs -->
+    <div id="panel-merge" class="tool-panel max-w-3xl mx-auto bg-slate-800/60 border border-slate-700/70 rounded-2xl p-6 sm:p-8 backdrop-blur shadow-2xl">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="p-2.5 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20">
+          <i data-lucide="combine" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h2 class="text-xl font-semibold text-white">Merge Multiple PDFs</h2>
+          <p class="text-xs text-slate-400">Combine multiple PDF documents into a single organized file.</p>
+        </div>
+      </div>
+
+      <!-- Drag & Drop Zone -->
+      <div id="merge-dropzone" class="border-2 border-dashed border-slate-600 hover:border-sky-500 rounded-xl p-8 text-center cursor-pointer transition-colors bg-slate-900/40">
+        <input type="file" id="merge-input" multiple accept="application/pdf" class="hidden">
+        <i data-lucide="upload-cloud" class="w-12 h-12 text-slate-400 mx-auto mb-3"></i>
+        <p class="text-sm font-medium text-white mb-1">Click to browse or drag and drop PDF files</p>
+        <p class="text-xs text-slate-500">Supports selecting 2 or more PDF files</p>
+      </div>
+
+      <!-- File list container -->
+      <div id="merge-list" class="mt-6 space-y-2.5 hidden">
+        <div class="flex items-center justify-between text-xs text-slate-400 px-1 font-semibold">
+          <span>Selected Files (<span id="merge-count">0</span>)</span>
+          <button onclick="clearMergeList()" class="text-red-400 hover:underline">Clear all</button>
+        </div>
+        <div id="merge-items" class="space-y-2"></div>
+      </div>
+
+      <!-- Action Button -->
+      <div class="mt-6 flex justify-end">
+        <button id="btn-merge" onclick="processMerge()" disabled class="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-sky-500 hover:bg-sky-400 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-lg shadow-sky-500/25">
+          <i data-lucide="download" class="w-4 h-4"></i> Merge & Download PDF
+        </button>
+      </div>
+    </div>
+
+    <!-- PANEL 2: ROTATE PAGES -->
+    <div id="panel-rotate" class="tool-panel max-w-3xl mx-auto bg-slate-800/60 border border-slate-700/70 rounded-2xl p-6 sm:p-8 backdrop-blur shadow-2xl hidden">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="p-2.5 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+          <i data-lucide="rotate-cw" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h2 class="text-xl font-semibold text-white">Rotate PDF Pages</h2>
+          <p class="text-xs text-slate-400">Permanently rotate all pages in your PDF document.</p>
+        </div>
+      </div>
+
+      <div id="rotate-dropzone" class="border-2 border-dashed border-slate-600 hover:border-indigo-500 rounded-xl p-8 text-center cursor-pointer transition-colors bg-slate-900/40">
+        <input type="file" id="rotate-input" accept="application/pdf" class="hidden">
+        <i data-lucide="file-up" class="w-12 h-12 text-slate-400 mx-auto mb-3"></i>
+        <p id="rotate-filename" class="text-sm font-medium text-white mb-1">Click to select a PDF file</p>
+        <p class="text-xs text-slate-500">Rotate all pages by 90°, 180°, or 270°</p>
+      </div>
+
+      <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <label class="text-sm text-slate-300 font-medium">Rotation Angle:</label>
+          <select id="rotate-angle" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+            <option value="90">90° Clockwise</option>
+            <option value="180">180° Half Turn</option>
+            <option value="270">270° Counter-Clockwise</option>
+          </select>
+        </div>
+        <button id="btn-rotate" onclick="processRotate()" disabled class="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-indigo-600 hover:bg-indigo-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-lg shadow-indigo-600/25">
+          <i data-lucide="download" class="w-4 h-4"></i> Rotate & Download
+        </button>
+      </div>
+    </div>
+
+    <!-- PANEL 3: IMAGE TO PDF -->
+    <div id="panel-img2pdf" class="tool-panel max-w-3xl mx-auto bg-slate-800/60 border border-slate-700/70 rounded-2xl p-6 sm:p-8 backdrop-blur shadow-2xl hidden">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          <i data-lucide="image" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h2 class="text-xl font-semibold text-white">Convert Images to PDF</h2>
+          <p class="text-xs text-slate-400">Convert JPG and PNG images into a clean PDF document.</p>
+        </div>
+      </div>
+
+      <div id="img-dropzone" class="border-2 border-dashed border-slate-600 hover:border-emerald-500 rounded-xl p-8 text-center cursor-pointer transition-colors bg-slate-900/40">
+        <input type="file" id="img-input" multiple accept="image/png, image/jpeg" class="hidden">
+        <i data-lucide="images" class="w-12 h-12 text-slate-400 mx-auto mb-3"></i>
+        <p class="text-sm font-medium text-white mb-1">Click to select JPG or PNG image files</p>
+        <p class="text-xs text-slate-500">Each image will become a page in your new PDF</p>
+      </div>
+
+      <div id="img-list" class="mt-6 space-y-2 hidden">
+        <p class="text-xs text-slate-400 font-semibold px-1">Selected Images: <span id="img-count">0</span></p>
+        <div id="img-preview-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
+      </div>
+
+      <div class="mt-6 flex justify-end">
+        <button id="btn-img2pdf" onclick="processImg2Pdf()" disabled class="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-emerald-600 hover:bg-emerald-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-lg shadow-emerald-600/25">
+          <i data-lucide="download" class="w-4 h-4"></i> Generate PDF
+        </button>
+      </div>
+    </div>
+
+    <!-- PANEL 4: INSPECT PDF -->
+    <div id="panel-info" class="tool-panel max-w-3xl mx-auto bg-slate-800/60 border border-slate-700/70 rounded-2xl p-6 sm:p-8 backdrop-blur shadow-2xl hidden">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="p-2.5 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
+          <i data-lucide="file-text" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h2 class="text-xl font-semibold text-white">Inspect PDF Document</h2>
+          <p class="text-xs text-slate-400">View page count, page dimensions, author metadata and security info.</p>
+        </div>
+      </div>
+
+      <div id="info-dropzone" class="border-2 border-dashed border-slate-600 hover:border-amber-500 rounded-xl p-8 text-center cursor-pointer transition-colors bg-slate-900/40">
+        <input type="file" id="info-input" accept="application/pdf" class="hidden">
+        <i data-lucide="search" class="w-12 h-12 text-slate-400 mx-auto mb-3"></i>
+        <p class="text-sm font-medium text-white mb-1">Click to inspect any PDF file</p>
+        <p class="text-xs text-slate-500">Fast client-side metadata analysis</p>
+      </div>
+
+      <div id="info-results" class="mt-6 hidden bg-slate-900/70 border border-slate-700/80 rounded-xl p-5 space-y-3">
+        <h3 class="text-sm font-semibold text-amber-400 flex items-center gap-2">
+          <i data-lucide="check-circle" class="w-4 h-4"></i> Document Metadata
+        </h3>
+        <div class="grid grid-cols-2 gap-4 text-xs">
+          <div>
+            <span class="text-slate-500 block">Filename:</span>
+            <span id="info-name" class="font-medium text-slate-200"></span>
+          </div>
+          <div>
+            <span class="text-slate-500 block">File Size:</span>
+            <span id="info-size" class="font-medium text-slate-200"></span>
+          </div>
+          <div>
+            <span class="text-slate-500 block">Total Pages:</span>
+            <span id="info-pages" class="font-medium text-slate-200"></span>
+          </div>
+          <div>
+            <span class="text-slate-500 block">Page Dimensions (P1):</span>
+            <span id="info-dim" class="font-medium text-slate-200"></span>
+          </div>
+          <div>
+            <span class="text-slate-500 block">Title:</span>
+            <span id="info-title" class="font-medium text-slate-200"></span>
+          </div>
+          <div>
+            <span class="text-slate-500 block">Author:</span>
+            <span id="info-author" class="font-medium text-slate-200"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 max-w-sm bg-slate-800 border border-slate-700 shadow-2xl rounded-xl p-4 flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+      <div id="toast-icon"></div>
+      <div id="toast-msg" class="text-xs font-medium text-slate-200"></div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+    <p>PDF Orbit 360 &copy; 2026. Built with pdf-lib & Tailwind CSS.</p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    // Tab Switching
+    function switchTab(tool) {
+      document.querySelectorAll('.tool-panel').forEach(p => p.classList.add('hidden'));
+      document.querySelectorAll('.tool-tab').forEach(t => {
+        t.className = 'tool-tab flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all bg-slate-800 hover:bg-slate-700/80 text-slate-300';
+      });
+
+      const activeTab = document.getElementById(`tab-${tool}`);
+      const activePanel = document.getElementById(`panel-${tool}`);
+      
+      activePanel.classList.remove('hidden');
+      activeTab.className = 'tool-tab flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all bg-sky-500 text-white shadow-lg shadow-sky-500/25';
+      lucide.createIcons();
+    }
+
+    // Helper: Toast Notifications
+    function showToast(msg, isSuccess = true) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      const toastIcon = document.getElementById('toast-icon');
+
+      toastMsg.textContent = msg;
+      toastIcon.innerHTML = isSuccess 
+        ? `<svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`
+        : `<svg class="w-5 h-5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`;
+
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 4000);
+    }
+
+    // Helper: Format bytes
+    function formatBytes(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // ==========================================
+    // TOOL 1: MERGE PDFs
+    // ==========================================
+    let mergeFiles = [];
+    const mergeDropzone = document.getElementById('merge-dropzone');
+    const mergeInput = document.getElementById('merge-input');
+    const mergeList = document.getElementById('merge-list');
+    const mergeItems = document.getElementById('merge-items');
+    const mergeCount = document.getElementById('merge-count');
+    const btnMerge = document.getElementById('btn-merge');
+
+    mergeDropzone.onclick = () => mergeInput.click();
+    mergeInput.onchange = (e) => handleMergeFiles(Array.from(e.target.files));
+
+    mergeDropzone.ondragover = (e) => { e.preventDefault(); mergeDropzone.classList.add('border-sky-500'); };
+    mergeDropzone.ondragleave = () => mergeDropzone.classList.remove('border-sky-500');
+    mergeDropzone.ondrop = (e) => {
+      e.preventDefault();
+      mergeDropzone.classList.remove('border-sky-500');
+      handleMergeFiles(Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf'));
+    };
+
+    function handleMergeFiles(files) {
+      mergeFiles.push(...files);
+      renderMergeList();
+    }
+
+    function renderMergeList() {
+      mergeItems.innerHTML = '';
+      mergeCount.textContent = mergeFiles.length;
+
+      if (mergeFiles.length > 0) {
+        mergeList.classList.remove('hidden');
+        btnMerge.disabled = mergeFiles.length < 2;
+      } else {
+        mergeList.classList.add('hidden');
+        btnMerge.disabled = true;
+      }
+
+      mergeFiles.forEach((file, index) => {
+        const item = document.createElement('div');
+        item.className = 'flex items-center justify-between p-3 rounded-lg bg-slate-900/60 border border-slate-700/60 text-xs';
+        item.innerHTML = `
+          <div class="flex items-center gap-3 truncate">
+            <span class="w-6 h-6 rounded bg-slate-800 text-slate-400 flex items-center justify-center font-bold">${index + 1}</span>
+            <span class="font-medium text-slate-200 truncate">${file.name}</span>
+            <span class="text-slate-500">(${formatBytes(file.size)})</span>
+          </div>
+          <button onclick="removeMergeFile(${index})" class="text-slate-400 hover:text-red-400 ml-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        `;
+        mergeItems.appendChild(item);
+      });
+    }
+
+    function removeMergeFile(idx) {
+      mergeFiles.splice(idx, 1);
+      renderMergeList();
+    }
+
+    function clearMergeList() {
+      mergeFiles = [];
+      renderMergeList();
+    }
+
+    async function processMerge() {
+      if (mergeFiles.length < 2) return;
+      btnMerge.disabled = true;
+      btnMerge.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Merging...`;
+
+      try {
+        const mergedPdf = await PDFLib.PDFDocument.create();
+        for (const file of mergeFiles) {
+          const arrayBuffer = await file.arrayBuffer();
+          const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+          const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+          copiedPages.forEach((page) => mergedPdf.addPage(page));
+        }
+
+        const mergedPdfBytes = await mergedPdf.save();
+        downloadBlob(mergedPdfBytes, 'pdf-orbit-360-merged.pdf', 'application/pdf');
+        showToast('Successfully merged PDFs!');
+      } catch (err) {
+        console.error(err);
+        showToast('Error merging files: ' + err.message, false);
+      } finally {
+        btnMerge.disabled = false;
+        btnMerge.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i> Merge & Download PDF`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // TOOL 2: ROTATE PAGES
+    // ==========================================
+    let rotateFile = null;
+    const rotateDropzone = document.getElementById('rotate-dropzone');
+    const rotateInput = document.getElementById('rotate-input');
+    const rotateFilename = document.getElementById('rotate-filename');
+    const btnRotate = document.getElementById('btn-rotate');
+
+    rotateDropzone.onclick = () => rotateInput.click();
+    rotateInput.onchange = (e) => {
+      if (e.target.files[0]) {
+        rotateFile = e.target.files[0];
+        rotateFilename.textContent = `${rotateFile.name} (${formatBytes(rotateFile.size)})`;
+        btnRotate.disabled = false;
+      }
+    };
+
+    async function processRotate() {
+      if (!rotateFile) return;
+      btnRotate.disabled = true;
+      btnRotate.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Rotating...`;
+
+      try {
+        const deg = parseInt(document.getElementById('rotate-angle').value, 10);
+        const arrayBuffer = await rotateFile.arrayBuffer();
+        const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+        const pages = pdfDoc.getPages();
+
+        pages.forEach(page => {
+          const currentRotation = page.getRotation().angle;
+          page.setRotation(PDFLib.degrees((currentRotation + deg) % 360));
+        });
+
+        const pdfBytes = await pdfDoc.save();
+        downloadBlob(pdfBytes, `rotated-${rotateFile.name}`, 'application/pdf');
+        showToast('PDF pages rotated successfully!');
+      } catch (err) {
+        console.error(err);
+        showToast('Error rotating PDF: ' + err.message, false);
+      } finally {
+        btnRotate.disabled = false;
+        btnRotate.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i> Rotate & Download`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // TOOL 3: IMAGE TO PDF
+    // ==========================================
+    let imgFiles = [];
+    const imgDropzone = document.getElementById('img-dropzone');
+    const imgInput = document.getElementById('img-input');
+    const imgList = document.getElementById('img-list');
+    const imgPreviewGrid = document.getElementById('img-preview-grid');
+    const imgCount = document.getElementById('img-count');
+    const btnImg2Pdf = document.getElementById('btn-img2pdf');
+
+    imgDropzone.onclick = () => imgInput.click();
+    imgInput.onchange = (e) => {
+      imgFiles = Array.from(e.target.files);
+      imgCount.textContent = imgFiles.length;
+      imgPreviewGrid.innerHTML = '';
+
+      if (imgFiles.length > 0) {
+        imgList.classList.remove('hidden');
+        btnImg2Pdf.disabled = false;
+
+        imgFiles.forEach((file) => {
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            const preview = document.createElement('div');
+            preview.className = 'relative aspect-video rounded-lg overflow-hidden border border-slate-700 bg-slate-900';
+            preview.innerHTML = `<img src="${ev.target.result}" class="w-full h-full object-cover">`;
+            imgPreviewGrid.appendChild(preview);
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+    };
+
+    async function processImg2Pdf() {
+      if (imgFiles.length === 0) return;
+      btnImg2Pdf.disabled = true;
+      btnImg2Pdf.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Generating...`;
+
+      try {
+        const pdfDoc = await PDFLib.PDFDocument.create();
+
+        for (const file of imgFiles) {
+          const buffer = await file.arrayBuffer();
+          let image;
+          if (file.type === 'image/jpeg' || file.name.endsWith('.jpg') || file.name.endsWith('.jpeg')) {
+            image = await pdfDoc.embedJpg(buffer);
+          } else {
+            image = await pdfDoc.embedPng(buffer);
+          }
+
+          const page = pdfDoc.addPage([image.width, image.height]);
+          page.drawImage(image, {
+            x: 0,
+            y: 0,
+            width: image.width,
+            height: image.height,
+          });
+        }
+
+        const pdfBytes = await pdfDoc.save();
+        downloadBlob(pdfBytes, 'converted-images.pdf', 'application/pdf');
+        showToast('Images successfully converted to PDF!');
+      } catch (err) {
+        console.error(err);
+        showToast('Failed to convert images: ' + err.message, false);
+      } finally {
+        btnImg2Pdf.disabled = false;
+        btnImg2Pdf.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i> Generate PDF`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // TOOL 4: INSPECT PDF
+    // ==========================================
+    const infoDropzone = document.getElementById('info-dropzone');
+    const infoInput = document.getElementById('info-input');
+    const infoResults = document.getElementById('info-results');
+
+    infoDropzone.onclick = () => infoInput.click();
+    infoInput.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+        const pages = pdfDoc.getPages();
+        const firstPage = pages[0];
+
+        document.getElementById('info-name').textContent = file.name;
+        document.getElementById('info-size').textContent = formatBytes(file.size);
+        document.getElementById('info-pages').textContent = pages.length;
+        document.getElementById('info-dim').textContent = firstPage ? `${Math.round(firstPage.getWidth())} x ${Math.round(firstPage.getHeight())} pt` : 'N/A';
+        document.getElementById('info-title').textContent = pdfDoc.getTitle() || '(None)';
+        document.getElementById('info-author').textContent = pdfDoc.getAuthor() || '(None)';
+
+        infoResults.classList.remove('hidden');
+        showToast('PDF inspection complete!');
+      } catch (err) {
+        console.error(err);
+        showToast('Could not parse PDF: ' + err.message, false);
+      }
+    };
+
+    // Helper: Trigger Download
+    function downloadBlob(data, filename, type) {
+      const blob = new Blob([data], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>
