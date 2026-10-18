@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PDF Orbit 360 | Visual PDF Studio</title>
+  <title>PDF Orbit 360 | Visual PDF Studio & Converter</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
@@ -14,8 +14,12 @@
   <script src="https://unpkg.com/@pdfsmaller/pdf-encrypt@1.2.0/dist/pdf-encrypt.umd.js"></script>
   <!-- PDF.js for in-browser PDF rendering, thumbnail generation & text extraction -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <!-- JSZip for multi-file bundle downloads -->
+  <!-- JSZip for multi-file bundle downloads & DOCX generation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <!-- SheetJS (xlsx) for Excel spreadsheet parsing & generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <!-- Mammoth.js for Word (.docx) document parsing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
   <script>
     // Set PDF.js worker
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -89,32 +93,44 @@
     
     <!-- DASHBOARD VIEW: iLovePDF Style Tool Grid -->
     <div id="view-dashboard">
-      <div class="text-center max-w-3xl mx-auto mb-10">
+      <div class="text-center max-w-3xl mx-auto mb-8">
         <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-3">
-          Visual PDF Studio &amp; Document Intelligence
+          Visual PDF Studio &amp; Document Converter
         </h1>
         <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
-          Private, secure client-side document processing with real-time visual page inspection, splitting, organizing, and rotating.
+          Convert seamlessly between PDF, Word, Excel, Images, and Text with full visual control.
         </p>
       </div>
 
-      <!-- Tools Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <!-- Categories Filter Tabs -->
+      <div class="flex flex-wrap items-center justify-center gap-2 mb-8">
+        <button onclick="filterCategory('all')" id="btn-cat-all" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-blue-600 text-white shadow-lg shadow-blue-600/20">All Tools (16)</button>
+        <button onclick="filterCategory('convert-to-pdf')" id="btn-cat-convert-to-pdf" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">Convert to PDF</button>
+        <button onclick="filterCategory('convert-from-pdf')" id="btn-cat-convert-from-pdf" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">Convert from PDF</button>
+        <button onclick="filterCategory('organize')" id="btn-cat-organize" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">Organize &amp; Edit</button>
+        <button onclick="filterCategory('security')" id="btn-cat-security" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">Security &amp; Meta</button>
+      </div>
 
-        <!-- Tool 1: Merge -->
-        <div onclick="openTool('merge')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+      <!-- Tools Grid -->
+      <div id="tools-grid-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+
+        <!-- 1. MERGE PDF -->
+        <div data-cat="organize" onclick="openTool('merge')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="combine" class="w-6 h-6"></i>
             </div>
-            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Merge PDF</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">Combine multiple PDFs in any custom order.</p>
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Merge PDF</h3>
+              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">ASC / DSC</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">Combine multiple PDFs in any custom, ascending, or descending order.</p>
           </div>
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
 
-        <!-- Tool 2: Visual Split -->
-        <div onclick="openTool('split')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <!-- 2. VISUAL SPLIT -->
+        <div data-cat="organize" onclick="openTool('split')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="scissors" class="w-6 h-6"></i>
@@ -128,8 +144,8 @@
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
 
-        <!-- Tool 3: Visual Organize & Rearrange -->
-        <div onclick="openTool('organize')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <!-- 3. VISUAL ORGANIZE -->
+        <div data-cat="organize" onclick="openTool('organize')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="layout-grid" class="w-6 h-6"></i>
@@ -143,8 +159,8 @@
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
 
-        <!-- Tool 4: Visual Rotate -->
-        <div onclick="openTool('rotate')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <!-- 4. VISUAL ROTATE -->
+        <div data-cat="organize" onclick="openTool('rotate')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="rotate-cw" class="w-6 h-6"></i>
@@ -158,20 +174,68 @@
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
 
-        <!-- Tool 5: Compress -->
-        <div onclick="openTool('compress')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <!-- 5. PDF TO WORD (NEW) -->
+        <div data-cat="convert-from-pdf" onclick="openTool('pdf2word')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
-              <i data-lucide="minimize-2" class="w-6 h-6"></i>
+              <i data-lucide="file-type" class="w-6 h-6"></i>
             </div>
-            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Compress PDF</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">Reduce PDF file size by recompressing pages in browser memory.</p>
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">PDF to Word</h3>
+              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">DOCX</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">Convert your PDF documents into editable Word (.docx) documents.</p>
           </div>
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
 
-        <!-- Tool 6: PDF to Image -->
-        <div onclick="openTool('pdf2img')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <!-- 6. WORD TO PDF (NEW) -->
+        <div data-cat="convert-to-pdf" onclick="openTool('word2pdf')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="file-text" class="w-6 h-6"></i>
+            </div>
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Word to PDF</h3>
+              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">DOCX → PDF</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">Convert Microsoft Word (.docx) files into clean, readable PDF documents.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- 7. PDF TO EXCEL (NEW) -->
+        <div data-cat="convert-from-pdf" onclick="openTool('pdf2excel')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="table" class="w-6 h-6"></i>
+            </div>
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">PDF to Excel</h3>
+              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">XLSX</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">Extract tabular data and lines from PDF into formatted Excel spreadsheets.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- 8. EXCEL TO PDF (NEW) -->
+        <div data-cat="convert-to-pdf" onclick="openTool('excel2pdf')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="sheet" class="w-6 h-6"></i>
+            </div>
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Excel to PDF</h3>
+              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">XLSX → PDF</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">Convert Excel workbooks (.xlsx, .xls, .csv) into clean tabular PDF pages.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- 9. PDF TO IMAGE -->
+        <div data-cat="convert-from-pdf" onclick="openTool('pdf2img')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="file-image" class="w-6 h-6"></i>
@@ -182,56 +246,20 @@
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
 
-        <!-- Tool 7: Image to PDF -->
-        <div onclick="openTool('img2pdf')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <!-- 10. IMAGE TO PDF -->
+        <div data-cat="convert-to-pdf" onclick="openTool('img2pdf')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="images" class="w-6 h-6"></i>
             </div>
             <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Image to PDF</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">Convert JPG and PNG photos into a beautiful PDF document.</p>
+            <p class="text-xs text-slate-400 leading-relaxed">Convert JPG, PNG, and WEBP photos into a beautiful PDF document.</p>
           </div>
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
 
-        <!-- Tool 8: Protect PDF -->
-        <div onclick="openTool('protect')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
-              <i data-lucide="lock" class="w-6 h-6"></i>
-            </div>
-            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Protect PDF</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">Encrypt your PDF with client-side password protection.</p>
-          </div>
-          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
-        </div>
-
-        <!-- Tool 9: Add Watermark -->
-        <div onclick="openTool('watermark')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
-              <i data-lucide="stamp" class="w-6 h-6"></i>
-            </div>
-            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Add Watermark</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">Stamp custom text watermarks across all pages with custom opacity.</p>
-          </div>
-          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
-        </div>
-
-        <!-- Tool 10: Page Numbers -->
-        <div onclick="openTool('pagenums')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
-              <i data-lucide="hash" class="w-6 h-6"></i>
-            </div>
-            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Page Numbers</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">Add page numbering to your PDF with custom position &amp; format.</p>
-          </div>
-          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
-        </div>
-
-        <!-- Tool 11: Extract Text -->
-        <div onclick="openTool('extracttext')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <!-- 11. PDF TO TEXT -->
+        <div data-cat="convert-from-pdf" onclick="openTool('extracttext')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="file-text" class="w-6 h-6"></i>
@@ -242,14 +270,65 @@
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
 
-        <!-- Tool 12: Metadata Inspector -->
-        <div onclick="openTool('metadata')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <!-- 12. TEXT TO PDF (NEW) -->
+        <div data-cat="convert-to-pdf" onclick="openTool('txt2pdf')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
-              <i data-lucide="info" class="w-6 h-6"></i>
+              <i data-lucide="file-plus-2" class="w-6 h-6"></i>
             </div>
-            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">PDF Info &amp; Metadata</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">Inspect page dimensions, author, subject, keywords and PDF properties.</p>
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Text to PDF</h3>
+              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">TXT → PDF</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">Convert plain text (.txt) files into clean, paginated PDF documents.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- 13. COMPRESS PDF -->
+        <div data-cat="organize" onclick="openTool('compress')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="minimize-2" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Compress PDF</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Reduce PDF file size by recompressing pages in browser memory.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- 14. PROTECT PDF -->
+        <div data-cat="security" onclick="openTool('protect')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="lock" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Protect PDF</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Encrypt your PDF with client-side password protection.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- 15. ADD WATERMARK -->
+        <div data-cat="organize" onclick="openTool('watermark')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="stamp" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Add Watermark</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Stamp custom text watermarks across all pages with custom opacity.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- 16. PAGE NUMBERS & METADATA -->
+        <div data-cat="organize" onclick="openTool('pagenums')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="hash" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Page Numbers</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Add page numbering to your PDF with custom position &amp; format.</p>
           </div>
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
@@ -270,7 +349,7 @@
       <!-- ACTIVE TOOL CARD -->
       <div class="max-w-5xl w-full mx-auto bg-slate-900/80 border border-slate-800 rounded-3xl p-6 sm:p-8 backdrop-blur shadow-2xl flex-1 flex flex-col justify-between">
 
-        <!-- ================= TOOL 1: MERGE ================= -->
+        <!-- ================= TOOL: MERGE ================= -->
         <div id="tool-merge-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
@@ -278,7 +357,7 @@
             </div>
             <div>
               <h2 class="text-xl sm:text-2xl font-bold text-white">Merge Multiple PDFs</h2>
-              <p class="text-xs sm:text-sm text-slate-400">Select two or more PDF files to combine into a single document.</p>
+              <p class="text-xs sm:text-sm text-slate-400">Select two or more PDF files to combine. Use ASC or DSC to sort filenames automatically.</p>
             </div>
           </div>
 
@@ -312,7 +391,181 @@
           </div>
         </div>
 
-        <!-- ================= TOOL 2: VISUAL SPLIT ================= -->
+        <!-- ================= TOOL: PDF TO WORD (.DOCX) ================= -->
+        <div id="tool-pdf2word-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="file-type" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Convert PDF to Word (.docx)</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Extracts paragraphs, text structure, and headings directly into an editable Microsoft Word document.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-pdf2word" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-pdf2word" accept="application/pdf" class="hidden">
+            <i data-lucide="file-up" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-pdf2word-file" class="text-base font-semibold text-white mb-1">Select a PDF to convert to Word</p>
+            <p class="text-xs text-slate-400">Generates genuine .docx format with standard OpenXML</p>
+          </div>
+
+          <div id="preview-pdf2word" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-3">
+            <div class="flex items-center justify-between text-xs text-slate-300 font-semibold">
+              <span>Document Extraction Preview:</span>
+              <span id="pdf2word-stats" class="text-blue-400"></span>
+            </div>
+            <div id="pdf2word-text-preview" class="p-3 bg-slate-900 border border-slate-800 rounded-lg max-h-48 overflow-y-auto text-xs text-slate-300 font-sans custom-scroll whitespace-pre-wrap"></div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-pdf2word" onclick="executePdf2Word()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="download" class="w-4 h-4"></i> Convert &amp; Download Word (.docx)
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL: WORD TO PDF (.DOCX TO .PDF) ================= -->
+        <div id="tool-word2pdf-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="file-text" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Convert Word (.docx) to PDF</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Upload any Microsoft Word document to compile into a formatted, printable PDF.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-word2pdf" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-word2pdf" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="hidden">
+            <i data-lucide="file-up" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-word2pdf-file" class="text-base font-semibold text-white mb-1">Select a Word (.docx) file</p>
+            <p class="text-xs text-slate-400">Parses paragraphs, line spacing, and typography</p>
+          </div>
+
+          <div id="preview-word2pdf" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-3">
+            <div class="flex items-center justify-between text-xs text-slate-300 font-semibold">
+              <span>Parsed Word Content:</span>
+              <span id="word2pdf-stats" class="text-blue-400"></span>
+            </div>
+            <div id="word2pdf-text-preview" class="p-3 bg-slate-900 border border-slate-800 rounded-lg max-h-48 overflow-y-auto text-xs text-slate-300 font-sans custom-scroll whitespace-pre-wrap"></div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-word2pdf" onclick="executeWord2Pdf()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="download" class="w-4 h-4"></i> Generate &amp; Download PDF
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL: PDF TO EXCEL (.XLSX) ================= -->
+        <div id="tool-pdf2excel-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="table" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Convert PDF to Excel (.xlsx)</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Extracts tabular text data and arranges it automatically into structured rows &amp; columns.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-pdf2excel" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-pdf2excel" accept="application/pdf" class="hidden">
+            <i data-lucide="table" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-pdf2excel-file" class="text-base font-semibold text-white mb-1">Select a PDF with tables or data</p>
+            <p class="text-xs text-slate-400">Generates real Excel .xlsx workbook via SheetJS</p>
+          </div>
+
+          <div id="preview-pdf2excel" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-3">
+            <div class="flex items-center justify-between text-xs text-slate-300 font-semibold">
+              <span>Spreadsheet Preview:</span>
+              <span id="pdf2excel-stats" class="text-blue-400"></span>
+            </div>
+            <div id="pdf2excel-table-container" class="overflow-x-auto max-h-48 custom-scroll border border-slate-800 rounded-lg">
+              <table id="pdf2excel-table" class="w-full text-left text-xs text-slate-300 divide-y divide-slate-800"></table>
+            </div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-pdf2excel" onclick="executePdf2Excel()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="download" class="w-4 h-4"></i> Download Excel (.xlsx)
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL: EXCEL TO PDF (.XLSX TO .PDF) ================= -->
+        <div id="tool-excel2pdf-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="sheet" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Convert Excel (.xlsx) to PDF</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Convert spreadsheet tables from .xlsx, .xls, or .csv into a formatted PDF document.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-excel2pdf" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-excel2pdf" accept=".xlsx,.xls,.csv" class="hidden">
+            <i data-lucide="sheet" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-excel2pdf-file" class="text-base font-semibold text-white mb-1">Select an Excel (.xlsx / .csv) file</p>
+            <p class="text-xs text-slate-400">Formats tables cleanly into PDF pages</p>
+          </div>
+
+          <div id="preview-excel2pdf" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-3">
+            <div class="flex items-center justify-between text-xs text-slate-300 font-semibold">
+              <span>Spreadsheet Parsed:</span>
+              <span id="excel2pdf-stats" class="text-blue-400"></span>
+            </div>
+            <div id="excel2pdf-table-container" class="overflow-x-auto max-h-48 custom-scroll border border-slate-800 rounded-lg">
+              <table id="excel2pdf-table" class="w-full text-left text-xs text-slate-300 divide-y divide-slate-800"></table>
+            </div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-excel2pdf" onclick="executeExcel2Pdf()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="download" class="w-4 h-4"></i> Generate &amp; Download PDF
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL: TEXT TO PDF (.TXT TO .PDF) ================= -->
+        <div id="tool-txt2pdf-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="file-plus-2" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Convert Text (.txt) to PDF</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Convert plain text files into clean, paginated PDF documents with automatic word wrapping.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-txt2pdf" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-txt2pdf" accept=".txt,text/plain" class="hidden">
+            <i data-lucide="file-text" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-txt2pdf-file" class="text-base font-semibold text-white mb-1">Select a .txt file</p>
+            <p class="text-xs text-slate-400">Wraps words &amp; creates clean multi-page document</p>
+          </div>
+
+          <div id="preview-txt2pdf" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-3">
+            <div class="flex items-center justify-between text-xs text-slate-300 font-semibold">
+              <span>Text File Preview:</span>
+              <span id="txt2pdf-stats" class="text-blue-400"></span>
+            </div>
+            <textarea id="textarea-txt2pdf" rows="6" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs text-slate-300 font-mono focus:outline-none custom-scroll"></textarea>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-txt2pdf" onclick="executeTxt2Pdf()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="download" class="w-4 h-4"></i> Generate PDF
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL: VISUAL SPLIT ================= -->
         <div id="tool-split-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
@@ -328,12 +581,10 @@
             <input type="file" id="input-split" accept="application/pdf" class="hidden">
             <i data-lucide="file-up" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
             <p id="label-split-file" class="text-base font-semibold text-white mb-1">Select a PDF to view &amp; split pages</p>
-            <p id="sublabel-split-file" class="text-xs text-slate-400">Generates instant interactive page previews</p>
+            <p class="text-xs text-slate-400">Generates instant interactive page previews</p>
           </div>
 
-          <!-- Visual Split Workspace -->
           <div id="visual-split-workspace" class="mt-6 hidden space-y-4">
-            <!-- Toolbar -->
             <div class="flex flex-wrap items-center justify-between gap-3 p-3 bg-slate-950/70 border border-slate-800 rounded-xl">
               <div class="flex items-center gap-2">
                 <button onclick="splitSelectAll(true)" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition">Select All</button>
@@ -344,17 +595,11 @@
                 Selected: <span id="split-selected-summary" class="font-bold text-blue-400">0 of 0 pages</span>
               </div>
             </div>
-
-            <!-- Page Grid -->
-            <div id="split-thumbnails-grid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-4 max-h-[460px] overflow-y-auto custom-scroll p-3 bg-slate-950/50 rounded-2xl border border-slate-800/80">
-              <!-- Dynamically generated page thumbnails -->
-            </div>
+            <div id="split-thumbnails-grid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-4 max-h-[460px] overflow-y-auto custom-scroll p-3 bg-slate-950/50 rounded-2xl border border-slate-800/80"></div>
           </div>
 
           <div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="text-xs text-slate-400">
-              Click individual page cards to include or exclude them from the output PDF.
-            </div>
+            <div class="text-xs text-slate-400">Click individual page cards to include or exclude them from output.</div>
             <div class="flex items-center gap-3">
               <button id="btn-split-zip" onclick="executeSplitToZip()" disabled class="px-5 py-3 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 disabled:opacity-40 transition-all border border-slate-700">
                 Split Every Page to ZIP
@@ -366,7 +611,7 @@
           </div>
         </div>
 
-        <!-- ================= TOOL 3: VISUAL ORGANIZE ================= -->
+        <!-- ================= TOOL: VISUAL ORGANIZE ================= -->
         <div id="tool-organize-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
@@ -386,20 +631,13 @@
           </div>
 
           <div id="visual-organize-workspace" class="mt-6 hidden space-y-4">
-            <!-- Header bar -->
             <div class="flex items-center justify-between p-3 bg-slate-950/70 border border-slate-800 rounded-xl">
               <div class="text-xs text-slate-300 font-medium">
                 Document Status: <span id="organize-status-text" class="font-bold text-blue-400"></span>
               </div>
-              <button onclick="resetOrganizePages()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition">
-                Reset All Changes
-              </button>
+              <button onclick="resetOrganizePages()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition">Reset All Changes</button>
             </div>
-
-            <!-- Organize Thumbnails Container -->
-            <div id="organize-thumbnails-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-h-[480px] overflow-y-auto custom-scroll p-3 bg-slate-950/50 rounded-2xl border border-slate-800/80">
-              <!-- Rendered cards with Move Left, Move Right, Rotate, Delete -->
-            </div>
+            <div id="organize-thumbnails-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-h-[480px] overflow-y-auto custom-scroll p-3 bg-slate-950/50 rounded-2xl border border-slate-800/80"></div>
           </div>
 
           <div class="mt-8 flex justify-end">
@@ -409,7 +647,7 @@
           </div>
         </div>
 
-        <!-- ================= TOOL 4: VISUAL ROTATE ================= -->
+        <!-- ================= TOOL: VISUAL ROTATE ================= -->
         <div id="tool-rotate-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
@@ -428,9 +666,7 @@
             <p class="text-xs text-slate-400">Live orientation preview</p>
           </div>
 
-          <!-- Visual Rotate Workspace -->
           <div id="visual-rotate-workspace" class="mt-6 hidden space-y-4">
-            <!-- Global Rotation Toolbar -->
             <div class="flex flex-wrap items-center justify-between gap-3 p-3 bg-slate-950/70 border border-slate-800 rounded-xl">
               <div class="flex items-center gap-2">
                 <button onclick="rotateAllPages(90)" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 text-xs font-semibold border border-blue-500/30 transition">
@@ -439,19 +675,13 @@
                 <button onclick="rotateAllPages(270)" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition">
                   <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Rotate All -90°
                 </button>
-                <button onclick="rotateAllPages(180)" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition">
-                  Flip 180°
-                </button>
-                <button onclick="resetRotatePages()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 text-xs font-semibold transition">
-                  Reset
-                </button>
+                <button onclick="rotateAllPages(180)" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition">Flip 180°</button>
+                <button onclick="resetRotatePages()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 text-xs font-semibold transition">Reset</button>
               </div>
               <div class="text-xs text-slate-300 font-medium">
                 Total Pages: <span id="rotate-page-count" class="font-bold text-blue-400">0</span>
               </div>
             </div>
-
-            <!-- Page Grid with live CSS rotation -->
             <div id="rotate-thumbnails-grid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-4 max-h-[460px] overflow-y-auto custom-scroll p-3 bg-slate-950/50 rounded-2xl border border-slate-800/80"></div>
           </div>
 
@@ -462,7 +692,7 @@
           </div>
         </div>
 
-        <!-- ================= TOOL 5: COMPRESS ================= -->
+        <!-- ================= TOOL: COMPRESS PDF ================= -->
         <div id="tool-compress-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
@@ -478,7 +708,7 @@
             <input type="file" id="input-compress" accept="application/pdf" class="hidden">
             <i data-lucide="file-down" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
             <p id="label-compress-file" class="text-base font-semibold text-white mb-1">Select a PDF to compress</p>
-            <p id="sublabel-compress-file" class="text-xs text-slate-400">Optimizes document streams in memory</p>
+            <p class="text-xs text-slate-400">Optimizes document streams in memory</p>
           </div>
 
           <div id="config-compress" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-4">
@@ -515,7 +745,7 @@
           </div>
         </div>
 
-        <!-- ================= TOOL 6: PDF TO IMAGE ================= -->
+        <!-- ================= TOOL: PDF TO IMAGE ================= -->
         <div id="tool-pdf2img-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
@@ -531,7 +761,7 @@
             <input type="file" id="input-pdf2img" accept="application/pdf" class="hidden">
             <i data-lucide="file-up" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
             <p id="label-pdf2img-file" class="text-base font-semibold text-white mb-1">Select a PDF to convert to images</p>
-            <p id="sublabel-pdf2img-file" class="text-xs text-slate-400">Extracts pages at high DPI</p>
+            <p class="text-xs text-slate-400">Extracts pages at high DPI</p>
           </div>
 
           <div id="config-pdf2img" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -554,7 +784,7 @@
           </div>
         </div>
 
-        <!-- ================= TOOL 7: IMAGE TO PDF ================= -->
+        <!-- ================= TOOL: IMAGE TO PDF ================= -->
         <div id="tool-img2pdf-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
@@ -562,12 +792,12 @@
             </div>
             <div>
               <h2 class="text-xl sm:text-2xl font-bold text-white">Convert Images to PDF</h2>
-              <p class="text-xs sm:text-sm text-slate-400">Combine JPG and PNG images into a clean PDF document.</p>
+              <p class="text-xs sm:text-sm text-slate-400">Combine JPG, PNG, and WEBP images into a clean PDF document.</p>
             </div>
           </div>
 
           <div id="dropzone-img2pdf" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
-            <input type="file" id="input-img2pdf" multiple accept="image/jpeg, image/png" class="hidden">
+            <input type="file" id="input-img2pdf" multiple accept="image/jpeg, image/png, image/webp" class="hidden">
             <i data-lucide="upload-cloud" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
             <p class="text-base font-semibold text-white mb-1">Click to browse or drop JPG / PNG files</p>
             <p class="text-xs text-slate-400">Select multiple photos</p>
@@ -585,7 +815,7 @@
           </div>
         </div>
 
-        <!-- ================= TOOL 8: PROTECT / PASSWORD ================= -->
+        <!-- ================= TOOL: PROTECT / PASSWORD ================= -->
         <div id="tool-protect-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
@@ -622,7 +852,7 @@
           </div>
         </div>
 
-        <!-- ================= TOOL 9: WATERMARK ================= -->
+        <!-- ================= TOOL: ADD WATERMARK ================= -->
         <div id="tool-watermark-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
@@ -665,7 +895,7 @@
           </div>
         </div>
 
-        <!-- ================= TOOL 10: PAGE NUMBERS ================= -->
+        <!-- ================= TOOL: PAGE NUMBERS ================= -->
         <div id="tool-pagenums-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
@@ -713,7 +943,7 @@
           </div>
         </div>
 
-        <!-- ================= TOOL 11: EXTRACT TEXT ================= -->
+        <!-- ================= TOOL: EXTRACT TEXT ================= -->
         <div id="tool-extracttext-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
@@ -743,61 +973,6 @@
           <div class="mt-8 flex justify-end">
             <button id="btn-run-extracttext" onclick="downloadExtractedText()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
               <i data-lucide="download" class="w-4 h-4"></i> Download .TXT File
-            </button>
-          </div>
-        </div>
-
-        <!-- ================= TOOL 12: METADATA INSPECTOR ================= -->
-        <div id="tool-metadata-content" class="tool-content hidden">
-          <div class="flex items-center gap-3 mb-6">
-            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
-              <i data-lucide="info" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <h2 class="text-xl sm:text-2xl font-bold text-white">PDF Info &amp; Metadata Inspector</h2>
-              <p class="text-xs sm:text-sm text-slate-400">View and edit document title, author, subject, and creator.</p>
-            </div>
-          </div>
-
-          <div id="dropzone-metadata" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
-            <input type="file" id="input-metadata" accept="application/pdf" class="hidden">
-            <i data-lucide="search" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
-            <p id="label-metadata-file" class="text-base font-semibold text-white mb-1">Select a PDF to inspect metadata</p>
-            <p class="text-xs text-slate-400">View and update document properties</p>
-          </div>
-
-          <div id="config-metadata" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-4">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-xs font-semibold text-slate-400 mb-1">File Name:</label>
-                <div id="meta-display-filename" class="text-xs font-mono text-slate-200 truncate"></div>
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-400 mb-1">File Size &amp; Pages:</label>
-                <div id="meta-display-size" class="text-xs font-mono text-slate-200"></div>
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Title:</label>
-                <input type="text" id="meta-input-title" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Author:</label>
-                <input type="text" id="meta-input-author" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Subject:</label>
-                <input type="text" id="meta-input-subject" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Producer / Creator:</label>
-                <input type="text" id="meta-input-creator" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
-              </div>
-            </div>
-          </div>
-
-          <div class="mt-8 flex justify-end">
-            <button id="btn-run-metadata" onclick="executeMetadataSave()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
-              <i data-lucide="save" class="w-4 h-4"></i> Save Updated Metadata
             </button>
           </div>
         </div>
@@ -856,6 +1031,22 @@
       }
     }
 
+    function filterCategory(cat) {
+      document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+        btn.className = 'cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700';
+      });
+      document.getElementById(`btn-cat-${cat}`).className = 'cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-blue-600 text-white shadow-lg shadow-blue-600/20';
+
+      const cards = document.querySelectorAll('.tool-card');
+      cards.forEach(card => {
+        if (cat === 'all' || card.dataset.cat === cat) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
     // Helper: Toast Notifications
     function showToast(msg, isSuccess = true) {
       const toast = document.getElementById('toast');
@@ -884,7 +1075,7 @@
 
     // Helper: Download Blob
     function downloadBlob(data, filename, type) {
-      const blob = new Blob([data], { type });
+      const blob = (data instanceof Blob) ? data : new Blob([data], { type });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -917,7 +1108,7 @@
     }
 
     // ==========================================
-    // 1. MERGE PDF
+    // TOOL: MERGE PDF (With ASC / DSC)
     // ==========================================
     let mergeFiles = [];
     const dropzoneMerge = document.getElementById('dropzone-merge');
@@ -1038,11 +1229,464 @@
     }
 
     // ==========================================
-    // 2. VISUAL SPLIT PDF
+    // TOOL: PDF TO WORD (.DOCX)
+    // ==========================================
+    let pdf2WordFile = null;
+    let pdf2WordParagraphs = [];
+    const dropzonePdf2Word = document.getElementById('dropzone-pdf2word');
+    const inputPdf2Word = document.getElementById('input-pdf2word');
+    const previewPdf2Word = document.getElementById('preview-pdf2word');
+    const btnRunPdf2Word = document.getElementById('btn-run-pdf2word');
+
+    dropzonePdf2Word.onclick = () => inputPdf2Word.click();
+    inputPdf2Word.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      pdf2WordFile = file;
+
+      try {
+        document.getElementById('label-pdf2word-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        const buffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+
+        pdf2WordParagraphs = [];
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const textContent = await page.getTextContent();
+          
+          let lastY = null;
+          let currentLine = '';
+          for (const item of textContent.items) {
+            if (lastY === null || Math.abs(item.transform[5] - lastY) > 5) {
+              if (currentLine.trim()) pdf2WordParagraphs.push(currentLine.trim());
+              currentLine = item.str;
+              lastY = item.transform[5];
+            } else {
+              currentLine += ' ' + item.str;
+            }
+          }
+          if (currentLine.trim()) pdf2WordParagraphs.push(currentLine.trim());
+        }
+
+        document.getElementById('pdf2word-stats').textContent = `${pdf2WordParagraphs.length} paragraphs across ${pdf.numPages} pages`;
+        document.getElementById('pdf2word-text-preview').textContent = pdf2WordParagraphs.slice(0, 10).join('\n\n') + (pdf2WordParagraphs.length > 10 ? '\n\n[...]' : '');
+        previewPdf2Word.classList.remove('hidden');
+        btnRunPdf2Word.disabled = false;
+        showToast('PDF analyzed for Word conversion!');
+      } catch (err) {
+        showToast('PDF parse error: ' + err.message, false);
+      }
+    };
+
+    async function executePdf2Word() {
+      if (!pdf2WordFile || pdf2WordParagraphs.length === 0) return;
+      btnRunPdf2Word.disabled = true;
+      btnRunPdf2Word.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Generating Word (.docx)...`;
+
+      try {
+        const zip = new JSZip();
+        zip.file('[Content_Types].xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>`);
+        zip.folder('_rels').file('.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`);
+
+        const escapeXml = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        const bodyXml = pdf2WordParagraphs.map(p => `<w:p><w:pPr><w:spacing w:after="160" w:line="240" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri"/><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">${escapeXml(p)}</w:t></w:r></w:p>`).join('');
+
+        zip.folder('word').file('document.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>${bodyXml}</w:body></w:document>`);
+
+        const docxBlob = await zip.generateAsync({
+          type: 'blob',
+          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        });
+
+        downloadBlob(docxBlob, `${pdf2WordFile.name.replace(/\.pdf$/i, '')}.docx`, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        showToast('Converted to Word (.docx) successfully!');
+      } catch (err) {
+        showToast('Word export error: ' + err.message, false);
+      } finally {
+        btnRunPdf2Word.disabled = false;
+        btnRunPdf2Word.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i> Convert &amp; Download Word (.docx)`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // TOOL: WORD TO PDF (.DOCX TO .PDF)
+    // ==========================================
+    let word2PdfFile = null;
+    let word2PdfLines = [];
+    const dropzoneWord2Pdf = document.getElementById('dropzone-word2pdf');
+    const inputWord2Pdf = document.getElementById('input-word2pdf');
+    const previewWord2Pdf = document.getElementById('preview-word2pdf');
+    const btnRunWord2Pdf = document.getElementById('btn-run-word2pdf');
+
+    dropzoneWord2Pdf.onclick = () => inputWord2Pdf.click();
+    inputWord2Pdf.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      word2PdfFile = file;
+
+      try {
+        document.getElementById('label-word2pdf-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        const buffer = await file.arrayBuffer();
+
+        const result = await mammoth.extractRawText({ arrayBuffer: buffer });
+        const rawText = result.value || '';
+        word2PdfLines = rawText.split('\n').map(l => l.trim()).filter(Boolean);
+
+        document.getElementById('word2pdf-stats').textContent = `${word2PdfLines.length} paragraphs extracted`;
+        document.getElementById('word2pdf-text-preview').textContent = word2PdfLines.slice(0, 10).join('\n\n') + (word2PdfLines.length > 10 ? '\n\n[...]' : '');
+        previewWord2Pdf.classList.remove('hidden');
+        btnRunWord2Pdf.disabled = false;
+        showToast('Word document loaded successfully!');
+      } catch (err) {
+        showToast('Error parsing Word docx: ' + err.message, false);
+      }
+    };
+
+    async function executeWord2Pdf() {
+      if (!word2PdfFile || word2PdfLines.length === 0) return;
+      btnRunWord2Pdf.disabled = true;
+      btnRunWord2Pdf.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Generating PDF...`;
+
+      try {
+        const pdfDoc = await PDFLib.PDFDocument.create();
+        const font = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+        const fontBold = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+        const fontSize = 11;
+        const lineHeight = 16;
+        const margin = 50;
+
+        let page = pdfDoc.addPage([595.28, 841.89]); // A4
+        let y = 841.89 - margin;
+
+        for (const line of word2PdfLines) {
+          const words = line.split(' ');
+          let currentLine = '';
+
+          for (const word of words) {
+            const testLine = currentLine ? currentLine + ' ' + word : word;
+            const width = font.widthOfTextAtSize(testLine, fontSize);
+
+            if (width < (595.28 - margin * 2)) {
+              currentLine = testLine;
+            } else {
+              if (y < margin + lineHeight) {
+                page = pdfDoc.addPage([595.28, 841.89]);
+                y = 841.89 - margin;
+              }
+              page.drawText(currentLine, { x: margin, y, size: fontSize, font, color: PDFLib.rgb(0.1, 0.1, 0.1) });
+              y -= lineHeight;
+              currentLine = word;
+            }
+          }
+
+          if (currentLine) {
+            if (y < margin + lineHeight) {
+              page = pdfDoc.addPage([595.28, 841.89]);
+              y = 841.89 - margin;
+            }
+            page.drawText(currentLine, { x: margin, y, size: fontSize, font, color: PDFLib.rgb(0.1, 0.1, 0.1) });
+            y -= (lineHeight + 6); // Paragraph spacing
+          }
+        }
+
+        const pdfBytes = await pdfDoc.save();
+        downloadBlob(pdfBytes, `${word2PdfFile.name.replace(/\.docx$/i, '')}.pdf`, 'application/pdf');
+        showToast('Word file converted to PDF successfully!');
+      } catch (err) {
+        showToast('PDF generation error: ' + err.message, false);
+      } finally {
+        btnRunWord2Pdf.disabled = false;
+        btnRunWord2Pdf.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i> Generate &amp; Download PDF`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // TOOL: PDF TO EXCEL (.XLSX)
+    // ==========================================
+    let pdf2ExcelFile = null;
+    let pdf2ExcelRows = [];
+    const dropzonePdf2Excel = document.getElementById('dropzone-pdf2excel');
+    const inputPdf2Excel = document.getElementById('input-pdf2excel');
+    const previewPdf2Excel = document.getElementById('preview-pdf2excel');
+    const btnRunPdf2Excel = document.getElementById('btn-run-pdf2excel');
+
+    dropzonePdf2Excel.onclick = () => inputPdf2Excel.click();
+    inputPdf2Excel.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      pdf2ExcelFile = file;
+
+      try {
+        document.getElementById('label-pdf2excel-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        const buffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+
+        pdf2ExcelRows = [];
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const textContent = await page.getTextContent();
+          
+          const lineMap = new Map();
+          for (const item of textContent.items) {
+            const y = Math.round(item.transform[5]);
+            const x = Math.round(item.transform[4]);
+            if (!lineMap.has(y)) lineMap.set(y, []);
+            lineMap.get(y).push({ x, str: item.str });
+          }
+
+          const sortedYs = Array.from(lineMap.keys()).sort((a, b) => b - a);
+          for (const y of sortedYs) {
+            const items = lineMap.get(y).sort((a, b) => a.x - b.x);
+            const rowValues = items.map(it => it.str.trim()).filter(Boolean);
+            if (rowValues.length > 0) pdf2ExcelRows.push(rowValues);
+          }
+        }
+
+        document.getElementById('pdf2excel-stats').textContent = `${pdf2ExcelRows.length} rows extracted`;
+        
+        const table = document.getElementById('pdf2excel-table');
+        table.innerHTML = '';
+        pdf2ExcelRows.slice(0, 8).forEach(row => {
+          const tr = document.createElement('tr');
+          row.forEach(cell => {
+            const td = document.createElement('td');
+            td.className = 'px-3 py-2 border-b border-slate-800 whitespace-nowrap';
+            td.textContent = cell;
+            tr.appendChild(td);
+          });
+          table.appendChild(tr);
+        });
+
+        previewPdf2Excel.classList.remove('hidden');
+        btnRunPdf2Excel.disabled = false;
+        showToast('Tabular data extracted from PDF!');
+      } catch (err) {
+        showToast('PDF parse error: ' + err.message, false);
+      }
+    };
+
+    function executePdf2Excel() {
+      if (!pdf2ExcelFile || pdf2ExcelRows.length === 0) return;
+      btnRunPdf2Excel.disabled = true;
+      btnRunPdf2Excel.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Generating Excel...`;
+
+      try {
+        const ws = XLSX.utils.aoa_to_sheet(pdf2ExcelRows);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Extracted Data');
+
+        const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        downloadBlob(wbout, `${pdf2ExcelFile.name.replace(/\.pdf$/i, '')}.xlsx`, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        showToast('Converted to Excel (.xlsx) successfully!');
+      } catch (err) {
+        showToast('Excel export error: ' + err.message, false);
+      } finally {
+        btnRunPdf2Excel.disabled = false;
+        btnRunPdf2Excel.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i> Download Excel (.xlsx)`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // TOOL: EXCEL TO PDF (.XLSX TO .PDF)
+    // ==========================================
+    let excel2PdfFile = null;
+    let excel2PdfRows = [];
+    const dropzoneExcel2Pdf = document.getElementById('dropzone-excel2pdf');
+    const inputExcel2Pdf = document.getElementById('input-excel2pdf');
+    const previewExcel2Pdf = document.getElementById('preview-excel2pdf');
+    const btnRunExcel2Pdf = document.getElementById('btn-run-excel2pdf');
+
+    dropzoneExcel2Pdf.onclick = () => inputExcel2Pdf.click();
+    inputExcel2Pdf.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      excel2PdfFile = file;
+
+      try {
+        document.getElementById('label-excel2pdf-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        const buffer = await file.arrayBuffer();
+        const wb = XLSX.read(buffer, { type: 'array' });
+        const firstSheetName = wb.SheetNames[0];
+        const ws = wb.Sheets[firstSheetName];
+
+        excel2PdfRows = XLSX.utils.sheet_to_json(ws, { header: 1 });
+        document.getElementById('excel2pdf-stats').textContent = `${excel2PdfRows.length} rows loaded from sheet "${firstSheetName}"`;
+
+        const table = document.getElementById('excel2pdf-table');
+        table.innerHTML = '';
+        excel2PdfRows.slice(0, 8).forEach(row => {
+          const tr = document.createElement('tr');
+          row.forEach(cell => {
+            const td = document.createElement('td');
+            td.className = 'px-3 py-2 border-b border-slate-800 whitespace-nowrap';
+            td.textContent = cell !== undefined ? cell : '';
+            tr.appendChild(td);
+          });
+          table.appendChild(tr);
+        });
+
+        previewExcel2Pdf.classList.remove('hidden');
+        btnRunExcel2Pdf.disabled = false;
+        showToast('Excel spreadsheet loaded!');
+      } catch (err) {
+        showToast('Error reading Excel: ' + err.message, false);
+      }
+    };
+
+    async function executeExcel2Pdf() {
+      if (!excel2PdfFile || excel2PdfRows.length === 0) return;
+      btnRunExcel2Pdf.disabled = true;
+      btnRunExcel2Pdf.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Generating PDF...`;
+
+      try {
+        const pdfDoc = await PDFLib.PDFDocument.create();
+        const font = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+        const fontBold = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+        
+        const pageWidth = 841.89; // Landscape A4
+        const pageHeight = 595.28;
+        const margin = 40;
+        const rowHeight = 22;
+
+        let page = pdfDoc.addPage([pageWidth, pageHeight]);
+        let y = pageHeight - margin - 20;
+
+        // Draw title
+        page.drawText(`Spreadsheet: ${excel2PdfFile.name}`, {
+          x: margin, y: pageHeight - margin, size: 14, font: fontBold, color: PDFLib.rgb(0.1, 0.3, 0.8)
+        });
+
+        // Determine column count & width
+        const maxCols = Math.min(8, Math.max(...excel2PdfRows.map(r => r.length)));
+        const colWidth = (pageWidth - margin * 2) / maxCols;
+
+        excel2PdfRows.forEach((row, rowIdx) => {
+          if (y < margin + rowHeight) {
+            page = pdfDoc.addPage([pageWidth, pageHeight]);
+            y = pageHeight - margin;
+          }
+
+          const isHeader = (rowIdx === 0);
+          if (isHeader) {
+            page.drawRectangle({
+              x: margin,
+              y: y - 4,
+              width: pageWidth - margin * 2,
+              height: rowHeight,
+              color: PDFLib.rgb(0.9, 0.93, 0.98)
+            });
+          }
+
+          for (let c = 0; c < maxCols; c++) {
+            const val = String(row[c] !== undefined ? row[c] : '').substring(0, 24);
+            page.drawText(val, {
+              x: margin + c * colWidth + 4,
+              y: y + 2,
+              size: isHeader ? 10 : 9,
+              font: isHeader ? fontBold : font,
+              color: isHeader ? PDFLib.rgb(0.1, 0.2, 0.5) : PDFLib.rgb(0.15, 0.15, 0.15)
+            });
+          }
+
+          y -= rowHeight;
+        });
+
+        const pdfBytes = await pdfDoc.save();
+        downloadBlob(pdfBytes, `${excel2PdfFile.name.replace(/\.(xlsx|xls|csv)$/i, '')}.pdf`, 'application/pdf');
+        showToast('Excel converted to PDF successfully!');
+      } catch (err) {
+        showToast('PDF error: ' + err.message, false);
+      } finally {
+        btnRunExcel2Pdf.disabled = false;
+        btnRunExcel2Pdf.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i> Generate &amp; Download PDF`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // TOOL: TEXT TO PDF (.TXT TO .PDF)
+    // ==========================================
+    let txt2PdfFile = null;
+    let txt2PdfContent = '';
+    const dropzoneTxt2Pdf = document.getElementById('dropzone-txt2pdf');
+    const inputTxt2Pdf = document.getElementById('input-txt2pdf');
+    const previewTxt2Pdf = document.getElementById('preview-txt2pdf');
+    const btnRunTxt2Pdf = document.getElementById('btn-run-txt2pdf');
+
+    dropzoneTxt2Pdf.onclick = () => inputTxt2Pdf.click();
+    inputTxt2Pdf.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      txt2PdfFile = file;
+
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        txt2PdfContent = ev.target.result;
+        document.getElementById('label-txt2pdf-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        document.getElementById('txt2pdf-stats').textContent = `${txt2PdfContent.length} characters`;
+        document.getElementById('textarea-txt2pdf').value = txt2PdfContent;
+        previewTxt2Pdf.classList.remove('hidden');
+        btnRunTxt2Pdf.disabled = false;
+        showToast('Text file loaded!');
+      };
+      reader.readAsText(file);
+    };
+
+    async function executeTxt2Pdf() {
+      const content = document.getElementById('textarea-txt2pdf').value;
+      if (!content.trim()) return;
+
+      btnRunTxt2Pdf.disabled = true;
+      btnRunTxt2Pdf.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Generating PDF...`;
+
+      try {
+        const pdfDoc = await PDFLib.PDFDocument.create();
+        const font = await pdfDoc.embedFont(PDFLib.StandardFonts.Courier);
+        const fontSize = 10;
+        const lineHeight = 14;
+        const margin = 50;
+        const pageWidth = 595.28;
+        const pageHeight = 841.89;
+
+        let page = pdfDoc.addPage([pageWidth, pageHeight]);
+        let y = pageHeight - margin;
+
+        const lines = content.split('\n');
+        for (const line of lines) {
+          const maxChars = Math.floor((pageWidth - margin * 2) / (fontSize * 0.6));
+          const chunks = line.match(new RegExp(`.{1,${maxChars}}`, 'g')) || [''];
+
+          for (const chunk of chunks) {
+            if (y < margin + lineHeight) {
+              page = pdfDoc.addPage([pageWidth, pageHeight]);
+              y = pageHeight - margin;
+            }
+            page.drawText(chunk, { x: margin, y, size: fontSize, font, color: PDFLib.rgb(0.1, 0.1, 0.1) });
+            y -= lineHeight;
+          }
+        }
+
+        const pdfBytes = await pdfDoc.save();
+        downloadBlob(pdfBytes, `${txt2PdfFile ? txt2PdfFile.name.replace(/\.txt$/i, '') : 'document'}.pdf`, 'application/pdf');
+        showToast('Text converted to PDF successfully!');
+      } catch (err) {
+        showToast('PDF error: ' + err.message, false);
+      } finally {
+        btnRunTxt2Pdf.disabled = false;
+        btnRunTxt2Pdf.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i> Generate PDF`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // TOOL: VISUAL SPLIT PDF
     // ==========================================
     let splitFile = null;
     let splitDocCache = null;
-    let splitPagesState = []; // array of { index: 0, pageNum: 1, selected: true }
+    let splitPagesState = [];
     const dropzoneSplit = document.getElementById('dropzone-split');
     const inputSplit = document.getElementById('input-split');
     const visualSplitWorkspace = document.getElementById('visual-split-workspace');
@@ -1214,11 +1858,11 @@
     }
 
     // ==========================================
-    // 3. VISUAL ORGANIZE & REARRANGE
+    // TOOL: VISUAL ORGANIZE & REARRANGE
     // ==========================================
     let organizeFile = null;
     let organizeDocCache = null;
-    let organizePages = []; // array of { origIndex, currentRotation, deleted, dataUrl }
+    let organizePages = [];
     const dropzoneOrganize = document.getElementById('dropzone-organize');
     const inputOrganize = document.getElementById('input-organize');
     const visualOrganizeWorkspace = document.getElementById('visual-organize-workspace');
@@ -1364,11 +2008,11 @@
     }
 
     // ==========================================
-    // 4. VISUAL ROTATE PDF
+    // TOOL: VISUAL ROTATE PDF
     // ==========================================
     let rotateFile = null;
     let rotateDocCache = null;
-    let rotatePagesState = []; // array of { index, angle, dataUrl }
+    let rotatePagesState = [];
     const dropzoneRotate = document.getElementById('dropzone-rotate');
     const inputRotate = document.getElementById('input-rotate');
     const visualRotateWorkspace = document.getElementById('visual-rotate-workspace');
@@ -1478,7 +2122,7 @@
     }
 
     // ==========================================
-    // 5. COMPRESS PDF
+    // TOOL: COMPRESS PDF
     // ==========================================
     let compressFile = null;
     const dropzoneCompress = document.getElementById('dropzone-compress');
@@ -1550,7 +2194,7 @@
     }
 
     // ==========================================
-    // 6. PDF TO IMAGE
+    // TOOL: PDF TO IMAGE
     // ==========================================
     let pdf2ImgFile = null;
     let pdf2ImgNumPages = 0;
@@ -1625,7 +2269,7 @@
     }
 
     // ==========================================
-    // 7. IMAGE TO PDF
+    // TOOL: IMAGE TO PDF
     // ==========================================
     let img2PdfFiles = [];
     const dropzoneImg2Pdf = document.getElementById('dropzone-img2pdf');
@@ -1692,7 +2336,7 @@
     }
 
     // ==========================================
-    // 8. PROTECT / PASSWORD (With @pdfsmaller/pdf-encrypt UMD)
+    // TOOL: PROTECT / PASSWORD
     // ==========================================
     let protectFile = null;
     const dropzoneProtect = document.getElementById('dropzone-protect');
@@ -1733,7 +2377,6 @@
         let encryptedBytes;
 
         if (window.PDFEncrypt && typeof window.PDFEncrypt.encryptPDF === 'function') {
-          // Encrypt with RC4 fallback to support all origins including file://
           encryptedBytes = await window.PDFEncrypt.encryptPDF(buffer, p1, {
             ownerPassword: p1,
             algorithm: 'RC4'
@@ -1755,7 +2398,7 @@
     }
 
     // ==========================================
-    // 9. ADD WATERMARK
+    // TOOL: ADD WATERMARK
     // ==========================================
     let watermarkFile = null;
     const dropzoneWatermark = document.getElementById('dropzone-watermark');
@@ -1818,13 +2461,13 @@
     }
 
     // ==========================================
-    // 10. PAGE NUMBERS
+    // TOOL: PAGE NUMBERS
     // ==========================================
     let pageNumsFile = null;
     const dropzonePageNums = document.getElementById('dropzone-pagenums');
     const inputPageNums = document.getElementById('input-pagenums');
     const configPageNums = document.getElementById('config-pagenums');
-    const btnRunPageNums = document.getElementById('btn-run-pageNums');
+    const btnRunPageNums = document.getElementById('btn-run-pagenums');
 
     dropzonePageNums.onclick = () => inputPageNums.click();
     inputPageNums.onchange = (e) => {
@@ -1899,7 +2542,7 @@
     }
 
     // ==========================================
-    // 11. EXTRACT TEXT
+    // TOOL: EXTRACT TEXT
     // ==========================================
     let extractTextFile = null;
     let extractedTextContent = '';
@@ -1948,66 +2591,6 @@
     function downloadExtractedText() {
       if (!extractedTextContent) return;
       downloadBlob(extractedTextContent, `${extractTextFile.name.replace('.pdf', '')}-text.txt`, 'text/plain');
-    }
-
-    // ==========================================
-    // 12. METADATA INSPECTOR & EDITOR
-    // ==========================================
-    let metadataFile = null;
-    let metadataDoc = null;
-    const dropzoneMetadata = document.getElementById('dropzone-metadata');
-    const inputMetadata = document.getElementById('input-metadata');
-    const configMetadata = document.getElementById('config-metadata');
-    const btnRunMetadata = document.getElementById('btn-run-metadata');
-
-    dropzoneMetadata.onclick = () => inputMetadata.click();
-    inputMetadata.onchange = async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      metadataFile = file;
-
-      try {
-        document.getElementById('label-metadata-file').textContent = `${file.name} (${formatBytes(file.size)})`;
-        const buffer = await file.arrayBuffer();
-        metadataDoc = await PDFLib.PDFDocument.load(buffer);
-
-        document.getElementById('meta-display-filename').textContent = file.name;
-        document.getElementById('meta-display-size').textContent = `${formatBytes(file.size)} • ${metadataDoc.getPageCount()} pages`;
-
-        document.getElementById('meta-input-title').value = metadataDoc.getTitle() || '';
-        document.getElementById('meta-input-author').value = metadataDoc.getAuthor() || '';
-        document.getElementById('meta-input-subject').value = metadataDoc.getSubject() || '';
-        document.getElementById('meta-input-creator').value = metadataDoc.getCreator() || '';
-
-        configMetadata.classList.remove('hidden');
-        btnRunMetadata.disabled = false;
-        showToast('Document properties loaded!');
-      } catch (err) {
-        showToast('Metadata read error: ' + err.message, false);
-      }
-    };
-
-    async function executeMetadataSave() {
-      if (!metadataDoc || !metadataFile) return;
-      btnRunMetadata.disabled = true;
-      btnRunMetadata.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Saving...`;
-
-      try {
-        metadataDoc.setTitle(document.getElementById('meta-input-title').value.trim());
-        metadataDoc.setAuthor(document.getElementById('meta-input-author').value.trim());
-        metadataDoc.setSubject(document.getElementById('meta-input-subject').value.trim());
-        metadataDoc.setCreator(document.getElementById('meta-input-creator').value.trim());
-
-        const bytes = await metadataDoc.save();
-        downloadBlob(bytes, `updated-${metadataFile.name}`, 'application/pdf');
-        showToast('Updated metadata saved!');
-      } catch (err) {
-        showToast('Save error: ' + err.message, false);
-      } finally {
-        btnRunMetadata.disabled = false;
-        btnRunMetadata.innerHTML = `<i data-lucide="save" class="w-4 h-4"></i> Save Updated Metadata`;
-        lucide.createIcons();
-      }
     }
   </script>
 </body>
