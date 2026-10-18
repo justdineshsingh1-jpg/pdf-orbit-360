@@ -1154,19 +1154,28 @@
 
               <!-- Interactive Live Preview Canvas -->
               <div class="relative border border-slate-800 rounded-2xl bg-slate-950 p-4 flex flex-col items-center justify-center overflow-auto max-h-[560px]">
-                <p class="text-xs text-blue-400 mb-2 font-semibold flex items-center gap-1.5">
-                  <i data-lucide="hand" class="w-4 h-4"></i> Click anywhere on the page or drag the signature box to place it!
+                <p class="text-xs text-blue-400 mb-2 font-semibold flex items-center gap-1.5 select-none">
+                  <i data-lucide="hand" class="w-4 h-4"></i> Click anywhere on the document or drag the signature box directly to place it!
                 </p>
-                <div id="sign-preview-wrapper" class="relative inline-block shadow-2xl cursor-crosshair select-none">
-                  <canvas id="sign-preview-canvas" class="rounded max-w-full block"></canvas>
+                <div id="sign-preview-wrapper" class="relative inline-block shadow-2xl select-none" style="touch-action: none;">
+                  <canvas id="sign-preview-canvas" class="rounded max-w-full block cursor-crosshair select-none" style="touch-action: none;"></canvas>
                   <!-- Draggable & Resizable Stamp -->
-                  <div id="sign-overlay-stamp" class="absolute transform -translate-x-1/2 -translate-y-1/2 border-2 border-blue-500 rounded-lg p-1.5 bg-blue-600/15 cursor-move shadow-2xl transition-[shadow,border-color] hover:border-blue-400 group">
-                    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-blue-600 text-white text-[10px] font-bold shadow flex items-center gap-1 select-none pointer-events-none whitespace-nowrap">
+                  <div id="sign-overlay-stamp"
+                       class="absolute transform -translate-x-1/2 -translate-y-1/2 border-2 border-blue-500 rounded-xl p-1.5 bg-blue-600/20 cursor-move shadow-2xl transition-[border-color] hover:border-blue-400 select-none"
+                       style="touch-action: none; user-select: none;"
+                       draggable="false"
+                       ondragstart="return false;">
+                    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-blue-600 text-white text-[10px] font-bold shadow-lg flex items-center gap-1 select-none pointer-events-none whitespace-nowrap">
                       <i data-lucide="move" class="w-2.5 h-2.5"></i> Drag Anywhere
                     </div>
-                    <img id="sign-overlay-img" class="w-full h-full object-contain pointer-events-none select-none">
+                    <img id="sign-overlay-img" class="w-full h-full object-contain pointer-events-none select-none" draggable="false">
                     <!-- Resize Handle -->
-                    <div id="sign-resize-handle" class="absolute -bottom-1.5 -right-1.5 w-4 h-4 rounded-full bg-blue-500 border-2 border-white cursor-se-resize shadow-md hover:scale-125 transition-transform" title="Drag to Resize"></div>
+                    <div id="sign-resize-handle"
+                         class="absolute -bottom-2 -right-2 w-5 h-5 rounded-full bg-blue-500 border-2 border-white cursor-se-resize shadow-lg flex items-center justify-center hover:scale-125 transition-transform select-none"
+                         style="touch-action: none;"
+                         title="Drag to Resize">
+                      <div class="w-1.5 h-1.5 rounded-full bg-white pointer-events-none"></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -3489,103 +3498,145 @@
       updateSignOverlay();
     }
 
-    // Manual Drag & Corner Resize Engine for Signature
+    // ========================================================
+    // BULLETPROOF DRAG & DROP ENGINE FOR SIGNATURE PLACEMENT
+    // ========================================================
     let isDraggingStamp = false;
     let isResizingStamp = false;
-    let dragStartX = 0, dragStartY = 0;
-    let initialStampX = 50, initialStampY = 85;
-    let initialScale = 140;
-    let stampDragInitialized = false;
+    let dragOffsetXPct = 0;
+    let dragOffsetYPct = 0;
+    let resizeStartScale = 140;
+    let resizeStartClientX = 0;
+    let stampEngineInitialized = false;
 
     function initStampDragAndResize() {
-      if (stampDragInitialized) return;
-      const previewWrapper = document.getElementById('sign-preview-wrapper');
+      if (stampEngineInitialized) return;
+
+      const stamp = document.getElementById('sign-overlay-stamp');
+      const wrapper = document.getElementById('sign-preview-wrapper');
+      const canvas = document.getElementById('sign-preview-canvas');
       const resizeHandle = document.getElementById('sign-resize-handle');
-      if (!signOverlayStamp || !previewWrapper || !signPreviewCanvas) return;
 
-      stampDragInitialized = true;
+      if (!stamp || !wrapper || !canvas) return;
+      stampEngineInitialized = true;
 
-      // 1. Drag Stamp across page (mouse + touch)
-      const onStampPointerDown = (e) => {
-        if (e.target === resizeHandle || (resizeHandle && resizeHandle.contains(e.target))) return;
-        isDraggingStamp = true;
-        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-        dragStartX = clientX;
-        dragStartY = clientY;
-        initialStampX = parseFloat(document.getElementById('sign-pos-x').value) || 50;
-        initialStampY = parseFloat(document.getElementById('sign-pos-y').value) || 85;
-        e.preventDefault();
-      };
-
-      const onPointerMove = (e) => {
-        if (!isDraggingStamp && !isResizingStamp) return;
-        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-        const rect = signPreviewCanvas.getBoundingClientRect();
-        if (rect.width === 0 || rect.height === 0) return;
-
-        if (isDraggingStamp) {
-          const deltaX = clientX - dragStartX;
-          const deltaY = clientY - dragStartY;
-
-          const deltaXPct = (deltaX / rect.width) * 100;
-          const deltaYPct = (deltaY / rect.height) * 100;
-
-          const newX = Math.round(Math.max(4, Math.min(96, initialStampX + deltaXPct)));
-          const newY = Math.round(Math.max(4, Math.min(96, initialStampY + deltaYPct)));
-
-          document.getElementById('sign-pos-x').value = newX;
-          document.getElementById('sign-pos-y').value = newY;
-          updateSignOverlay();
-        } else if (isResizingStamp) {
-          const deltaX = clientX - dragStartX;
-          const newScale = Math.round(Math.max(60, Math.min(300, initialScale + deltaX)));
-          document.getElementById('sign-scale').value = newScale;
-          updateSignOverlay();
-        }
-      };
-
-      const onPointerUp = () => {
-        isDraggingStamp = false;
-        isResizingStamp = false;
-      };
-
-      signOverlayStamp.addEventListener('mousedown', onStampPointerDown);
-      signOverlayStamp.addEventListener('touchstart', onStampPointerDown, { passive: false });
-
-      // 2. Corner Resize Handle (mouse + touch)
-      if (resizeHandle) {
-        const onResizeDown = (e) => {
-          isResizingStamp = true;
-          const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-          dragStartX = clientX;
-          initialScale = parseInt(document.getElementById('sign-scale').value) || 140;
-          e.stopPropagation();
-          e.preventDefault();
-        };
-        resizeHandle.addEventListener('mousedown', onResizeDown);
-        resizeHandle.addEventListener('touchstart', onResizeDown, { passive: false });
+      // Helper to compute percentage within preview wrapper
+      function getWrapperPercentages(clientX, clientY) {
+        const rect = wrapper.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) return { pctX: 50, pctY: 50 };
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
+        const pctX = Math.round(Math.max(4, Math.min(96, (x / rect.width) * 100)));
+        const pctY = Math.round(Math.max(4, Math.min(96, (y / rect.height) * 100)));
+        return { pctX, pctY };
       }
 
-      window.addEventListener('mousemove', onPointerMove);
-      window.addEventListener('touchmove', onPointerMove, { passive: false });
-      window.addEventListener('mouseup', onPointerUp);
-      window.addEventListener('touchend', onPointerUp);
+      // 1. Direct Signature Box Drag
+      stamp.addEventListener('pointerdown', (e) => {
+        if (e.target === resizeHandle || (resizeHandle && resizeHandle.contains(e.target))) {
+          return;
+        }
+        e.preventDefault();
+        e.stopPropagation();
 
-      // 3. Click anywhere on page canvas to jump signature to click position
-      signPreviewCanvas.addEventListener('click', (e) => {
-        const rect = signPreviewCanvas.getBoundingClientRect();
-        const clickX = e.clientX - rect.left;
-        const clickY = e.clientY - rect.top;
+        isDraggingStamp = true;
+        stamp.setPointerCapture(e.pointerId);
 
-        const newX = Math.round(Math.max(4, Math.min(96, (clickX / rect.width) * 100)));
-        const newY = Math.round(Math.max(4, Math.min(96, (clickY / rect.height) * 100)));
+        const currentX = parseFloat(document.getElementById('sign-pos-x').value) || 50;
+        const currentY = parseFloat(document.getElementById('sign-pos-y').value) || 85;
+        const pointerPos = getWrapperPercentages(e.clientX, e.clientY);
+
+        dragOffsetXPct = pointerPos.pctX - currentX;
+        dragOffsetYPct = pointerPos.pctY - currentY;
+      });
+
+      stamp.addEventListener('pointermove', (e) => {
+        if (!isDraggingStamp) return;
+        e.preventDefault();
+        e.stopPropagation();
+
+        const pointerPos = getWrapperPercentages(e.clientX, e.clientY);
+        const newX = Math.round(Math.max(4, Math.min(96, pointerPos.pctX - dragOffsetXPct)));
+        const newY = Math.round(Math.max(4, Math.min(96, pointerPos.pctY - dragOffsetYPct)));
 
         document.getElementById('sign-pos-x').value = newX;
         document.getElementById('sign-pos-y').value = newY;
         updateSignOverlay();
       });
+
+      const onStampPointerUp = (e) => {
+        if (isDraggingStamp) {
+          isDraggingStamp = false;
+          try { stamp.releasePointerCapture(e.pointerId); } catch (_) {}
+        }
+      };
+
+      stamp.addEventListener('pointerup', onStampPointerUp);
+      stamp.addEventListener('pointercancel', onStampPointerUp);
+
+      // 2. Corner Resize Handle Drag
+      if (resizeHandle) {
+        resizeHandle.addEventListener('pointerdown', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          isResizingStamp = true;
+          resizeHandle.setPointerCapture(e.pointerId);
+          resizeStartClientX = e.clientX;
+          resizeStartScale = parseInt(document.getElementById('sign-scale').value) || 140;
+        });
+
+        resizeHandle.addEventListener('pointermove', (e) => {
+          if (!isResizingStamp) return;
+          e.preventDefault();
+          e.stopPropagation();
+          const deltaX = e.clientX - resizeStartClientX;
+          const newScale = Math.round(Math.max(60, Math.min(320, resizeStartScale + deltaX)));
+          document.getElementById('sign-scale').value = newScale;
+          updateSignOverlay();
+        });
+
+        const onResizePointerUp = (e) => {
+          if (isResizingStamp) {
+            isResizingStamp = false;
+            try { resizeHandle.releasePointerCapture(e.pointerId); } catch (_) {}
+          }
+        };
+
+        resizeHandle.addEventListener('pointerup', onResizePointerUp);
+        resizeHandle.addEventListener('pointercancel', onResizePointerUp);
+      }
+
+      // 3. Click or Drag Anywhere on Document Canvas
+      canvas.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        const pos = getWrapperPercentages(e.clientX, e.clientY);
+        document.getElementById('sign-pos-x').value = pos.pctX;
+        document.getElementById('sign-pos-y').value = pos.pctY;
+        updateSignOverlay();
+
+        isDraggingStamp = true;
+        dragOffsetXPct = 0;
+        dragOffsetYPct = 0;
+        canvas.setPointerCapture(e.pointerId);
+      });
+
+      canvas.addEventListener('pointermove', (e) => {
+        if (!isDraggingStamp) return;
+        const pos = getWrapperPercentages(e.clientX, e.clientY);
+        document.getElementById('sign-pos-x').value = pos.pctX;
+        document.getElementById('sign-pos-y').value = pos.pctY;
+        updateSignOverlay();
+      });
+
+      const onCanvasPointerUp = (e) => {
+        if (isDraggingStamp) {
+          isDraggingStamp = false;
+          try { canvas.releasePointerCapture(e.pointerId); } catch (_) {}
+        }
+      };
+
+      canvas.addEventListener('pointerup', onCanvasPointerUp);
+      canvas.addEventListener('pointercancel', onCanvasPointerUp);
     }
 
     function updateSignOverlay() {
