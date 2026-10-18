@@ -1153,11 +1153,20 @@
               </div>
 
               <!-- Interactive Live Preview Canvas -->
-              <div class="relative border border-slate-800 rounded-2xl bg-slate-950 p-4 flex justify-center overflow-auto max-h-[500px]">
-                <div id="sign-preview-wrapper" class="relative inline-block shadow-2xl">
+              <div class="relative border border-slate-800 rounded-2xl bg-slate-950 p-4 flex flex-col items-center justify-center overflow-auto max-h-[560px]">
+                <p class="text-xs text-blue-400 mb-2 font-semibold flex items-center gap-1.5">
+                  <i data-lucide="hand" class="w-4 h-4"></i> Click anywhere on the page or drag the signature box to place it!
+                </p>
+                <div id="sign-preview-wrapper" class="relative inline-block shadow-2xl cursor-crosshair select-none">
                   <canvas id="sign-preview-canvas" class="rounded max-w-full block"></canvas>
-                  <div id="sign-overlay-stamp" class="absolute pointer-events-none transform -translate-x-1/2 -translate-y-1/2 border-2 border-dashed border-blue-500 rounded p-1 bg-blue-500/10">
-                    <img id="sign-overlay-img" class="w-full h-full object-contain">
+                  <!-- Draggable & Resizable Stamp -->
+                  <div id="sign-overlay-stamp" class="absolute transform -translate-x-1/2 -translate-y-1/2 border-2 border-blue-500 rounded-lg p-1.5 bg-blue-600/15 cursor-move shadow-2xl transition-[shadow,border-color] hover:border-blue-400 group">
+                    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-blue-600 text-white text-[10px] font-bold shadow flex items-center gap-1 select-none pointer-events-none whitespace-nowrap">
+                      <i data-lucide="move" class="w-2.5 h-2.5"></i> Drag Anywhere
+                    </div>
+                    <img id="sign-overlay-img" class="w-full h-full object-contain pointer-events-none select-none">
+                    <!-- Resize Handle -->
+                    <div id="sign-resize-handle" class="absolute -bottom-1.5 -right-1.5 w-4 h-4 rounded-full bg-blue-500 border-2 border-white cursor-se-resize shadow-md hover:scale-125 transition-transform" title="Drag to Resize"></div>
                   </div>
                 </div>
               </div>
@@ -3393,9 +3402,11 @@
 
         signWorkspace.classList.remove('hidden');
         btnRunSign.disabled = false;
+        initStampDragAndResize();
         await renderSignPagePreview();
         renderTypedSignature();
         updateSignOverlay();
+        lucide.createIcons();
         showToast(`Loaded ${file.name} (${signTotalPages} pages) for signing!`);
       } catch (err) {
         showToast('Error loading PDF: ' + err.message, false);
@@ -3476,6 +3487,105 @@
       const ctx = signPreviewCanvas.getContext('2d');
       await page.render({ canvasContext: ctx, viewport }).promise;
       updateSignOverlay();
+    }
+
+    // Manual Drag & Corner Resize Engine for Signature
+    let isDraggingStamp = false;
+    let isResizingStamp = false;
+    let dragStartX = 0, dragStartY = 0;
+    let initialStampX = 50, initialStampY = 85;
+    let initialScale = 140;
+    let stampDragInitialized = false;
+
+    function initStampDragAndResize() {
+      if (stampDragInitialized) return;
+      const previewWrapper = document.getElementById('sign-preview-wrapper');
+      const resizeHandle = document.getElementById('sign-resize-handle');
+      if (!signOverlayStamp || !previewWrapper || !signPreviewCanvas) return;
+
+      stampDragInitialized = true;
+
+      // 1. Drag Stamp across page (mouse + touch)
+      const onStampPointerDown = (e) => {
+        if (e.target === resizeHandle || (resizeHandle && resizeHandle.contains(e.target))) return;
+        isDraggingStamp = true;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        dragStartX = clientX;
+        dragStartY = clientY;
+        initialStampX = parseFloat(document.getElementById('sign-pos-x').value) || 50;
+        initialStampY = parseFloat(document.getElementById('sign-pos-y').value) || 85;
+        e.preventDefault();
+      };
+
+      const onPointerMove = (e) => {
+        if (!isDraggingStamp && !isResizingStamp) return;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const rect = signPreviewCanvas.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) return;
+
+        if (isDraggingStamp) {
+          const deltaX = clientX - dragStartX;
+          const deltaY = clientY - dragStartY;
+
+          const deltaXPct = (deltaX / rect.width) * 100;
+          const deltaYPct = (deltaY / rect.height) * 100;
+
+          const newX = Math.round(Math.max(4, Math.min(96, initialStampX + deltaXPct)));
+          const newY = Math.round(Math.max(4, Math.min(96, initialStampY + deltaYPct)));
+
+          document.getElementById('sign-pos-x').value = newX;
+          document.getElementById('sign-pos-y').value = newY;
+          updateSignOverlay();
+        } else if (isResizingStamp) {
+          const deltaX = clientX - dragStartX;
+          const newScale = Math.round(Math.max(60, Math.min(300, initialScale + deltaX)));
+          document.getElementById('sign-scale').value = newScale;
+          updateSignOverlay();
+        }
+      };
+
+      const onPointerUp = () => {
+        isDraggingStamp = false;
+        isResizingStamp = false;
+      };
+
+      signOverlayStamp.addEventListener('mousedown', onStampPointerDown);
+      signOverlayStamp.addEventListener('touchstart', onStampPointerDown, { passive: false });
+
+      // 2. Corner Resize Handle (mouse + touch)
+      if (resizeHandle) {
+        const onResizeDown = (e) => {
+          isResizingStamp = true;
+          const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+          dragStartX = clientX;
+          initialScale = parseInt(document.getElementById('sign-scale').value) || 140;
+          e.stopPropagation();
+          e.preventDefault();
+        };
+        resizeHandle.addEventListener('mousedown', onResizeDown);
+        resizeHandle.addEventListener('touchstart', onResizeDown, { passive: false });
+      }
+
+      window.addEventListener('mousemove', onPointerMove);
+      window.addEventListener('touchmove', onPointerMove, { passive: false });
+      window.addEventListener('mouseup', onPointerUp);
+      window.addEventListener('touchend', onPointerUp);
+
+      // 3. Click anywhere on page canvas to jump signature to click position
+      signPreviewCanvas.addEventListener('click', (e) => {
+        const rect = signPreviewCanvas.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const clickY = e.clientY - rect.top;
+
+        const newX = Math.round(Math.max(4, Math.min(96, (clickX / rect.width) * 100)));
+        const newY = Math.round(Math.max(4, Math.min(96, (clickY / rect.height) * 100)));
+
+        document.getElementById('sign-pos-x').value = newX;
+        document.getElementById('sign-pos-y').value = newY;
+        updateSignOverlay();
+      });
     }
 
     function updateSignOverlay() {
