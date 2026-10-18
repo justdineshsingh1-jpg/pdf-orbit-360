@@ -56,8 +56,19 @@
       background-color: #334155;
       border-radius: 4px;
     }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
     .thumb-transition {
       transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    /* Touch optimization */
+    button, input, select, textarea {
+      touch-action: manipulation;
     }
   </style>
 </head>
@@ -65,51 +76,51 @@
 
   <!-- Header -->
   <header class="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-3 cursor-pointer" onclick="showDashboard()">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-sky-400 flex items-center justify-center shadow-lg shadow-blue-600/30">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-2.5 sm:gap-3 cursor-pointer" onclick="showDashboard()">
+        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-sky-400 flex items-center justify-center shadow-lg shadow-blue-600/30 flex-shrink-0">
           <i data-lucide="layers" class="w-5 h-5 text-white"></i>
         </div>
-        <div>
-          <span class="text-xl font-bold bg-gradient-to-r from-blue-400 via-sky-300 to-indigo-200 bg-clip-text text-transparent">PDF Orbit 360</span>
-          <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-blue-600/20 text-blue-400 border border-blue-500/30">Secure &amp; Offline</span>
+        <div class="flex items-center">
+          <span class="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-400 via-sky-300 to-indigo-200 bg-clip-text text-transparent">PDF Orbit 360</span>
+          <span class="hidden sm:inline-block ml-2 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-blue-600/20 text-blue-400 border border-blue-500/30">Secure &amp; Offline</span>
         </div>
       </div>
       
-      <div class="flex items-center gap-3">
-        <button onclick="showDashboard()" class="text-xs sm:text-sm font-medium text-slate-300 hover:text-white px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition">
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button onclick="showDashboard()" class="text-xs sm:text-sm font-medium text-slate-300 hover:text-white px-2.5 sm:px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition">
           All Tools
         </button>
-        <button onclick="shareApp()" class="flex items-center gap-1.5 text-xs sm:text-sm font-medium text-blue-400 hover:text-white px-3.5 py-1.5 rounded-lg border border-blue-500/30 bg-blue-600/10 hover:bg-blue-600 transition">
+        <button onclick="shareApp()" class="flex items-center gap-1.5 text-xs sm:text-sm font-medium text-blue-400 hover:text-white px-2.5 sm:px-3.5 py-1.5 rounded-lg border border-blue-500/30 bg-blue-600/10 hover:bg-blue-600 transition">
           <i data-lucide="share-2" class="w-4 h-4"></i>
-          <span>Share</span>
+          <span class="hidden xs:inline">Share</span>
         </button>
       </div>
     </div>
   </header>
 
   <!-- Main Container -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col">
+  <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8 flex flex-col">
     
     <!-- DASHBOARD VIEW: iLovePDF Style Tool Grid -->
     <div id="view-dashboard">
-      <div class="text-center max-w-3xl mx-auto mb-8">
-        <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-3">
+      <div class="text-center max-w-3xl mx-auto mb-6 sm:mb-8 px-1">
+        <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight mb-2 sm:mb-3">
           Visual PDF Studio &amp; Document Converter
         </h1>
-        <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+        <p class="text-slate-400 text-xs sm:text-base leading-relaxed">
           Convert seamlessly between PDF, Word, Excel, Images, and Text with full visual control.
         </p>
       </div>
 
-      <!-- Categories Filter Tabs -->
-      <div class="flex flex-wrap items-center justify-center gap-2 mb-8">
-        <button onclick="filterCategory('all')" id="btn-cat-all" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-blue-600 text-white shadow-lg shadow-blue-600/20">All Tools (23)</button>
-        <button onclick="filterCategory('intelligence')" id="btn-cat-intelligence" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-blue-400"></i> PDF Intelligence <span class="bg-blue-600/30 text-blue-300 text-[9px] px-1.5 py-0.2 rounded-full font-bold">New!</span></button>
-        <button onclick="filterCategory('convert-to-pdf')" id="btn-cat-convert-to-pdf" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">Convert to PDF</button>
-        <button onclick="filterCategory('convert-from-pdf')" id="btn-cat-convert-from-pdf" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">Convert from PDF</button>
-        <button onclick="filterCategory('organize')" id="btn-cat-organize" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">Organize &amp; Edit</button>
-        <button onclick="filterCategory('security')" id="btn-cat-security" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">Security &amp; Meta</button>
+      <!-- Categories Filter Tabs (Horizontal scroll with touch snap on mobile) -->
+      <div class="flex items-center justify-start sm:justify-center gap-2 mb-6 sm:mb-8 overflow-x-auto pb-2 px-1 -mx-3 sm:mx-0 custom-scroll no-scrollbar sm:flex-wrap">
+        <button onclick="filterCategory('all')" id="btn-cat-all" class="cat-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold transition bg-blue-600 text-white shadow-lg shadow-blue-600/20 flex-shrink-0">All Tools (23)</button>
+        <button onclick="filterCategory('intelligence')" id="btn-cat-intelligence" class="cat-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex items-center gap-1.5 flex-shrink-0"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-blue-400"></i> PDF Intelligence <span class="bg-blue-600/30 text-blue-300 text-[9px] px-1.5 py-0.2 rounded-full font-bold">New!</span></button>
+        <button onclick="filterCategory('convert-to-pdf')" id="btn-cat-convert-to-pdf" class="cat-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex-shrink-0">Convert to PDF</button>
+        <button onclick="filterCategory('convert-from-pdf')" id="btn-cat-convert-from-pdf" class="cat-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex-shrink-0">Convert from PDF</button>
+        <button onclick="filterCategory('organize')" id="btn-cat-organize" class="cat-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex-shrink-0">Organize &amp; Edit</button>
+        <button onclick="filterCategory('security')" id="btn-cat-security" class="cat-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex-shrink-0">Security &amp; Meta</button>
       </div>
 
       <!-- Tools Grid -->
@@ -445,15 +456,15 @@
     <!-- WORKSPACE VIEW: Active Tool Container -->
     <div id="view-workspace" class="hidden flex-1 flex flex-col">
       <!-- Back button & Breadcrumb -->
-      <div class="flex items-center justify-between mb-6">
-        <button onclick="showDashboard()" class="flex items-center gap-2 text-sm text-slate-400 hover:text-white px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition">
-          <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to All Tools
+      <div class="flex items-center justify-between mb-4 sm:mb-6">
+        <button onclick="showDashboard()" class="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-slate-400 hover:text-white px-3 sm:px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Tools
         </button>
-        <span id="workspace-badge" class="text-xs font-medium px-3.5 py-1.5 rounded-full bg-blue-600/10 text-blue-400 border border-blue-500/20"></span>
+        <span id="workspace-badge" class="text-[11px] sm:text-xs font-medium px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-blue-600/10 text-blue-400 border border-blue-500/20 max-w-[170px] sm:max-w-none truncate"></span>
       </div>
 
       <!-- ACTIVE TOOL CARD -->
-      <div class="max-w-5xl w-full mx-auto bg-slate-900/80 border border-slate-800 rounded-3xl p-6 sm:p-8 backdrop-blur shadow-2xl flex-1 flex flex-col justify-between">
+      <div class="max-w-5xl w-full mx-auto bg-slate-900/80 border border-slate-800 rounded-2xl sm:rounded-3xl p-4 sm:p-8 backdrop-blur shadow-2xl flex-1 flex flex-col justify-between">
 
         <!-- ================= TOOL: MERGE ================= -->
         <div id="tool-merge-content" class="tool-content hidden">
