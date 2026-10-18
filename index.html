@@ -104,7 +104,7 @@
 
       <!-- Categories Filter Tabs -->
       <div class="flex flex-wrap items-center justify-center gap-2 mb-8">
-        <button onclick="filterCategory('all')" id="btn-cat-all" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-blue-600 text-white shadow-lg shadow-blue-600/20">All Tools (16)</button>
+        <button onclick="filterCategory('all')" id="btn-cat-all" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-blue-600 text-white shadow-lg shadow-blue-600/20">All Tools (20)</button>
         <button onclick="filterCategory('convert-to-pdf')" id="btn-cat-convert-to-pdf" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">Convert to PDF</button>
         <button onclick="filterCategory('convert-from-pdf')" id="btn-cat-convert-from-pdf" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">Convert from PDF</button>
         <button onclick="filterCategory('organize')" id="btn-cat-organize" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">Organize &amp; Edit</button>
@@ -329,6 +329,66 @@
             </div>
             <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Page Numbers</h3>
             <p class="text-xs text-slate-400 leading-relaxed">Add page numbering to your PDF with custom position &amp; format.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- 17. SIGN PDF -->
+        <div data-cat="security organize" onclick="openTool('sign')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="pen-tool" class="w-6 h-6"></i>
+            </div>
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Sign PDF</h3>
+              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">E-Sign</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">Sign yourself or add digital signatures. Draw, type, or upload your signature.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- 18. UNLOCK PDF -->
+        <div data-cat="security" onclick="openTool('unlock')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="unlock" class="w-6 h-6"></i>
+            </div>
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Unlock PDF</h3>
+              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">Security</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">Remove PDF password security and permissions to use your PDFs freely.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- 19. COMPARE PDF -->
+        <div data-cat="organize" onclick="openTool('compare')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="columns-2" class="w-6 h-6"></i>
+            </div>
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Compare PDF</h3>
+              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">Side-by-Side</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">Show a side-by-side document comparison and easily spot changes between versions.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- 20. REDACT PDF -->
+        <div data-cat="security organize" onclick="openTool('redact')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="eye-off" class="w-6 h-6"></i>
+            </div>
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Redact PDF</h3>
+              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">Sanitize</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">Redact text and graphics to permanently remove sensitive &amp; confidential info.</p>
           </div>
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
@@ -977,6 +1037,347 @@
           </div>
         </div>
 
+        <!-- ================= TOOL: SIGN PDF ================= -->
+        <div id="tool-sign-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="pen-tool" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Sign PDF Document</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Draw, type, or upload your electronic signature and place it visually on any page.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-sign" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-sign" accept="application/pdf" class="hidden">
+            <i data-lucide="pen-tool" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-sign-file" class="text-base font-semibold text-white mb-1">Select a PDF to sign</p>
+            <p class="text-xs text-slate-400">PDFs are processed 100% locally on your device</p>
+          </div>
+
+          <div id="sign-workspace" class="mt-6 space-y-6 hidden">
+            <!-- Signature Creation Box -->
+            <div class="p-5 bg-slate-950/60 border border-slate-800 rounded-2xl space-y-4">
+              <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                <span class="text-sm font-bold text-white flex items-center gap-2">
+                  <i data-lucide="edit-3" class="w-4 h-4 text-blue-400"></i> Step 1: Create Signature
+                </span>
+                <div class="flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800">
+                  <button id="tab-sig-draw" onclick="setSignMode('draw')" class="px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition">Draw</button>
+                  <button id="tab-sig-type" onclick="setSignMode('type')" class="px-3 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">Type</button>
+                  <button id="tab-sig-upload" onclick="setSignMode('upload')" class="px-3 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">Upload Image</button>
+                </div>
+              </div>
+
+              <!-- Draw Mode -->
+              <div id="sign-mode-draw" class="space-y-3">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs text-slate-400">Color:</span>
+                    <button onclick="setSignColor('#000000')" class="w-5 h-5 rounded-full bg-black border-2 border-slate-600 focus:ring-2 focus:ring-blue-500" title="Black"></button>
+                    <button onclick="setSignColor('#2563eb')" class="w-5 h-5 rounded-full bg-blue-600 border border-blue-400 focus:ring-2 focus:ring-blue-500" title="Blue"></button>
+                    <button onclick="setSignColor('#dc2626')" class="w-5 h-5 rounded-full bg-red-600 border border-red-400 focus:ring-2 focus:ring-blue-500" title="Red"></button>
+                  </div>
+                  <button onclick="clearSignCanvas()" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition">
+                    Clear Pad
+                  </button>
+                </div>
+                <div class="border border-slate-800 rounded-xl bg-white/95 p-1 flex items-center justify-center">
+                  <canvas id="sign-pad-canvas" width="500" height="150" class="w-full h-36 cursor-crosshair touch-none"></canvas>
+                </div>
+              </div>
+
+              <!-- Type Mode -->
+              <div id="sign-mode-type" class="space-y-3 hidden">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-xs text-slate-400 mb-1">Your Name / Initials</label>
+                    <input type="text" id="sign-type-input" placeholder="e.g. Dinesh Singh" oninput="renderTypedSignature()" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500 font-sans">
+                  </div>
+                  <div>
+                    <label class="block text-xs text-slate-400 mb-1">Handwriting Font Style</label>
+                    <select id="sign-type-font" onchange="renderTypedSignature()" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+                      <option value="'Brush Script MT', cursive">Script Elegant</option>
+                      <option value="'Segoe Script', cursive">Modern Casual</option>
+                      <option value="'Lucida Handwriting', cursive">Classic Pen</option>
+                      <option value="cursive">Fluid Signature</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="border border-slate-800 rounded-xl bg-white/95 p-4 flex items-center justify-center min-h-[90px]">
+                  <canvas id="sign-typed-canvas" width="500" height="120" class="w-full h-24"></canvas>
+                </div>
+              </div>
+
+              <!-- Upload Mode -->
+              <div id="sign-mode-upload" class="space-y-3 hidden">
+                <div class="border border-slate-800 rounded-xl p-4 bg-slate-900 text-center">
+                  <input type="file" id="sign-upload-input" accept="image/png,image/jpeg" onchange="handleSignatureImageUpload(event)" class="hidden">
+                  <button onclick="document.getElementById('sign-upload-input').click()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-white transition">
+                    Browse Signature Image (PNG/JPG)
+                  </button>
+                  <p class="text-[11px] text-slate-400 mt-2">Transparent PNG recommended for best results</p>
+                  <div id="sign-upload-preview" class="mt-3 hidden flex justify-center">
+                    <img id="sign-upload-img" class="max-h-24 bg-white/10 p-2 rounded-lg object-contain">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Page Placement Controls -->
+            <div class="p-5 bg-slate-950/60 border border-slate-800 rounded-2xl space-y-4">
+              <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                <span class="text-sm font-bold text-white flex items-center gap-2">
+                  <i data-lucide="map-pin" class="w-4 h-4 text-blue-400"></i> Step 2: Choose Page &amp; Position
+                </span>
+                <div class="flex items-center gap-2">
+                  <label class="text-xs text-slate-400 font-semibold">Target Page:</label>
+                  <select id="sign-page-select" onchange="renderSignPagePreview()" class="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-blue-500"></select>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                <div>
+                  <label class="block text-slate-400 mb-1">Horizontal (X %): <span id="sign-pos-x-lbl" class="text-blue-400 font-bold">50%</span></label>
+                  <input type="range" id="sign-pos-x" min="5" max="95" value="50" oninput="updateSignOverlay()" class="w-full accent-blue-600">
+                </div>
+                <div>
+                  <label class="block text-slate-400 mb-1">Vertical (Y % from top): <span id="sign-pos-y-lbl" class="text-blue-400 font-bold">85%</span></label>
+                  <input type="range" id="sign-pos-y" min="5" max="95" value="85" oninput="updateSignOverlay()" class="w-full accent-blue-600">
+                </div>
+                <div>
+                  <label class="block text-slate-400 mb-1">Signature Scale: <span id="sign-scale-lbl" class="text-blue-400 font-bold">140px</span></label>
+                  <input type="range" id="sign-scale" min="60" max="300" value="140" oninput="updateSignOverlay()" class="w-full accent-blue-600">
+                </div>
+              </div>
+
+              <!-- Interactive Live Preview Canvas -->
+              <div class="relative border border-slate-800 rounded-2xl bg-slate-950 p-4 flex justify-center overflow-auto max-h-[500px]">
+                <div id="sign-preview-wrapper" class="relative inline-block shadow-2xl">
+                  <canvas id="sign-preview-canvas" class="rounded max-w-full block"></canvas>
+                  <div id="sign-overlay-stamp" class="absolute pointer-events-none transform -translate-x-1/2 -translate-y-1/2 border-2 border-dashed border-blue-500 rounded p-1 bg-blue-500/10">
+                    <img id="sign-overlay-img" class="w-full h-full object-contain">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-sign" onclick="executeSignPdf()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="pen-tool" class="w-4 h-4"></i> Apply Signature &amp; Download PDF
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL: UNLOCK PDF ================= -->
+        <div id="tool-unlock-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="unlock" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Unlock Protected PDF</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Remove PDF password security and permissions so you can use and edit your document freely.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-unlock" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-unlock" accept="application/pdf" class="hidden">
+            <i data-lucide="lock-keyhole-open" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-unlock-file" class="text-base font-semibold text-white mb-1">Select a protected PDF to unlock</p>
+            <p class="text-xs text-slate-400">Instant client-side decryption in browser memory</p>
+          </div>
+
+          <div id="config-unlock" class="mt-6 space-y-4 hidden">
+            <div class="p-5 bg-slate-950/60 border border-slate-800 rounded-2xl space-y-4">
+              <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Document Security Credentials</h4>
+              <div>
+                <label class="block text-xs font-semibold text-slate-400 mb-1.5">Document Password (if encrypted)</label>
+                <div class="relative">
+                  <input type="password" id="input-unlock-password" placeholder="Enter password to decrypt..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500">
+                  <button type="button" onclick="toggleUnlockPasswordVisibility()" class="absolute right-3 top-3 text-slate-500 hover:text-white">
+                    <i id="eye-unlock" data-lucide="eye" class="w-5 h-5"></i>
+                  </button>
+                </div>
+                <p class="text-[11px] text-slate-500 mt-2">If your PDF has permissions locks (preventing printing or editing) or user encryption, enter its password to permanently remove all restrictions.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-unlock" onclick="executeUnlockPdf()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="unlock" class="w-4 h-4"></i> Unlock &amp; Download PDF
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL: COMPARE PDF ================= -->
+        <div id="tool-compare-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="columns-2" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Compare Two PDF Documents</h2>
+              <p class="text-xs sm:text-sm text-slate-400">View two PDF versions side-by-side and easily detect additions, deletions, and visual changes.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div id="dropzone-compare-a" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-6 text-center cursor-pointer transition-colors bg-slate-950/40">
+              <input type="file" id="input-compare-a" accept="application/pdf" class="hidden">
+              <i data-lucide="file-text" class="w-10 h-10 text-blue-500 mx-auto mb-2"></i>
+              <p id="label-compare-a" class="text-sm font-semibold text-white mb-0.5">Select Original PDF (Document A)</p>
+              <p class="text-[11px] text-slate-400">First / baseline version</p>
+            </div>
+
+            <div id="dropzone-compare-b" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-6 text-center cursor-pointer transition-colors bg-slate-950/40">
+              <input type="file" id="input-compare-b" accept="application/pdf" class="hidden">
+              <i data-lucide="file-diff" class="w-10 h-10 text-sky-400 mx-auto mb-2"></i>
+              <p id="label-compare-b" class="text-sm font-semibold text-white mb-0.5">Select Modified PDF (Document B)</p>
+              <p class="text-[11px] text-slate-400">Second / updated version</p>
+            </div>
+          </div>
+
+          <div id="compare-workspace" class="mt-6 space-y-5 hidden">
+            <!-- Summary Stats -->
+            <div class="flex flex-wrap items-center justify-between gap-3 p-4 bg-slate-950/70 border border-slate-800 rounded-2xl">
+              <div class="flex flex-wrap items-center gap-4 text-xs">
+                <span class="text-slate-300 font-semibold">Doc A: <strong id="compare-pages-a" class="text-blue-400">0</strong> pages</span>
+                <span class="text-slate-300 font-semibold">Doc B: <strong id="compare-pages-b" class="text-sky-400">0</strong> pages</span>
+                <span class="text-emerald-400 font-semibold flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Added words: <strong id="compare-added-cnt">0</strong></span>
+                <span class="text-red-400 font-semibold flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-red-500"></span> Removed words: <strong id="compare-removed-cnt">0</strong></span>
+              </div>
+              <div class="flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800">
+                <button id="btn-compare-view-visual" onclick="setCompareView('visual')" class="px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition">Side-by-Side Visual</button>
+                <button id="btn-compare-view-text" onclick="setCompareView('text')" class="px-3 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">Text Diff</button>
+              </div>
+            </div>
+
+            <!-- Visual Side-by-Side View -->
+            <div id="compare-view-visual" class="space-y-4">
+              <div class="flex items-center justify-between text-xs px-1">
+                <div class="flex items-center gap-2">
+                  <button onclick="changeComparePage(-1)" class="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300">
+                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                  </button>
+                  <span class="font-bold text-white">Page <span id="compare-curr-page">1</span> of <span id="compare-total-pages">1</span></span>
+                  <button onclick="changeComparePage(1)" class="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300">
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                  </button>
+                </div>
+                <span class="text-slate-500">Synchronized visual comparison</span>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-3 bg-slate-950/80 border border-slate-800 rounded-2xl flex flex-col items-center">
+                  <span class="text-xs font-bold text-blue-400 mb-2">Original Document A</span>
+                  <canvas id="compare-canvas-a" class="max-w-full max-h-[460px] rounded shadow-lg object-contain bg-white"></canvas>
+                </div>
+                <div class="p-3 bg-slate-950/80 border border-slate-800 rounded-2xl flex flex-col items-center">
+                  <span class="text-xs font-bold text-sky-400 mb-2">Modified Document B</span>
+                  <canvas id="compare-canvas-b" class="max-w-full max-h-[460px] rounded shadow-lg object-contain bg-white"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Text Diff View -->
+            <div id="compare-view-text" class="space-y-3 hidden">
+              <div class="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl">
+                <div class="flex items-center gap-4 text-xs mb-3 pb-2 border-b border-slate-800">
+                  <span class="flex items-center gap-1.5 text-emerald-400"><span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">+ Green</span> Inserted in Document B</span>
+                  <span class="flex items-center gap-1.5 text-red-400"><span class="px-1.5 py-0.5 rounded bg-red-500/20 text-red-300 font-mono">- Red</span> Deleted from Document A</span>
+                </div>
+                <div id="compare-diff-output" class="text-xs leading-relaxed font-mono whitespace-pre-wrap max-h-96 overflow-y-auto custom-scroll text-slate-300 p-2"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-compare" onclick="downloadComparisonReport()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="download" class="w-4 h-4"></i> Download Comparison Report (.TXT)
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL: REDACT PDF ================= -->
+        <div id="tool-redact-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="eye-off" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Redact PDF Sensitive Information</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Draw blackout redaction boxes to permanently sanitize and remove private information from your PDF.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-redact" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-redact" accept="application/pdf" class="hidden">
+            <i data-lucide="shield-alert" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-redact-file" class="text-base font-semibold text-white mb-1">Select a PDF to redact</p>
+            <p class="text-xs text-slate-400">Click &amp; drag to blackout sensitive text and graphics</p>
+          </div>
+
+          <div id="redact-workspace" class="mt-6 space-y-4 hidden">
+            <!-- Controls toolbar -->
+            <div class="flex flex-wrap items-center justify-between gap-3 p-4 bg-slate-950/80 border border-slate-800 rounded-2xl">
+              <div class="flex items-center gap-2">
+                <button onclick="changeRedactPage(-1)" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300">
+                  <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                </button>
+                <span class="text-xs font-bold text-white">Page <span id="redact-curr-page">1</span> of <span id="redact-total-pages">1</span></span>
+                <button onclick="changeRedactPage(1)" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300">
+                  <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-3 text-xs">
+                <div class="flex items-center gap-2">
+                  <span class="text-slate-400">Color:</span>
+                  <select id="redact-color-select" onchange="updateRedactStyle()" class="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1 text-white focus:outline-none">
+                    <option value="#000000">Solid Black</option>
+                    <option value="#1e293b">Dark Slate</option>
+                    <option value="#ffffff">Whiteout</option>
+                  </select>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <span class="text-slate-400">Text Label:</span>
+                  <select id="redact-label-select" onchange="updateRedactStyle()" class="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1 text-white focus:outline-none">
+                    <option value="">None (Solid Box)</option>
+                    <option value="REDACTED">REDACTED</option>
+                    <option value="CONFIDENTIAL">CONFIDENTIAL</option>
+                  </select>
+                </div>
+
+                <button onclick="clearCurrentPageRedactions()" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-red-950 text-slate-300 hover:text-red-400 border border-slate-700 text-xs font-semibold transition">
+                  Clear Page Redactions (<span id="redact-page-count">0</span>)
+                </button>
+              </div>
+            </div>
+
+            <!-- Drawing Canvas Area -->
+            <div class="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl flex flex-col items-center">
+              <p class="text-xs text-slate-400 mb-3 flex items-center gap-1.5">
+                <i data-lucide="info" class="w-4 h-4 text-blue-400"></i> Click &amp; drag on the page below to create blackout redaction boxes over sensitive items.
+              </p>
+              <div id="redact-canvas-wrapper" class="relative inline-block border border-slate-800 rounded shadow-2xl bg-white select-none">
+                <canvas id="redact-page-canvas" class="block max-w-full cursor-crosshair"></canvas>
+                <canvas id="redact-drawing-canvas" class="absolute inset-0 w-full h-full cursor-crosshair pointer-events-auto"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-redact" onclick="executeRedactPdf()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="shield-check" class="w-4 h-4"></i> Apply Permanent Redactions &amp; Download
+            </button>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -1083,7 +1484,7 @@
 
       const cards = document.querySelectorAll('.tool-card');
       cards.forEach(card => {
-        if (cat === 'all' || card.dataset.cat === cat) {
+        if (cat === 'all' || (card.dataset.cat && card.dataset.cat.includes(cat))) {
           card.classList.remove('hidden');
         } else {
           card.classList.add('hidden');
@@ -2890,6 +3291,784 @@
     function downloadExtractedText() {
       if (!extractedTextContent) return;
       downloadBlob(extractedTextContent, `${extractTextFile.name.replace('.pdf', '')}-text.txt`, 'text/plain');
+    }
+
+    // ==========================================
+    // TOOL: SIGN PDF (ELECTRONIC SIGNATURE)
+    // ==========================================
+    let signFile = null;
+    let signActivePdf = null;
+    let signTotalPages = 1;
+    let signTargetPage = 1;
+    let signCurrentMode = 'draw';
+    let signStrokeColor = '#000000';
+    let signUploadedDataUrl = null;
+    let isDrawingSignature = false;
+    let lastSigX = 0, lastSigY = 0;
+
+    const dropzoneSign = document.getElementById('dropzone-sign');
+    const inputSign = document.getElementById('input-sign');
+    const signWorkspace = document.getElementById('sign-workspace');
+    const btnRunSign = document.getElementById('btn-run-sign');
+    const signPadCanvas = document.getElementById('sign-pad-canvas');
+    const signPadCtx = signPadCanvas ? signPadCanvas.getContext('2d') : null;
+    const signTypedCanvas = document.getElementById('sign-typed-canvas');
+    const signTypedCtx = signTypedCanvas ? signTypedCanvas.getContext('2d') : null;
+    const signPreviewCanvas = document.getElementById('sign-preview-canvas');
+    const signOverlayStamp = document.getElementById('sign-overlay-stamp');
+    const signOverlayImg = document.getElementById('sign-overlay-img');
+
+    // Drawing Pad Setup
+    if (signPadCanvas) {
+      signPadCtx.lineCap = 'round';
+      signPadCtx.lineJoin = 'round';
+      signPadCtx.lineWidth = 2.5;
+
+      const getPos = (e) => {
+        const rect = signPadCanvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return {
+          x: (clientX - rect.left) * (signPadCanvas.width / rect.width),
+          y: (clientY - rect.top) * (signPadCanvas.height / rect.height)
+        };
+      };
+
+      const startDraw = (e) => {
+        isDrawingSignature = true;
+        const pos = getPos(e);
+        lastSigX = pos.x;
+        lastSigY = pos.y;
+      };
+
+      const draw = (e) => {
+        if (!isDrawingSignature) return;
+        e.preventDefault();
+        const pos = getPos(e);
+        signPadCtx.strokeStyle = signStrokeColor;
+        signPadCtx.beginPath();
+        signPadCtx.moveTo(lastSigX, lastSigY);
+        signPadCtx.lineTo(pos.x, pos.y);
+        signPadCtx.stroke();
+        lastSigX = pos.x;
+        lastSigY = pos.y;
+        updateSignOverlay();
+      };
+
+      const stopDraw = () => {
+        if (isDrawingSignature) {
+          isDrawingSignature = false;
+          updateSignOverlay();
+        }
+      };
+
+      signPadCanvas.addEventListener('mousedown', startDraw);
+      signPadCanvas.addEventListener('mousemove', draw);
+      window.addEventListener('mouseup', stopDraw);
+      signPadCanvas.addEventListener('touchstart', startDraw, { passive: false });
+      signPadCanvas.addEventListener('touchmove', draw, { passive: false });
+      window.addEventListener('touchend', stopDraw);
+    }
+
+    dropzoneSign.onclick = () => inputSign.click();
+    inputSign.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      signFile = file;
+
+      try {
+        document.getElementById('label-sign-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        const buffer = await file.arrayBuffer();
+        signActivePdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+        signTotalPages = signActivePdf.numPages;
+
+        const sel = document.getElementById('sign-page-select');
+        sel.innerHTML = '';
+        for (let i = 1; i <= signTotalPages; i++) {
+          const opt = document.createElement('option');
+          opt.value = i;
+          opt.textContent = `Page ${i} of ${signTotalPages}`;
+          sel.appendChild(opt);
+        }
+
+        signWorkspace.classList.remove('hidden');
+        btnRunSign.disabled = false;
+        await renderSignPagePreview();
+        renderTypedSignature();
+        updateSignOverlay();
+        showToast(`Loaded ${file.name} (${signTotalPages} pages) for signing!`);
+      } catch (err) {
+        showToast('Error loading PDF: ' + err.message, false);
+      }
+    };
+
+    function setSignMode(mode) {
+      signCurrentMode = mode;
+      ['draw', 'type', 'upload'].forEach(m => {
+        document.getElementById(`tab-sig-${m}`).className = m === mode
+          ? 'px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition'
+          : 'px-3 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition';
+        const panel = document.getElementById(`sign-mode-${m}`);
+        if (panel) panel.classList.toggle('hidden', m !== mode);
+      });
+      updateSignOverlay();
+    }
+
+    function setSignColor(color) {
+      signStrokeColor = color;
+      if (signPadCtx) signPadCtx.strokeStyle = color;
+      renderTypedSignature();
+      updateSignOverlay();
+    }
+
+    function clearSignCanvas() {
+      if (signPadCtx) {
+        signPadCtx.clearRect(0, 0, signPadCanvas.width, signPadCanvas.height);
+        updateSignOverlay();
+      }
+    }
+
+    function renderTypedSignature() {
+      if (!signTypedCanvas) return;
+      const name = (document.getElementById('sign-type-input') && document.getElementById('sign-type-input').value) || 'Dinesh Singh';
+      const font = (document.getElementById('sign-type-font') && document.getElementById('sign-type-font').value) || "'Brush Script MT', cursive";
+      signTypedCtx.clearRect(0, 0, signTypedCanvas.width, signTypedCanvas.height);
+      signTypedCtx.fillStyle = signStrokeColor;
+      signTypedCtx.font = `italic 46px ${font}`;
+      signTypedCtx.textAlign = 'center';
+      signTypedCtx.textBaseline = 'middle';
+      signTypedCtx.fillText(name, signTypedCanvas.width / 2, signTypedCanvas.height / 2);
+      updateSignOverlay();
+    }
+
+    function handleSignatureImageUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        signUploadedDataUrl = ev.target.result;
+        document.getElementById('sign-upload-img').src = signUploadedDataUrl;
+        document.getElementById('sign-upload-preview').classList.remove('hidden');
+        updateSignOverlay();
+        showToast('Signature image uploaded!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function getActiveSignatureDataUrl() {
+      if (signCurrentMode === 'upload' && signUploadedDataUrl) {
+        return signUploadedDataUrl;
+      } else if (signCurrentMode === 'type') {
+        return signTypedCanvas.toDataURL('image/png');
+      } else {
+        return signPadCanvas.toDataURL('image/png');
+      }
+    }
+
+    async function renderSignPagePreview() {
+      if (!signActivePdf) return;
+      signTargetPage = parseInt(document.getElementById('sign-page-select').value) || 1;
+      const page = await signActivePdf.getPage(signTargetPage);
+      const viewport = page.getViewport({ scale: 1.0 });
+
+      signPreviewCanvas.width = viewport.width;
+      signPreviewCanvas.height = viewport.height;
+      const ctx = signPreviewCanvas.getContext('2d');
+      await page.render({ canvasContext: ctx, viewport }).promise;
+      updateSignOverlay();
+    }
+
+    function updateSignOverlay() {
+      const sigData = getActiveSignatureDataUrl();
+      if (!sigData || !signOverlayImg) return;
+      signOverlayImg.src = sigData;
+
+      const posX = parseInt(document.getElementById('sign-pos-x').value) || 50;
+      const posY = parseInt(document.getElementById('sign-pos-y').value) || 85;
+      const scale = parseInt(document.getElementById('sign-scale').value) || 140;
+
+      document.getElementById('sign-pos-x-lbl').textContent = `${posX}%`;
+      document.getElementById('sign-pos-y-lbl').textContent = `${posY}%`;
+      document.getElementById('sign-scale-lbl').textContent = `${scale}px`;
+
+      signOverlayStamp.style.left = `${posX}%`;
+      signOverlayStamp.style.top = `${posY}%`;
+      signOverlayStamp.style.width = `${scale}px`;
+      signOverlayStamp.style.height = `${Math.round(scale * 0.45)}px`;
+    }
+
+    async function executeSignPdf() {
+      if (!signFile) return;
+      btnRunSign.disabled = true;
+      btnRunSign.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Applying signature...`;
+
+      try {
+        const sigDataUrl = getActiveSignatureDataUrl();
+        const sigPngBytes = await fetch(sigDataUrl).then(r => r.arrayBuffer());
+
+        const buffer = await signFile.arrayBuffer();
+        const pdfDoc = await PDFLib.PDFDocument.load(buffer, { ignoreEncryption: true });
+        const embeddedSig = await pdfDoc.embedPng(sigPngBytes);
+
+        const pageIndex = Math.max(0, Math.min(pdfDoc.getPageCount() - 1, signTargetPage - 1));
+        const targetPdfPage = pdfDoc.getPage(pageIndex);
+        const { width: pdfPageWidth, height: pdfPageHeight } = targetPdfPage.getSize();
+
+        const posXPercent = (parseInt(document.getElementById('sign-pos-x').value) || 50) / 100;
+        const posYPercent = (parseInt(document.getElementById('sign-pos-y').value) || 85) / 100;
+        const scalePx = parseInt(document.getElementById('sign-scale').value) || 140;
+
+        // Preview canvas reference width
+        const canvasW = signPreviewCanvas.width || 600;
+        const ratio = pdfPageWidth / canvasW;
+
+        const sigWidth = scalePx * ratio;
+        const sigHeight = (scalePx * 0.45) * ratio;
+
+        // PDF coordinate origin is bottom-left, while web coordinates are top-left
+        const xPos = (pdfPageWidth * posXPercent) - (sigWidth / 2);
+        const yPos = pdfPageHeight - (pdfPageHeight * posYPercent) - (sigHeight / 2);
+
+        targetPdfPage.drawImage(embeddedSig, {
+          x: Math.max(0, xPos),
+          y: Math.max(0, yPos),
+          width: sigWidth,
+          height: sigHeight
+        });
+
+        const signedBytes = await pdfDoc.save();
+        downloadBlob(signedBytes, `signed-${signFile.name}`, 'application/pdf');
+        showToast('Document signed and downloaded successfully!');
+      } catch (err) {
+        showToast('Signing error: ' + err.message, false);
+      } finally {
+        btnRunSign.disabled = false;
+        btnRunSign.innerHTML = `<i data-lucide="pen-tool" class="w-4 h-4"></i> Apply Signature &amp; Download PDF`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // TOOL: UNLOCK PDF (PASSWORD REMOVAL)
+    // ==========================================
+    let unlockFile = null;
+    const dropzoneUnlock = document.getElementById('dropzone-unlock');
+    const inputUnlock = document.getElementById('input-unlock');
+    const configUnlock = document.getElementById('config-unlock');
+    const btnRunUnlock = document.getElementById('btn-run-unlock');
+
+    dropzoneUnlock.onclick = () => inputUnlock.click();
+    inputUnlock.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      unlockFile = file;
+      document.getElementById('label-unlock-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+      configUnlock.classList.remove('hidden');
+      btnRunUnlock.disabled = false;
+      showToast('Protected document selected. Enter password if required.');
+    };
+
+    function toggleUnlockPasswordVisibility() {
+      const pwInput = document.getElementById('input-unlock-password');
+      const isPass = pwInput.type === 'password';
+      pwInput.type = isPass ? 'text' : 'password';
+      document.getElementById('eye-unlock').setAttribute('data-lucide', isPass ? 'eye-off' : 'eye');
+      lucide.createIcons();
+    }
+
+    async function executeUnlockPdf() {
+      if (!unlockFile) return;
+      btnRunUnlock.disabled = true;
+      btnRunUnlock.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Decrypting PDF...`;
+
+      try {
+        const password = document.getElementById('input-unlock-password').value || '';
+        const buffer = await unlockFile.arrayBuffer();
+
+        // 1. Validate credentials with PDF.js
+        const loadingTask = pdfjsLib.getDocument({ data: buffer, password: password });
+        const pdf = await loadingTask.promise;
+        const total = pdf.numPages;
+
+        showProgress('Decrypting & Unlocking PDF', total);
+
+        // 2. Rebuild clean unrestricted PDF in PDF-lib
+        const newDoc = await PDFLib.PDFDocument.create();
+
+        for (let i = 1; i <= total; i++) {
+          updateProgress(i, total, `Decrypting page ${i} of ${total}...`);
+          const page = await pdf.getPage(i);
+          const viewport = page.getViewport({ scale: 1.8 });
+          const canvas = document.createElement('canvas');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          const ctx = canvas.getContext('2d');
+          await page.render({ canvasContext: ctx, viewport }).promise;
+
+          const imgDataUrl = canvas.toDataURL('image/jpeg', 0.96);
+          const imgBytes = await fetch(imgDataUrl).then(r => r.arrayBuffer());
+          const embeddedImg = await newDoc.embedJpg(imgBytes);
+
+          const newPage = newDoc.addPage([viewport.width, viewport.height]);
+          newPage.drawImage(embeddedImg, { x: 0, y: 0, width: viewport.width, height: viewport.height });
+
+          canvas.width = 0;
+          canvas.height = 0;
+          if (i % 2 === 0) await new Promise(r => setTimeout(r, 0));
+        }
+
+        updateProgress(total, total, 'Compiling unrestricted PDF...');
+        await new Promise(r => setTimeout(r, 10));
+
+        const unlockedBytes = await newDoc.save();
+        downloadBlob(unlockedBytes, `unlocked-${unlockFile.name}`, 'application/pdf');
+        showToast('PDF unlocked successfully! All password security and restrictions removed.');
+      } catch (err) {
+        showToast('Unlock failed. Incorrect password or invalid file.', false);
+      } finally {
+        hideProgress();
+        btnRunUnlock.disabled = false;
+        btnRunUnlock.innerHTML = `<i data-lucide="unlock" class="w-4 h-4"></i> Unlock &amp; Download PDF`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // TOOL: COMPARE PDF (SIDE-BY-SIDE & DIFF)
+    // ==========================================
+    let compareFileA = null, compareFileB = null;
+    let comparePdfA = null, comparePdfB = null;
+    let compareCurrPage = 1, compareMaxPages = 1;
+    let compareTextA = '', compareTextB = '';
+
+    const dropzoneCompareA = document.getElementById('dropzone-compare-a');
+    const inputCompareA = document.getElementById('input-compare-a');
+    const dropzoneCompareB = document.getElementById('dropzone-compare-b');
+    const inputCompareB = document.getElementById('input-compare-b');
+    const compareWorkspace = document.getElementById('compare-workspace');
+    const btnRunCompare = document.getElementById('btn-run-compare');
+
+    dropzoneCompareA.onclick = () => inputCompareA.click();
+    inputCompareA.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      compareFileA = file;
+      document.getElementById('label-compare-a').textContent = `Doc A: ${file.name} (${formatBytes(file.size)})`;
+      checkAndRunComparison();
+    };
+
+    dropzoneCompareB.onclick = () => inputCompareB.click();
+    inputCompareB.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      compareFileB = file;
+      document.getElementById('label-compare-b').textContent = `Doc B: ${file.name} (${formatBytes(file.size)})`;
+      checkAndRunComparison();
+    };
+
+    async function checkAndRunComparison() {
+      if (!compareFileA || !compareFileB) return;
+      showProgress('Analyzing & Comparing Documents', 100);
+
+      try {
+        updateProgress(20, 100, 'Loading Document A...');
+        const bufA = await compareFileA.arrayBuffer();
+        comparePdfA = await pdfjsLib.getDocument({ data: bufA }).promise;
+
+        updateProgress(45, 100, 'Loading Document B...');
+        const bufB = await compareFileB.arrayBuffer();
+        comparePdfB = await pdfjsLib.getDocument({ data: bufB }).promise;
+
+        document.getElementById('compare-pages-a').textContent = comparePdfA.numPages;
+        document.getElementById('compare-pages-b').textContent = comparePdfB.numPages;
+        compareMaxPages = Math.max(comparePdfA.numPages, comparePdfB.numPages);
+        document.getElementById('compare-total-pages').textContent = compareMaxPages;
+
+        updateProgress(70, 100, 'Extracting text and diffing content...');
+        compareTextA = '';
+        for (let i = 1; i <= comparePdfA.numPages; i++) {
+          const page = await comparePdfA.getPage(i);
+          const txt = await page.getTextContent();
+          compareTextA += txt.items.map(it => it.str).join(' ') + '\n';
+        }
+
+        compareTextB = '';
+        for (let i = 1; i <= comparePdfB.numPages; i++) {
+          const page = await comparePdfB.getPage(i);
+          const txt = await page.getTextContent();
+          compareTextB += txt.items.map(it => it.str).join(' ') + '\n';
+        }
+
+        computeTextDiff(compareTextA, compareTextB);
+
+        compareCurrPage = 1;
+        await renderCompareCanvases();
+
+        compareWorkspace.classList.remove('hidden');
+        btnRunCompare.disabled = false;
+        showToast('Comparison analysis complete!');
+      } catch (err) {
+        showToast('Comparison error: ' + err.message, false);
+      } finally {
+        hideProgress();
+      }
+    }
+
+    function computeTextDiff(text1, text2) {
+      const wordsA = text1.split(/\s+/).filter(Boolean);
+      const wordsB = text2.split(/\s+/).filter(Boolean);
+
+      const setA = new Set(wordsA);
+      const setB = new Set(wordsB);
+
+      let addedCount = 0;
+      let removedCount = 0;
+      let diffHtml = '';
+
+      wordsB.forEach(w => {
+        if (!setA.has(w)) {
+          addedCount++;
+          diffHtml += `<span class="bg-emerald-950/80 text-emerald-300 font-bold px-1 py-0.5 rounded mr-1">+ ${escapeHtml(w)}</span> `;
+        }
+      });
+
+      wordsA.forEach(w => {
+        if (!setB.has(w)) {
+          removedCount++;
+          diffHtml += `<span class="bg-red-950/80 text-red-300 line-through px-1 py-0.5 rounded mr-1">- ${escapeHtml(w)}</span> `;
+        }
+      });
+
+      if (!diffHtml) {
+        diffHtml = '<span class="text-emerald-400 font-semibold">✓ Both documents have identical text content!</span>';
+      }
+
+      document.getElementById('compare-added-cnt').textContent = addedCount;
+      document.getElementById('compare-removed-cnt').textContent = removedCount;
+      document.getElementById('compare-diff-output').innerHTML = diffHtml;
+    }
+
+    const escapeHtml = (str) => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+    async function renderCompareCanvases() {
+      document.getElementById('compare-curr-page').textContent = compareCurrPage;
+
+      // Render Canvas A
+      const canvasA = document.getElementById('compare-canvas-a');
+      const ctxA = canvasA.getContext('2d');
+      if (comparePdfA && compareCurrPage <= comparePdfA.numPages) {
+        const pageA = await comparePdfA.getPage(compareCurrPage);
+        const vpA = pageA.getViewport({ scale: 0.75 });
+        canvasA.width = vpA.width;
+        canvasA.height = vpA.height;
+        await pageA.render({ canvasContext: ctxA, viewport: vpA }).promise;
+      } else {
+        canvasA.width = 300;
+        canvasA.height = 400;
+        ctxA.fillStyle = '#1e293b';
+        ctxA.fillRect(0, 0, 300, 400);
+        ctxA.fillStyle = '#64748b';
+        ctxA.font = '14px sans-serif';
+        ctxA.textAlign = 'center';
+        ctxA.fillText('No Page in Doc A', 150, 200);
+      }
+
+      // Render Canvas B
+      const canvasB = document.getElementById('compare-canvas-b');
+      const ctxB = canvasB.getContext('2d');
+      if (comparePdfB && compareCurrPage <= comparePdfB.numPages) {
+        const pageB = await comparePdfB.getPage(compareCurrPage);
+        const vpB = pageB.getViewport({ scale: 0.75 });
+        canvasB.width = vpB.width;
+        canvasB.height = vpB.height;
+        await pageB.render({ canvasContext: ctxB, viewport: vpB }).promise;
+      } else {
+        canvasB.width = 300;
+        canvasB.height = 400;
+        ctxB.fillStyle = '#1e293b';
+        ctxB.fillRect(0, 0, 300, 400);
+        ctxB.fillStyle = '#64748b';
+        ctxB.font = '14px sans-serif';
+        ctxB.textAlign = 'center';
+        ctxB.fillText('No Page in Doc B', 150, 200);
+      }
+    }
+
+    function changeComparePage(delta) {
+      const next = compareCurrPage + delta;
+      if (next >= 1 && next <= compareMaxPages) {
+        compareCurrPage = next;
+        renderCompareCanvases();
+      }
+    }
+
+    function setCompareView(view) {
+      document.getElementById('btn-compare-view-visual').className = view === 'visual'
+        ? 'px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition'
+        : 'px-3 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition';
+      document.getElementById('btn-compare-view-text').className = view === 'text'
+        ? 'px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition'
+        : 'px-3 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition';
+
+      document.getElementById('compare-view-visual').classList.toggle('hidden', view !== 'visual');
+      document.getElementById('compare-view-text').classList.toggle('hidden', view !== 'text');
+    }
+
+    function downloadComparisonReport() {
+      if (!compareFileA || !compareFileB) return;
+      const report = `PDF ORBIT 360 - DOCUMENT COMPARISON REPORT
+Generated: ${new Date().toLocaleString()}
+
+DOCUMENT A (Original): ${compareFileA.name} (${comparePdfA ? comparePdfA.numPages : 0} pages)
+DOCUMENT B (Modified): ${compareFileB.name} (${comparePdfB ? comparePdfB.numPages : 0} pages)
+
+SUMMARY OF CHANGES:
+- Words added in Doc B: ${document.getElementById('compare-added-cnt').textContent}
+- Words removed from Doc A: ${document.getElementById('compare-removed-cnt').textContent}
+
+--------------------------------------------------
+TEXT CONTENT IN DOCUMENT A:
+--------------------------------------------------
+${compareTextA}
+
+--------------------------------------------------
+TEXT CONTENT IN DOCUMENT B:
+--------------------------------------------------
+${compareTextB}
+`;
+      downloadBlob(report, `comparison-${compareFileA.name}-vs-${compareFileB.name}.txt`, 'text/plain');
+      showToast('Comparison report downloaded!');
+    }
+
+    // ==========================================
+    // TOOL: REDACT PDF (SANITIZE & BLACKOUT)
+    // ==========================================
+    let redactFile = null;
+    let redactActivePdf = null;
+    let redactCurrPage = 1;
+    let redactTotalPages = 1;
+    let pageRedactions = {}; // { [pageNum]: [ { normX, normY, normW, normH, color, label } ] }
+    let isDrawingRedaction = false;
+    let redactStartX = 0, redactStartY = 0;
+
+    const dropzoneRedact = document.getElementById('dropzone-redact');
+    const inputRedact = document.getElementById('input-redact');
+    const redactWorkspace = document.getElementById('redact-workspace');
+    const btnRunRedact = document.getElementById('btn-run-redact');
+    const redactPageCanvas = document.getElementById('redact-page-canvas');
+    const redactDrawingCanvas = document.getElementById('redact-drawing-canvas');
+    const redactDrawCtx = redactDrawingCanvas ? redactDrawingCanvas.getContext('2d') : null;
+
+    if (redactDrawingCanvas) {
+      const getCoords = (e) => {
+        const rect = redactDrawingCanvas.getBoundingClientRect();
+        return {
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top
+        };
+      };
+
+      redactDrawingCanvas.addEventListener('mousedown', (e) => {
+        isDrawingRedaction = true;
+        const pos = getCoords(e);
+        redactStartX = pos.x;
+        redactStartY = pos.y;
+      });
+
+      redactDrawingCanvas.addEventListener('mousemove', (e) => {
+        if (!isDrawingRedaction) return;
+        const pos = getCoords(e);
+        renderCurrentPageRedactions();
+
+        const color = (document.getElementById('redact-color-select') && document.getElementById('redact-color-select').value) || '#000000';
+        redactDrawCtx.fillStyle = color === '#ffffff' ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.65)';
+        redactDrawCtx.strokeStyle = '#3b82f6';
+        redactDrawCtx.lineWidth = 1.5;
+
+        const rx = Math.min(redactStartX, pos.x);
+        const ry = Math.min(redactStartY, pos.y);
+        const rw = Math.abs(pos.x - redactStartX);
+        const rh = Math.abs(pos.y - redactStartY);
+
+        redactDrawCtx.fillRect(rx, ry, rw, rh);
+        redactDrawCtx.strokeRect(rx, ry, rw, rh);
+      });
+
+      window.addEventListener('mouseup', (e) => {
+        if (!isDrawingRedaction) return;
+        isDrawingRedaction = false;
+        const rect = redactDrawingCanvas.getBoundingClientRect();
+        const endX = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
+        const endY = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
+
+        const rw = Math.abs(endX - redactStartX);
+        const rh = Math.abs(endY - redactStartY);
+
+        if (rw > 5 && rh > 5) {
+          if (!pageRedactions[redactCurrPage]) pageRedactions[redactCurrPage] = [];
+          const color = (document.getElementById('redact-color-select') && document.getElementById('redact-color-select').value) || '#000000';
+          const label = (document.getElementById('redact-label-select') && document.getElementById('redact-label-select').value) || '';
+
+          pageRedactions[redactCurrPage].push({
+            normX: Math.min(redactStartX, endX) / redactDrawingCanvas.width,
+            normY: Math.min(redactStartY, endY) / redactDrawingCanvas.height,
+            normW: rw / redactDrawingCanvas.width,
+            normH: rh / redactDrawingCanvas.height,
+            color,
+            label
+          });
+          renderCurrentPageRedactions();
+        }
+      });
+    }
+
+    dropzoneRedact.onclick = () => inputRedact.click();
+    inputRedact.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      redactFile = file;
+      pageRedactions = {};
+
+      try {
+        document.getElementById('label-redact-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        const buffer = await file.arrayBuffer();
+        redactActivePdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+        redactTotalPages = redactActivePdf.numPages;
+        redactCurrPage = 1;
+
+        document.getElementById('redact-total-pages').textContent = redactTotalPages;
+        redactWorkspace.classList.remove('hidden');
+        btnRunRedact.disabled = false;
+        await loadRedactPage(1);
+        showToast(`Loaded ${file.name} for visual redaction!`);
+      } catch (err) {
+        showToast('Error reading PDF: ' + err.message, false);
+      }
+    };
+
+    async function loadRedactPage(pageNum) {
+      if (!redactActivePdf) return;
+      redactCurrPage = pageNum;
+      document.getElementById('redact-curr-page').textContent = redactCurrPage;
+
+      const page = await redactActivePdf.getPage(pageNum);
+      const viewport = page.getViewport({ scale: 1.1 });
+
+      redactPageCanvas.width = viewport.width;
+      redactPageCanvas.height = viewport.height;
+      redactDrawingCanvas.width = viewport.width;
+      redactDrawingCanvas.height = viewport.height;
+
+      const ctx = redactPageCanvas.getContext('2d');
+      await page.render({ canvasContext: ctx, viewport }).promise;
+
+      renderCurrentPageRedactions();
+    }
+
+    function renderCurrentPageRedactions() {
+      if (!redactDrawCtx) return;
+      redactDrawCtx.clearRect(0, 0, redactDrawingCanvas.width, redactDrawingCanvas.height);
+      const list = pageRedactions[redactCurrPage] || [];
+      document.getElementById('redact-page-count').textContent = list.length;
+
+      list.forEach(r => {
+        const x = r.normX * redactDrawingCanvas.width;
+        const y = r.normY * redactDrawingCanvas.height;
+        const w = r.normW * redactDrawingCanvas.width;
+        const h = r.normH * redactDrawingCanvas.height;
+
+        redactDrawCtx.fillStyle = r.color;
+        redactDrawCtx.fillRect(x, y, w, h);
+
+        if (r.label) {
+          redactDrawCtx.fillStyle = r.color === '#ffffff' ? '#000000' : '#ffffff';
+          redactDrawCtx.font = 'bold 11px sans-serif';
+          redactDrawCtx.textAlign = 'center';
+          redactDrawCtx.textBaseline = 'middle';
+          redactDrawCtx.fillText(r.label, x + w / 2, y + h / 2);
+        }
+      });
+    }
+
+    function changeRedactPage(delta) {
+      const next = redactCurrPage + delta;
+      if (next >= 1 && next <= redactTotalPages) {
+        loadRedactPage(next);
+      }
+    }
+
+    function updateRedactStyle() {
+      // updated for next drawn box
+    }
+
+    function clearCurrentPageRedactions() {
+      pageRedactions[redactCurrPage] = [];
+      renderCurrentPageRedactions();
+      showToast('Cleared redactions on current page.');
+    }
+
+    async function executeRedactPdf() {
+      if (!redactFile) return;
+      btnRunRedact.disabled = true;
+      btnRunRedact.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Embedding redactions...`;
+
+      try {
+        const buffer = await redactFile.arrayBuffer();
+        const pdfDoc = await PDFLib.PDFDocument.load(buffer, { ignoreEncryption: true });
+        const font = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+
+        const pages = pdfDoc.getPages();
+        let totalRedactionCount = 0;
+
+        for (const [pageNumStr, redactionList] of Object.entries(pageRedactions)) {
+          const pIndex = parseInt(pageNumStr) - 1;
+          if (pIndex < 0 || pIndex >= pages.length) continue;
+          const page = pages[pIndex];
+          const { width: pdfW, height: pdfH } = page.getSize();
+
+          redactionList.forEach(r => {
+            totalRedactionCount++;
+            const x = r.normX * pdfW;
+            const w = r.normW * pdfW;
+            const h = r.normH * pdfH;
+            const y = pdfH - (r.normY * pdfH) - h;
+
+            let rgbColor = PDFLib.rgb(0, 0, 0);
+            if (r.color === '#ffffff') rgbColor = PDFLib.rgb(1, 1, 1);
+            else if (r.color === '#1e293b') rgbColor = PDFLib.rgb(0.12, 0.16, 0.23);
+
+            page.drawRectangle({
+              x: Math.max(0, x),
+              y: Math.max(0, y),
+              width: w,
+              height: h,
+              color: rgbColor
+            });
+
+            if (r.label) {
+              const fontSize = Math.min(11, Math.max(7, h * 0.45));
+              const textWidth = font.widthOfTextAtSize(r.label, fontSize);
+              page.drawText(r.label, {
+                x: x + (w - textWidth) / 2,
+                y: y + (h - fontSize) / 2,
+                size: fontSize,
+                font,
+                color: r.color === '#ffffff' ? PDFLib.rgb(0, 0, 0) : PDFLib.rgb(1, 1, 1)
+              });
+            }
+          });
+        }
+
+        const redactedBytes = await pdfDoc.save();
+        downloadBlob(redactedBytes, `redacted-${redactFile.name}`, 'application/pdf');
+        showToast(`Sanitized & permanently redacted ${totalRedactionCount} items!`);
+      } catch (err) {
+        showToast('Redaction error: ' + err.message, false);
+      } finally {
+        btnRunRedact.disabled = false;
+        btnRunRedact.innerHTML = `<i data-lucide="shield-check" class="w-4 h-4"></i> Apply Permanent Redactions &amp; Download`;
+        lucide.createIcons();
+      }
     }
   </script>
 </body>
