@@ -4875,6 +4875,57 @@ ${compareTextB}
       }
     };
 
+    async function translateChunkWithMyMemory(text, srcLang, tgtLang) {
+      if (!text || !text.trim()) return '';
+      // Clean text to avoid encoding issues
+      const clean = text.replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
+      if (!clean) return '';
+
+      // Determine source language if 'auto'
+      let effectiveSrc = srcLang;
+      if (effectiveSrc === 'auto') {
+        // Detect basic scripts
+        if (/[\u0900-\u097F]/.test(clean)) effectiveSrc = 'hi';
+        else if (/[\u4e00-\u9fa5]/.test(clean)) effectiveSrc = 'zh';
+        else if (/[\u3040-\u30ff]/.test(clean)) effectiveSrc = 'ja';
+        else if (/[\u0400-\u04FF]/.test(clean)) effectiveSrc = 'ru';
+        else if (/[\u0600-\u06FF]/.test(clean)) effectiveSrc = 'ar';
+        else effectiveSrc = 'en';
+      }
+
+      if (effectiveSrc === tgtLang) return clean;
+
+      const langPair = `${effectiveSrc}|${tgtLang}`;
+      const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(clean)}&langpair=${encodeURIComponent(langPair)}&de=pdforbit360@gmail.com`;
+
+      try {
+        const resp = await fetch(url);
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+        if (data && data.responseData && data.responseData.translatedText) {
+          const res = data.responseData.translatedText;
+          // Ignore invalid translation error string from API
+          if (!res.startsWith('QUERY LENGTH') && !res.startsWith('IS AN INVALID')) {
+            return res;
+          }
+        }
+      } catch (err) {
+        console.warn('MyMemory fetch failed, falling back:', err);
+      }
+
+      // Fallback: token dictionary
+      const dict = translationDictionaries[tgtLang] || {};
+      return clean.split(/(\s+|[.,;!?()]+)/).map(token => {
+        const lower = token.toLowerCase();
+        if (dict[lower]) {
+          return (token[0] === token[0].toUpperCase() && token[0] !== token[0].toLowerCase())
+            ? dict[lower].charAt(0).toUpperCase() + dict[lower].slice(1)
+            : dict[lower];
+        }
+        return token;
+      }).join('');
+    }
+
     async function executeTranslatePdf() {
       if (!translateFullText) return;
       btnRunTranslate.disabled = true;
@@ -4885,45 +4936,61 @@ ${compareTextB}
         const tgtLang = document.getElementById('translate-tgt-lang').value;
         const outputMode = document.getElementById('translate-output-mode').value;
 
-        const chunks = translateFullText.split('\n\n').slice(0, 15);
-        let translatedParagraphs = [];
+        // Split text into meaningful lines/paragraphs
+        const rawLines = translateFullText.split('\n').map(l => l.trim()).filter(Boolean);
+        let translatedLines = [];
 
-        for (let idx = 0; idx < chunks.length; idx++) {
-          const chunk = chunks[idx].trim();
-          if (!chunk) continue;
+        // Limit to first 40 major lines/paragraphs for speed and responsiveness
+        const maxLines = Math.min(rawLines.length, 40);
+        showProgress('Translating PDF Content', maxLines);
 
-          // Attempt Web Translation API if available, else dictionary translation
-          let translated = '';
-          const dict = translationDictionaries[tgtLang] || translationDictionaries['es'];
+        for (let idx = 0; idx < maxLines; idx++) {
+          if (isBatchCancelled) {
+            showToast('Translation cancelled.', false);
+            break;
+          }
 
-          // Translate phrase tokens
-          const translatedTokens = chunk.split(/(\s+|[.,;!?()]+)/).map(token => {
-            const lower = token.toLowerCase();
-            if (dict[lower]) {
-              return (token[0] === token[0].toUpperCase() && token[0] !== token[0].toLowerCase())
-                ? dict[lower].charAt(0).toUpperCase() + dict[lower].slice(1)
-                : dict[lower];
+          const line = rawLines[idx];
+          updateProgress(idx + 1, maxLines, `Translating paragraph ${idx + 1} of ${maxLines}...`);
+
+          if (line.startsWith('--- Page')) {
+            translatedLines.push(line);
+            continue;
+          }
+
+          // If line is very long (>350 chars), chunk it by sentences
+          if (line.length > 350) {
+            const sentences = line.split(/(?<=[.?!])\s+/);
+            const translatedSentences = [];
+            for (const s of sentences) {
+              if (s.trim()) {
+                const tr = await translateChunkWithMyMemory(s, srcLang, tgtLang);
+                translatedSentences.push(tr);
+                await new Promise(r => setTimeout(r, 60));
+              }
             }
-            return token;
-          });
-          translated = translatedTokens.join('');
-
-          translatedParagraphs.push(translated);
-          await new Promise(r => setTimeout(r, 10));
+            translatedLines.push(translatedSentences.join(' '));
+          } else {
+            const tr = await translateChunkWithMyMemory(line, srcLang, tgtLang);
+            translatedLines.push(tr);
+            await new Promise(r => setTimeout(r, 60));
+          }
         }
 
-        translateOutputText = translatedParagraphs.join('\n\n');
+        hideProgress();
+        translateOutputText = translatedLines.join('\n\n');
 
-        document.getElementById('translate-orig-preview').textContent = translateFullText.substring(0, 3000);
+        document.getElementById('translate-orig-preview').textContent = rawLines.slice(0, maxLines).join('\n\n');
         document.getElementById('translate-tgt-preview').textContent = translateOutputText;
         resultTranslate.classList.remove('hidden');
 
         if (outputMode === 'pdf') {
           await generateTranslatedPdf(translateOutputText, tgtLang);
         } else {
-          showToast('Translation completed! Preview ready.');
+          showToast('Translation completed successfully!');
         }
       } catch (err) {
+        hideProgress();
         showToast('Translation error: ' + err.message, false);
       } finally {
         btnRunTranslate.disabled = false;
