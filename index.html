@@ -980,6 +980,32 @@
       </div>
     </div>
 
+    <!-- REAL-TIME ASYNC BATCH PROGRESS MODAL -->
+    <div id="modal-progress" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl text-center space-y-4">
+        <div class="w-14 h-14 rounded-2xl bg-blue-600/20 text-blue-400 flex items-center justify-center mx-auto border border-blue-500/30">
+          <i data-lucide="loader-2" class="w-7 h-7 animate-spin"></i>
+        </div>
+        <div>
+          <h3 id="progress-title" class="text-lg font-bold text-white mb-1">Processing Documents</h3>
+          <p id="progress-status" class="text-xs text-slate-400">Please wait while files are processed...</p>
+        </div>
+        <!-- Progress Bar -->
+        <div class="w-full bg-slate-950 rounded-full h-3 overflow-hidden p-0.5 border border-slate-800">
+          <div id="progress-bar-fill" class="bg-blue-600 h-full rounded-full transition-all duration-150" style="width: 0%"></div>
+        </div>
+        <div class="flex items-center justify-between text-[11px] text-slate-400 font-mono">
+          <span id="progress-count">0 / 0</span>
+          <span id="progress-percent">0%</span>
+        </div>
+        <div class="pt-2">
+          <button id="btn-cancel-progress" onclick="cancelBatchOperation()" class="px-5 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+            Cancel Operation
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- FULLSCREEN PAGE ZOOM PREVIEW MODAL -->
     <div id="modal-zoom" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
       <div class="relative bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-4 flex flex-col max-h-[90vh]">
@@ -1086,6 +1112,36 @@
       URL.revokeObjectURL(url);
     }
 
+    // Helper: Batch Progress Modal for 500+ files
+    let isBatchCancelled = false;
+    function showProgress(title, total) {
+      isBatchCancelled = false;
+      document.getElementById('progress-title').textContent = title;
+      document.getElementById('progress-status').textContent = 'Starting...';
+      document.getElementById('progress-count').textContent = `0 / ${total}`;
+      document.getElementById('progress-percent').textContent = '0%';
+      document.getElementById('progress-bar-fill').style.width = '0%';
+      document.getElementById('modal-progress').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function updateProgress(current, total, detailText) {
+      const pct = Math.min(100, Math.round((current / total) * 100));
+      document.getElementById('progress-count').textContent = `${current} / ${total}`;
+      document.getElementById('progress-percent').textContent = `${pct}%`;
+      document.getElementById('progress-bar-fill').style.width = `${pct}%`;
+      if (detailText) document.getElementById('progress-status').textContent = detailText;
+    }
+
+    function hideProgress() {
+      document.getElementById('modal-progress').classList.add('hidden');
+    }
+
+    function cancelBatchOperation() {
+      isBatchCancelled = true;
+      document.getElementById('progress-status').textContent = 'Cancelling...';
+    }
+
     // Zoom Modal
     let activePdfDoc = null;
     async function openZoomModal(pageNum, title) {
@@ -1166,7 +1222,16 @@
         btnRunMerge.disabled = true;
       }
 
-      mergeFiles.forEach((file, index) => {
+      // If more than 60 files, display a notification badge
+      if (mergeFiles.length > 60) {
+        const infoBadge = document.createElement('div');
+        infoBadge.className = 'p-2 text-center text-xs text-blue-400 bg-blue-600/10 border border-blue-500/20 rounded-lg font-semibold';
+        infoBadge.textContent = `Showing first 60 of ${mergeFiles.length} files. All ${mergeFiles.length} files will be merged in order.`;
+        itemsMerge.appendChild(infoBadge);
+      }
+
+      const displayList = mergeFiles.slice(0, 60);
+      displayList.forEach((file, index) => {
         const item = document.createElement('div');
         item.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs hover:border-slate-700 transition';
         item.innerHTML = `
@@ -1205,23 +1270,41 @@
     async function executeMerge() {
       if (mergeFiles.length < 2) return;
       btnRunMerge.disabled = true;
-      btnRunMerge.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Merging...`;
+      const total = mergeFiles.length;
+      showProgress('Merging PDF Documents', total);
 
       try {
         const mergedDoc = await PDFLib.PDFDocument.create();
-        for (const file of mergeFiles) {
+
+        for (let i = 0; i < total; i++) {
+          if (isBatchCancelled) {
+            showToast('Merge cancelled by user.', false);
+            break;
+          }
+
+          const file = mergeFiles[i];
+          updateProgress(i + 1, total, `Merging file ${i + 1} of ${total}: ${file.name}`);
+
           const buffer = await file.arrayBuffer();
-          const doc = await PDFLib.PDFDocument.load(buffer);
+          const doc = await PDFLib.PDFDocument.load(buffer, { ignoreEncryption: true });
           const pages = await mergedDoc.copyPages(doc, doc.getPageIndices());
           pages.forEach(p => mergedDoc.addPage(p));
+
+          // Memory & UI loop yielding: gives control back to the browser so it never freezes
+          await new Promise(r => setTimeout(r, 0));
         }
 
-        const bytes = await mergedDoc.save();
-        downloadBlob(bytes, 'merged-document.pdf', 'application/pdf');
-        showToast('PDFs merged successfully!');
+        if (!isBatchCancelled) {
+          updateProgress(total, total, 'Compiling and saving final document...');
+          await new Promise(r => setTimeout(r, 20));
+          const bytes = await mergedDoc.save();
+          downloadBlob(bytes, 'merged-document.pdf', 'application/pdf');
+          showToast(`Successfully merged all ${total} PDF documents!`);
+        }
       } catch (err) {
         showToast('Merge error: ' + err.message, false);
       } finally {
+        hideProgress();
         btnRunMerge.disabled = false;
         btnRunMerge.innerHTML = `<i data-lucide="combine" class="w-4 h-4"></i> Merge and Download`;
         lucide.createIcons();
@@ -1727,10 +1810,24 @@
       splitThumbnailsGrid.innerHTML = '';
       updateSplitSummary();
 
-      for (let i = 0; i < splitPagesState.length; i++) {
+      const total = splitPagesState.length;
+      if (total > 20) {
+        showProgress('Loading Visual Previews', total);
+      }
+
+      for (let i = 0; i < total; i++) {
+        if (isBatchCancelled) {
+          showToast('Rendering cancelled by user.', false);
+          break;
+        }
+
+        if (total > 20 && i % 3 === 0) {
+          updateProgress(i + 1, total, `Rendering thumbnail ${i + 1} of ${total}`);
+        }
+
         const item = splitPagesState[i];
         const page = await activePdfDoc.getPage(item.pageNum);
-        const viewport = page.getViewport({ scale: 0.35 });
+        const viewport = page.getViewport({ scale: 0.28 });
         const canvas = document.createElement('canvas');
         canvas.width = viewport.width;
         canvas.height = viewport.height;
@@ -1746,7 +1843,7 @@
 
         card.innerHTML = `
           <div class="relative overflow-hidden rounded-lg bg-slate-950 flex items-center justify-center">
-            <img src="${canvas.toDataURL()}" class="w-full object-contain">
+            <img src="${canvas.toDataURL('image/jpeg', 0.85)}" class="w-full object-contain">
             <div id="split-check-${item.index}" class="absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center ${
               item.selected ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-500'
             }">
@@ -1761,6 +1858,17 @@
           </div>
         `;
         splitThumbnailsGrid.appendChild(card);
+
+        // Memory cleanup & event loop yielding
+        canvas.width = 0;
+        canvas.height = 0;
+        if (i % 2 === 0) {
+          await new Promise(r => setTimeout(r, 0));
+        }
+      }
+
+      if (total > 20) {
+        hideProgress();
       }
     }
 
@@ -1834,24 +1942,40 @@
     async function executeSplitToZip() {
       if (!splitFile || !splitDocCache) return;
       btnSplitZip.disabled = true;
-      btnSplitZip.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Creating ZIP...`;
+      const total = splitDocCache.getPageCount();
+      showProgress('Splitting Pages to ZIP', total);
 
       try {
         const zip = new JSZip();
-        const total = splitDocCache.getPageCount();
         for (let i = 0; i < total; i++) {
+          if (isBatchCancelled) {
+            showToast('Split to ZIP cancelled.', false);
+            break;
+          }
+          updateProgress(i + 1, total, `Splitting page ${i + 1} of ${total}...`);
+
           const singleDoc = await PDFLib.PDFDocument.create();
           const [copied] = await singleDoc.copyPages(splitDocCache, [i]);
           singleDoc.addPage(copied);
           const bytes = await singleDoc.save();
           zip.file(`page-${i + 1}.pdf`, bytes);
+
+          if (i % 3 === 0) {
+            await new Promise(r => setTimeout(r, 0));
+          }
         }
-        const zipBlob = await zip.generateAsync({ type: 'blob' });
-        downloadBlob(zipBlob, `${splitFile.name.replace('.pdf', '')}-all-pages.zip`, 'application/zip');
-        showToast('All pages split and saved in ZIP!');
+
+        if (!isBatchCancelled) {
+          updateProgress(total, total, 'Compressing pages into ZIP archive...');
+          await new Promise(r => setTimeout(r, 20));
+          const zipBlob = await zip.generateAsync({ type: 'blob' });
+          downloadBlob(zipBlob, `${splitFile.name.replace('.pdf', '')}-all-pages.zip`, 'application/zip');
+          showToast(`All ${total} pages split and saved in ZIP!`);
+        }
       } catch (err) {
         showToast('Error: ' + err.message, false);
       } finally {
+        hideProgress();
         btnSplitZip.disabled = false;
         btnSplitZip.innerHTML = `Split Every Page to ZIP`;
       }
@@ -1878,15 +2002,28 @@
       try {
         document.getElementById('label-organize-file').textContent = `${file.name} (${formatBytes(file.size)})`;
         const buffer = await file.arrayBuffer();
-        organizeDocCache = await PDFLib.PDFDocument.load(buffer);
+        organizeDocCache = await PDFLib.PDFDocument.load(buffer, { ignoreEncryption: true });
         const total = organizeDocCache.getPageCount();
 
         activePdfDoc = await pdfjsLib.getDocument({ data: buffer }).promise;
 
+        if (total > 20) {
+          showProgress('Preparing Visual Pages', total);
+        }
+
         organizePages = [];
         for (let i = 0; i < total; i++) {
+          if (isBatchCancelled) {
+            showToast('Page loading cancelled by user.', false);
+            break;
+          }
+
+          if (total > 20 && i % 3 === 0) {
+            updateProgress(i + 1, total, `Generating preview ${i + 1} of ${total}`);
+          }
+
           const page = await activePdfDoc.getPage(i + 1);
-          const viewport = page.getViewport({ scale: 0.35 });
+          const viewport = page.getViewport({ scale: 0.25 });
           const canvas = document.createElement('canvas');
           canvas.width = viewport.width;
           canvas.height = viewport.height;
@@ -1897,15 +2034,27 @@
             origIndex: i,
             rotation: 0,
             deleted: false,
-            dataUrl: canvas.toDataURL()
+            dataUrl: canvas.toDataURL('image/jpeg', 0.85)
           });
+
+          canvas.width = 0;
+          canvas.height = 0;
+
+          if (i % 2 === 0) {
+            await new Promise(r => setTimeout(r, 0));
+          }
+        }
+
+        if (total > 20) {
+          hideProgress();
         }
 
         visualOrganizeWorkspace.classList.remove('hidden');
         btnRunOrganize.disabled = false;
         renderOrganizeCards();
-        showToast(`Loaded ${total} pages for visual organize.`);
+        showToast(`Loaded ${organizePages.length} pages for visual organize.`);
       } catch (err) {
+        hideProgress();
         showToast('Error loading file: ' + err.message, false);
       }
     };
@@ -1916,7 +2065,15 @@
       document.getElementById('organize-status-text').textContent = `${activeCount} of ${organizePages.length} pages kept`;
       btnRunOrganize.disabled = activeCount === 0;
 
-      organizePages.forEach((item, pos) => {
+      if (organizePages.length > 80) {
+        const infoBadge = document.createElement('div');
+        infoBadge.className = 'col-span-full p-2.5 text-center text-xs text-blue-400 bg-blue-600/10 border border-blue-500/20 rounded-xl font-semibold';
+        infoBadge.textContent = `Displaying first 80 of ${organizePages.length} pages in the interactive grid. All ${organizePages.length} pages will be saved into your document.`;
+        organizeThumbnailsGrid.appendChild(infoBadge);
+      }
+
+      const displayPages = organizePages.slice(0, 80);
+      displayPages.forEach((item, pos) => {
         const card = document.createElement('div');
         card.className = `relative flex flex-col p-2.5 rounded-2xl border bg-slate-900/90 transition-all ${
           item.deleted ? 'border-red-500/60 opacity-40' : 'border-slate-800 hover:border-blue-500'
@@ -1981,26 +2138,44 @@
       if (validPages.length === 0) return;
 
       btnRunOrganize.disabled = true;
-      btnRunOrganize.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Saving organized PDF...`;
+      const total = validPages.length;
+      showProgress('Saving Organized PDF', total);
 
       try {
         const newDoc = await PDFLib.PDFDocument.create();
 
-        for (const item of validPages) {
+        for (let i = 0; i < total; i++) {
+          if (isBatchCancelled) {
+            showToast('Organize cancelled.', false);
+            break;
+          }
+
+          const item = validPages[i];
+          updateProgress(i + 1, total, `Processing page ${i + 1} of ${total}...`);
+
           const [copiedPage] = await newDoc.copyPages(organizeDocCache, [item.origIndex]);
           if (item.rotation !== 0) {
             const currentRot = copiedPage.getRotation().angle;
             copiedPage.setRotation(PDFLib.degrees((currentRot + item.rotation) % 360));
           }
           newDoc.addPage(copiedPage);
+
+          if (i % 3 === 0) {
+            await new Promise(r => setTimeout(r, 0));
+          }
         }
 
-        const bytes = await newDoc.save();
-        downloadBlob(bytes, `organized-${organizeFile.name}`, 'application/pdf');
-        showToast('Organized PDF saved successfully!');
+        if (!isBatchCancelled) {
+          updateProgress(total, total, 'Compiling and saving...');
+          await new Promise(r => setTimeout(r, 10));
+          const bytes = await newDoc.save();
+          downloadBlob(bytes, `organized-${organizeFile.name}`, 'application/pdf');
+          showToast(`Organized PDF with ${total} pages saved successfully!`);
+        }
       } catch (err) {
         showToast('Organize error: ' + err.message, false);
       } finally {
+        hideProgress();
         btnRunOrganize.disabled = false;
         btnRunOrganize.innerHTML = `<i data-lucide="save" class="w-4 h-4"></i> Save &amp; Download Organized PDF`;
         lucide.createIcons();
@@ -2028,15 +2203,28 @@
       try {
         document.getElementById('label-rotate-file').textContent = `${file.name} (${formatBytes(file.size)})`;
         const buffer = await file.arrayBuffer();
-        rotateDocCache = await PDFLib.PDFDocument.load(buffer);
+        rotateDocCache = await PDFLib.PDFDocument.load(buffer, { ignoreEncryption: true });
         const total = rotateDocCache.getPageCount();
 
         activePdfDoc = await pdfjsLib.getDocument({ data: buffer }).promise;
 
+        if (total > 20) {
+          showProgress('Preparing Visual Rotation', total);
+        }
+
         rotatePagesState = [];
         for (let i = 0; i < total; i++) {
+          if (isBatchCancelled) {
+            showToast('Loading cancelled by user.', false);
+            break;
+          }
+
+          if (total > 20 && i % 3 === 0) {
+            updateProgress(i + 1, total, `Generating preview ${i + 1} of ${total}`);
+          }
+
           const page = await activePdfDoc.getPage(i + 1);
-          const viewport = page.getViewport({ scale: 0.35 });
+          const viewport = page.getViewport({ scale: 0.25 });
           const canvas = document.createElement('canvas');
           canvas.width = viewport.width;
           canvas.height = viewport.height;
@@ -2046,23 +2234,44 @@
           rotatePagesState.push({
             index: i,
             angle: 0,
-            dataUrl: canvas.toDataURL()
+            dataUrl: canvas.toDataURL('image/jpeg', 0.85)
           });
+
+          canvas.width = 0;
+          canvas.height = 0;
+
+          if (i % 2 === 0) {
+            await new Promise(r => setTimeout(r, 0));
+          }
         }
 
-        document.getElementById('rotate-page-count').textContent = total;
+        if (total > 20) {
+          hideProgress();
+        }
+
+        document.getElementById('rotate-page-count').textContent = rotatePagesState.length;
         visualRotateWorkspace.classList.remove('hidden');
         btnRunRotate.disabled = false;
         renderVisualRotateCards();
-        showToast(`Loaded ${total} pages for visual rotation.`);
+        showToast(`Loaded ${rotatePagesState.length} pages for visual rotation.`);
       } catch (err) {
+        hideProgress();
         showToast('Error reading PDF: ' + err.message, false);
       }
     };
 
     function renderVisualRotateCards() {
       rotateThumbnailsGrid.innerHTML = '';
-      rotatePagesState.forEach((item, idx) => {
+
+      if (rotatePagesState.length > 80) {
+        const infoBadge = document.createElement('div');
+        infoBadge.className = 'col-span-full p-2.5 text-center text-xs text-blue-400 bg-blue-600/10 border border-blue-500/20 rounded-xl font-semibold';
+        infoBadge.textContent = `Displaying first 80 of ${rotatePagesState.length} pages in the interactive grid. All ${rotatePagesState.length} pages will be rotated and saved.`;
+        rotateThumbnailsGrid.appendChild(infoBadge);
+      }
+
+      const displayList = rotatePagesState.slice(0, 80);
+      displayList.forEach((item, idx) => {
         const card = document.createElement('div');
         card.className = 'relative flex flex-col p-2.5 rounded-2xl border border-slate-800 bg-slate-900/90 hover:border-blue-500 transition-all';
         card.innerHTML = `
@@ -2098,23 +2307,41 @@
     async function executeRotate() {
       if (!rotateFile || !rotateDocCache) return;
       btnRunRotate.disabled = true;
-      btnRunRotate.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Applying rotation...`;
+      const total = rotatePagesState.length;
+      showProgress('Applying Page Rotation', total);
 
       try {
         const pages = rotateDocCache.getPages();
-        rotatePagesState.forEach((item, idx) => {
+        for (let idx = 0; idx < total; idx++) {
+          if (isBatchCancelled) {
+            showToast('Rotate operation cancelled.', false);
+            break;
+          }
+
+          const item = rotatePagesState[idx];
+          updateProgress(idx + 1, total, `Rotating page ${idx + 1} of ${total}...`);
+
           if (item.angle !== 0) {
             const current = pages[idx].getRotation().angle;
             pages[idx].setRotation(PDFLib.degrees((current + item.angle) % 360));
           }
-        });
 
-        const bytes = await rotateDocCache.save();
-        downloadBlob(bytes, `rotated-${rotateFile.name}`, 'application/pdf');
-        showToast('Rotated PDF downloaded successfully!');
+          if (idx % 10 === 0) {
+            await new Promise(r => setTimeout(r, 0));
+          }
+        }
+
+        if (!isBatchCancelled) {
+          updateProgress(total, total, 'Compiling and saving...');
+          await new Promise(r => setTimeout(r, 10));
+          const bytes = await rotateDocCache.save();
+          downloadBlob(bytes, `rotated-${rotateFile.name}`, 'application/pdf');
+          showToast(`Rotated PDF downloaded successfully!`);
+        }
       } catch (err) {
         showToast('Rotate error: ' + err.message, false);
       } finally {
+        hideProgress();
         btnRunRotate.disabled = false;
         btnRunRotate.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i> Apply Rotation &amp; Download`;
         lucide.createIcons();
@@ -2144,7 +2371,6 @@
     async function executeCompress() {
       if (!compressFile) return;
       btnRunCompress.disabled = true;
-      btnRunCompress.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Compressing in browser...`;
 
       try {
         const quality = parseFloat(document.querySelector('input[name="comp-level"]:checked').value);
@@ -2152,11 +2378,20 @@
         
         const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
         const pdf = await loadingTask.promise;
+        const total = pdf.numPages;
+        showProgress('Compressing PDF Pages', total);
+
         const newPdfDoc = await PDFLib.PDFDocument.create();
 
-        for (let i = 1; i <= pdf.numPages; i++) {
+        for (let i = 1; i <= total; i++) {
+          if (isBatchCancelled) {
+            showToast('Compression cancelled.', false);
+            break;
+          }
+          updateProgress(i, total, `Compressing page ${i} of ${total}...`);
+
           const page = await pdf.getPage(i);
-          const viewport = page.getViewport({ scale: 1.5 });
+          const viewport = page.getViewport({ scale: 1.4 });
           const canvas = document.createElement('canvas');
           canvas.width = viewport.width;
           canvas.height = viewport.height;
@@ -2175,18 +2410,28 @@
             width: viewport.width,
             height: viewport.height
           });
+
+          canvas.width = 0;
+          canvas.height = 0;
+
+          await new Promise(r => setTimeout(r, 0));
         }
 
-        const compressedBytes = await newPdfDoc.save();
-        const originalSize = compressFile.size;
-        const newSize = compressedBytes.length;
-        const savings = Math.max(0, Math.round(((originalSize - newSize) / originalSize) * 100));
+        if (!isBatchCancelled) {
+          updateProgress(total, total, 'Optimizing and saving document...');
+          await new Promise(r => setTimeout(r, 10));
+          const compressedBytes = await newPdfDoc.save();
+          const originalSize = compressFile.size;
+          const newSize = compressedBytes.length;
+          const savings = Math.max(0, Math.round(((originalSize - newSize) / originalSize) * 100));
 
-        downloadBlob(compressedBytes, `compressed-${compressFile.name}`, 'application/pdf');
-        showToast(`Compressed! ${formatBytes(originalSize)} → ${formatBytes(newSize)} (${savings}% saved)`);
+          downloadBlob(compressedBytes, `compressed-${compressFile.name}`, 'application/pdf');
+          showToast(`Compressed! ${formatBytes(originalSize)} → ${formatBytes(newSize)} (${savings}% saved)`);
+        }
       } catch (err) {
         showToast('Compress error: ' + err.message, false);
       } finally {
+        hideProgress();
         btnRunCompress.disabled = false;
         btnRunCompress.innerHTML = `<i data-lucide="minimize-2" class="w-4 h-4"></i> Compress and Download`;
         lucide.createIcons();
@@ -2226,7 +2471,6 @@
     async function executePdf2Img() {
       if (!pdf2ImgFile) return;
       btnRunPdf2Img.disabled = true;
-      btnRunPdf2Img.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Rendering pages...`;
 
       try {
         const format = document.getElementById('pdf2img-format').value;
@@ -2235,11 +2479,20 @@
 
         const buffer = await pdf2ImgFile.arrayBuffer();
         const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+        const total = pdf.numPages;
+        showProgress('Converting PDF to Images', total);
+
         const zip = new JSZip();
 
-        for (let i = 1; i <= pdf.numPages; i++) {
+        for (let i = 1; i <= total; i++) {
+          if (isBatchCancelled) {
+            showToast('Conversion cancelled.', false);
+            break;
+          }
+          updateProgress(i, total, `Rendering page ${i} of ${total} (${ext.toUpperCase()})...`);
+
           const page = await pdf.getPage(i);
-          const viewport = page.getViewport({ scale: 2.0 });
+          const viewport = page.getViewport({ scale: 1.5 });
           const canvas = document.createElement('canvas');
           canvas.width = viewport.width;
           canvas.height = viewport.height;
@@ -2247,21 +2500,31 @@
 
           await page.render({ canvasContext: ctx, viewport }).promise;
 
-          const dataUrl = canvas.toDataURL(mime, 0.92);
+          const dataUrl = canvas.toDataURL(mime, 0.90);
           const byteStr = atob(dataUrl.split(',')[1]);
           const ab = new ArrayBuffer(byteStr.length);
           const ia = new Uint8Array(ab);
           for (let b = 0; b < byteStr.length; b++) ia[b] = byteStr.charCodeAt(b);
 
           zip.file(`page-${i}.${ext}`, ab);
+
+          canvas.width = 0;
+          canvas.height = 0;
+
+          await new Promise(r => setTimeout(r, 0));
         }
 
-        const zipBlob = await zip.generateAsync({ type: 'blob' });
-        downloadBlob(zipBlob, `${pdf2ImgFile.name.replace('.pdf', '')}-images.zip`, 'application/zip');
-        showToast(`Rendered ${pdf.numPages} pages into images ZIP!`);
+        if (!isBatchCancelled) {
+          updateProgress(total, total, 'Creating ZIP package...');
+          await new Promise(r => setTimeout(r, 20));
+          const zipBlob = await zip.generateAsync({ type: 'blob' });
+          downloadBlob(zipBlob, `${pdf2ImgFile.name.replace('.pdf', '')}-images.zip`, 'application/zip');
+          showToast(`Rendered ${total} pages into images ZIP!`);
+        }
       } catch (err) {
         showToast('Render error: ' + err.message, false);
       } finally {
+        hideProgress();
         btnRunPdf2Img.disabled = false;
         btnRunPdf2Img.innerHTML = `<i data-lucide="file-image" class="w-4 h-4"></i> Convert &amp; Download Images (ZIP)`;
         lucide.createIcons();
@@ -2289,7 +2552,8 @@
         listImg2Pdf.classList.remove('hidden');
         btnRunImg2Pdf.disabled = false;
 
-        img2PdfFiles.forEach(file => {
+        const displayImgs = img2PdfFiles.slice(0, 30);
+        displayImgs.forEach(file => {
           const reader = new FileReader();
           reader.onload = (ev) => {
             const card = document.createElement('div');
@@ -2305,12 +2569,20 @@
     async function executeImg2Pdf() {
       if (img2PdfFiles.length === 0) return;
       btnRunImg2Pdf.disabled = true;
-      btnRunImg2Pdf.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Generating PDF...`;
+      const total = img2PdfFiles.length;
+      showProgress('Converting Images to PDF', total);
 
       try {
         const doc = await PDFLib.PDFDocument.create();
 
-        for (const file of img2PdfFiles) {
+        for (let i = 0; i < total; i++) {
+          if (isBatchCancelled) {
+            showToast('Image conversion cancelled.', false);
+            break;
+          }
+          const file = img2PdfFiles[i];
+          updateProgress(i + 1, total, `Embedding image ${i + 1} of ${total}: ${file.name}`);
+
           const buffer = await file.arrayBuffer();
           let img;
           if (file.type === 'image/jpeg' || file.name.match(/\.(jpg|jpeg)$/i)) {
@@ -2321,14 +2593,23 @@
 
           const page = doc.addPage([img.width, img.height]);
           page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
+
+          if (i % 2 === 0) {
+            await new Promise(r => setTimeout(r, 0));
+          }
         }
 
-        const bytes = await doc.save();
-        downloadBlob(bytes, 'images-converted.pdf', 'application/pdf');
-        showToast('Converted images into PDF document!');
+        if (!isBatchCancelled) {
+          updateProgress(total, total, 'Finalizing PDF document...');
+          await new Promise(r => setTimeout(r, 10));
+          const bytes = await doc.save();
+          downloadBlob(bytes, 'images-converted.pdf', 'application/pdf');
+          showToast(`Converted ${total} images into PDF document!`);
+        }
       } catch (err) {
         showToast('Image conversion error: ' + err.message, false);
       } finally {
+        hideProgress();
         btnRunImg2Pdf.disabled = false;
         btnRunImg2Pdf.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i> Generate PDF`;
         lucide.createIcons();
