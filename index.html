@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PDF Orbit 360 | Complete Free PDF Suite</title>
+  <title>PDF Orbit 360 | Free In-Browser PDF Studio</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <!-- PDF-LIB for in-browser client-side PDF creation & editing -->
   <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <!-- PDF-Encrypt for pure client-side PDF password protection & encryption -->
+  <script src="https://unpkg.com/@pdfsmaller/pdf-encrypt@1.2.0/dist/pdf-encrypt.umd.js"></script>
   <!-- PDF.js for in-browser PDF rendering, thumbnail generation & text extraction -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <!-- JSZip for multi-file bundle downloads -->
@@ -50,12 +52,15 @@
       background-color: #334155;
       border-radius: 4px;
     }
+    .thumb-transition {
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans gradient-hero antialiased">
 
   <!-- Header -->
-  <header class="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur sticky top-0 z-50">
+  <header class="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3 cursor-pointer" onclick="showDashboard()">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-sky-400 flex items-center justify-center shadow-lg shadow-blue-600/30">
@@ -68,7 +73,7 @@
       </div>
       
       <div class="flex items-center gap-3">
-        <button onclick="showDashboard()" class="text-xs sm:text-sm font-medium text-slate-300 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition">
+        <button onclick="showDashboard()" class="text-xs sm:text-sm font-medium text-slate-300 hover:text-white px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition">
           All Tools
         </button>
         <a href="https://github.com/justdineshsingh1-jpg/pdf-orbit-360" target="_blank" class="flex items-center gap-2 text-xs sm:text-sm text-slate-400 hover:text-white px-3 py-1.5 rounded-lg border border-slate-800 hover:border-slate-700 transition">
@@ -86,10 +91,10 @@
     <div id="view-dashboard">
       <div class="text-center max-w-3xl mx-auto mb-10">
         <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-3">
-          Every PDF Tool You Need, 100% Free &amp; Secure
+          Visual PDF Studio — 100% Free &amp; Secure
         </h1>
         <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
-          Zero paid APIs. Zero server uploads. All processing happens locally in your browser memory with military-grade privacy.
+          Zero paid APIs. Zero server uploads. Real-time visual page inspection, splitting, organizing, and rotating directly in your browser.
         </p>
       </div>
 
@@ -103,24 +108,57 @@
               <i data-lucide="combine" class="w-6 h-6"></i>
             </div>
             <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Merge PDF</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">Combine multiple PDFs in the order you want with ease.</p>
+            <p class="text-xs text-slate-400 leading-relaxed">Combine multiple PDFs in any custom order.</p>
           </div>
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
 
-        <!-- Tool 2: Split -->
+        <!-- Tool 2: Visual Split -->
         <div onclick="openTool('split')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="scissors" class="w-6 h-6"></i>
             </div>
-            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Split PDF</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">Extract page ranges or separate all pages into individual files.</p>
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Visual Split</h3>
+              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">Visual</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">See all pages visually &amp; click to select exact pages to extract.</p>
           </div>
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
 
-        <!-- Tool 3: Compress -->
+        <!-- Tool 3: Visual Organize & Rearrange -->
+        <div onclick="openTool('organize')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="layout-grid" class="w-6 h-6"></i>
+            </div>
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Visual Organize</h3>
+              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">Visual</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">Rearrange page order, delete pages, or rotate individual pages.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- Tool 4: Visual Rotate -->
+        <div onclick="openTool('rotate')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="rotate-cw" class="w-6 h-6"></i>
+            </div>
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Visual Rotate</h3>
+              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">Visual</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">Rotate pages with live visual preview of orientation.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- Tool 5: Compress -->
         <div onclick="openTool('compress')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
@@ -132,19 +170,19 @@
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
 
-        <!-- Tool 4: PDF to Image -->
+        <!-- Tool 6: PDF to Image -->
         <div onclick="openTool('pdf2img')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="file-image" class="w-6 h-6"></i>
             </div>
             <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">PDF to Image (JPG/PNG)</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">Render PDF pages to high-res images and download singly or in ZIP.</p>
+            <p class="text-xs text-slate-400 leading-relaxed">Render pages to high-res JPG or PNG and download singly or in ZIP.</p>
           </div>
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
 
-        <!-- Tool 5: Image to PDF -->
+        <!-- Tool 7: Image to PDF -->
         <div onclick="openTool('img2pdf')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
@@ -156,31 +194,19 @@
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
 
-        <!-- Tool 6: Organize & Delete Pages -->
-        <div onclick="openTool('organize')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <!-- Tool 8: Protect PDF -->
+        <div onclick="openTool('protect')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
-              <i data-lucide="layout-grid" class="w-6 h-6"></i>
+              <i data-lucide="lock" class="w-6 h-6"></i>
             </div>
-            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Organize / Delete Pages</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">Visual thumbnail viewer to delete unwanted pages or rearrange.</p>
+            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Protect PDF</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Encrypt your PDF with client-side password protection.</p>
           </div>
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
 
-        <!-- Tool 7: Rotate PDF -->
-        <div onclick="openTool('rotate')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
-              <i data-lucide="rotate-cw" class="w-6 h-6"></i>
-            </div>
-            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Rotate PDF</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">Rotate pages clockwise or counter-clockwise by 90°, 180° or 270°.</p>
-          </div>
-          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
-        </div>
-
-        <!-- Tool 8: Add Watermark -->
+        <!-- Tool 9: Add Watermark -->
         <div onclick="openTool('watermark')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
@@ -192,19 +218,19 @@
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
 
-        <!-- Tool 9: Add Page Numbers -->
+        <!-- Tool 10: Page Numbers -->
         <div onclick="openTool('pagenums')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="hash" class="w-6 h-6"></i>
             </div>
             <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Page Numbers</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">Add page numbering to your PDF with customized position &amp; typography.</p>
+            <p class="text-xs text-slate-400 leading-relaxed">Add page numbering to your PDF with custom position &amp; format.</p>
           </div>
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
 
-        <!-- Tool 10: Extract Text -->
+        <!-- Tool 11: Extract Text -->
         <div onclick="openTool('extracttext')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
@@ -216,18 +242,6 @@
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
 
-        <!-- Tool 11: Protect / Password -->
-        <div onclick="openTool('protect')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
-              <i data-lucide="lock" class="w-6 h-6"></i>
-            </div>
-            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Protect PDF</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">Encrypt your PDF with a secure password to prevent unauthorized access.</p>
-          </div>
-          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
-        </div>
-
         <!-- Tool 12: Metadata Inspector -->
         <div onclick="openTool('metadata')" class="group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
@@ -235,7 +249,7 @@
               <i data-lucide="info" class="w-6 h-6"></i>
             </div>
             <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">PDF Info &amp; Metadata</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">Inspect page dimensions, author, subject, keywords and PDF version.</p>
+            <p class="text-xs text-slate-400 leading-relaxed">Inspect page dimensions, author, subject, keywords and PDF properties.</p>
           </div>
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
@@ -247,14 +261,14 @@
     <div id="view-workspace" class="hidden flex-1 flex flex-col">
       <!-- Back button & Breadcrumb -->
       <div class="flex items-center justify-between mb-6">
-        <button onclick="showDashboard()" class="flex items-center gap-2 text-sm text-slate-400 hover:text-white px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition">
+        <button onclick="showDashboard()" class="flex items-center gap-2 text-sm text-slate-400 hover:text-white px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition">
           <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to All Tools
         </button>
-        <span id="workspace-badge" class="text-xs font-medium px-3 py-1 rounded-full bg-blue-600/10 text-blue-400 border border-blue-500/20"></span>
+        <span id="workspace-badge" class="text-xs font-medium px-3.5 py-1.5 rounded-full bg-blue-600/10 text-blue-400 border border-blue-500/20"></span>
       </div>
 
       <!-- ACTIVE TOOL CARD -->
-      <div class="max-w-4xl w-full mx-auto bg-slate-900/80 border border-slate-800 rounded-3xl p-6 sm:p-10 backdrop-blur shadow-2xl flex-1 flex flex-col justify-between">
+      <div class="max-w-5xl w-full mx-auto bg-slate-900/80 border border-slate-800 rounded-3xl p-6 sm:p-8 backdrop-blur shadow-2xl flex-1 flex flex-col justify-between">
 
         <!-- ================= TOOL 1: MERGE ================= -->
         <div id="tool-merge-content" class="tool-content hidden">
@@ -264,7 +278,7 @@
             </div>
             <div>
               <h2 class="text-xl sm:text-2xl font-bold text-white">Merge Multiple PDFs</h2>
-              <p class="text-xs sm:text-sm text-slate-400">Select two or more PDF files to merge into one.</p>
+              <p class="text-xs sm:text-sm text-slate-400">Select two or more PDF files to combine into a single document.</p>
             </div>
           </div>
 
@@ -272,7 +286,7 @@
             <input type="file" id="input-merge" multiple accept="application/pdf" class="hidden">
             <i data-lucide="upload-cloud" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
             <p class="text-base font-semibold text-white mb-1">Click to browse or drag &amp; drop PDFs</p>
-            <p class="text-xs text-slate-400">Add as many PDF files as you like</p>
+            <p class="text-xs text-slate-400">Add 2 or more PDF documents</p>
           </div>
 
           <div id="list-merge" class="mt-6 space-y-2 hidden">
@@ -290,55 +304,157 @@
           </div>
         </div>
 
-        <!-- ================= TOOL 2: SPLIT ================= -->
+        <!-- ================= TOOL 2: VISUAL SPLIT ================= -->
         <div id="tool-split-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
               <i data-lucide="scissors" class="w-6 h-6"></i>
             </div>
             <div>
-              <h2 class="text-xl sm:text-2xl font-bold text-white">Split PDF</h2>
-              <p class="text-xs sm:text-sm text-slate-400">Extract custom page ranges or separate all pages into a ZIP.</p>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Visual Split PDF</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Click on page thumbnails to select exactly which pages you want to extract.</p>
             </div>
           </div>
 
           <div id="dropzone-split" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
             <input type="file" id="input-split" accept="application/pdf" class="hidden">
             <i data-lucide="file-up" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
-            <p id="label-split-file" class="text-base font-semibold text-white mb-1">Select a PDF file to split</p>
-            <p id="sublabel-split-file" class="text-xs text-slate-400">Fast client-side extraction</p>
+            <p id="label-split-file" class="text-base font-semibold text-white mb-1">Select a PDF to view &amp; split pages</p>
+            <p id="sublabel-split-file" class="text-xs text-slate-400">Generates instant interactive page previews</p>
           </div>
 
-          <div id="config-split" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-4">
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Split Mode:</label>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <label class="flex items-center gap-2 p-3 rounded-lg border border-slate-700 bg-slate-900 cursor-pointer">
-                  <input type="radio" name="split-mode" value="range" checked onchange="toggleSplitMode()" class="text-blue-600">
-                  <span class="text-xs text-slate-200">Extract Specific Range (e.g. 1-3, 5)</span>
-                </label>
-                <label class="flex items-center gap-2 p-3 rounded-lg border border-slate-700 bg-slate-900 cursor-pointer">
-                  <input type="radio" name="split-mode" value="all" onchange="toggleSplitMode()" class="text-blue-600">
-                  <span class="text-xs text-slate-200">Separate Every Page into ZIP</span>
-                </label>
+          <!-- Visual Split Workspace -->
+          <div id="visual-split-workspace" class="mt-6 hidden space-y-4">
+            <!-- Toolbar -->
+            <div class="flex flex-wrap items-center justify-between gap-3 p-3 bg-slate-950/70 border border-slate-800 rounded-xl">
+              <div class="flex items-center gap-2">
+                <button onclick="splitSelectAll(true)" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition">Select All</button>
+                <button onclick="splitSelectAll(false)" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition">Deselect All</button>
+                <button onclick="splitInvertSelection()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition">Invert</button>
+              </div>
+              <div class="text-xs text-slate-300 font-medium">
+                Selected: <span id="split-selected-summary" class="font-bold text-blue-400">0 of 0 pages</span>
               </div>
             </div>
 
-            <div id="split-range-box">
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Page Ranges (Total Pages: <span id="split-total-pages" class="text-blue-400 font-bold"></span>):</label>
-              <input type="text" id="split-range-input" placeholder="e.g. 1-2, 4" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
-              <p class="text-[11px] text-slate-500 mt-1">Example: "1-3, 5" extracts pages 1, 2, 3 and 5 into a new PDF.</p>
+            <!-- Page Grid -->
+            <div id="split-thumbnails-grid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-4 max-h-[460px] overflow-y-auto custom-scroll p-3 bg-slate-950/50 rounded-2xl border border-slate-800/80">
+              <!-- Dynamically generated page thumbnails -->
+            </div>
+          </div>
+
+          <div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="text-xs text-slate-400">
+              Click individual page cards to include or exclude them from the output PDF.
+            </div>
+            <div class="flex items-center gap-3">
+              <button id="btn-split-zip" onclick="executeSplitToZip()" disabled class="px-5 py-3 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 disabled:opacity-40 transition-all border border-slate-700">
+                Split Every Page to ZIP
+              </button>
+              <button id="btn-run-split" onclick="executeSplit()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+                <i data-lucide="scissors" class="w-4 h-4"></i> Extract Selected Pages
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= TOOL 3: VISUAL ORGANIZE ================= -->
+        <div id="tool-organize-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="layout-grid" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Visual Organize &amp; Rearrange</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Reorder pages with arrows, rotate individual pages, or delete unwanted pages visually.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-organize" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-organize" accept="application/pdf" class="hidden">
+            <i data-lucide="file-up" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-organize-file" class="text-base font-semibold text-white mb-1">Select a PDF to organize</p>
+            <p class="text-xs text-slate-400">Visual drag/reorder, rotate and delete suite</p>
+          </div>
+
+          <div id="visual-organize-workspace" class="mt-6 hidden space-y-4">
+            <!-- Header bar -->
+            <div class="flex items-center justify-between p-3 bg-slate-950/70 border border-slate-800 rounded-xl">
+              <div class="text-xs text-slate-300 font-medium">
+                Document Status: <span id="organize-status-text" class="font-bold text-blue-400"></span>
+              </div>
+              <button onclick="resetOrganizePages()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition">
+                Reset All Changes
+              </button>
+            </div>
+
+            <!-- Organize Thumbnails Container -->
+            <div id="organize-thumbnails-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-h-[480px] overflow-y-auto custom-scroll p-3 bg-slate-950/50 rounded-2xl border border-slate-800/80">
+              <!-- Rendered cards with Move Left, Move Right, Rotate, Delete -->
             </div>
           </div>
 
           <div class="mt-8 flex justify-end">
-            <button id="btn-run-split" onclick="executeSplit()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
-              <i data-lucide="scissors" class="w-4 h-4"></i> Split &amp; Download
+            <button id="btn-run-organize" onclick="executeOrganize()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="save" class="w-4 h-4"></i> Save &amp; Download Organized PDF
             </button>
           </div>
         </div>
 
-        <!-- ================= TOOL 3: COMPRESS ================= -->
+        <!-- ================= TOOL 4: VISUAL ROTATE ================= -->
+        <div id="tool-rotate-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="rotate-cw" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Visual Rotate PDF</h2>
+              <p class="text-xs sm:text-sm text-slate-400">See your pages turn live on screen. Rotate individual pages or all pages at once.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-rotate" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-rotate" accept="application/pdf" class="hidden">
+            <i data-lucide="file-up" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-rotate-file" class="text-base font-semibold text-white mb-1">Select a PDF to rotate visually</p>
+            <p class="text-xs text-slate-400">Live orientation preview</p>
+          </div>
+
+          <!-- Visual Rotate Workspace -->
+          <div id="visual-rotate-workspace" class="mt-6 hidden space-y-4">
+            <!-- Global Rotation Toolbar -->
+            <div class="flex flex-wrap items-center justify-between gap-3 p-3 bg-slate-950/70 border border-slate-800 rounded-xl">
+              <div class="flex items-center gap-2">
+                <button onclick="rotateAllPages(90)" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 text-xs font-semibold border border-blue-500/30 transition">
+                  <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i> Rotate All +90°
+                </button>
+                <button onclick="rotateAllPages(270)" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition">
+                  <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Rotate All -90°
+                </button>
+                <button onclick="rotateAllPages(180)" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition">
+                  Flip 180°
+                </button>
+                <button onclick="resetRotatePages()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 text-xs font-semibold transition">
+                  Reset
+                </button>
+              </div>
+              <div class="text-xs text-slate-300 font-medium">
+                Total Pages: <span id="rotate-page-count" class="font-bold text-blue-400">0</span>
+              </div>
+            </div>
+
+            <!-- Page Grid with live CSS rotation -->
+            <div id="rotate-thumbnails-grid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-4 max-h-[460px] overflow-y-auto custom-scroll p-3 bg-slate-950/50 rounded-2xl border border-slate-800/80"></div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-rotate" onclick="executeRotate()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="download" class="w-4 h-4"></i> Apply Rotation &amp; Download
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL 5: COMPRESS ================= -->
         <div id="tool-compress-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
@@ -346,7 +462,7 @@
             </div>
             <div>
               <h2 class="text-xl sm:text-2xl font-bold text-white">Compress PDF</h2>
-              <p class="text-xs sm:text-sm text-slate-400">Reduce document file size with optimized compression.</p>
+              <p class="text-xs sm:text-sm text-slate-400">Reduce document file size with client-side canvas recompression.</p>
             </div>
           </div>
 
@@ -354,7 +470,7 @@
             <input type="file" id="input-compress" accept="application/pdf" class="hidden">
             <i data-lucide="file-down" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
             <p id="label-compress-file" class="text-base font-semibold text-white mb-1">Select a PDF to compress</p>
-            <p id="sublabel-compress-file" class="text-xs text-slate-400">Optimizes image streams and document objects</p>
+            <p id="sublabel-compress-file" class="text-xs text-slate-400">Optimizes document streams in memory</p>
           </div>
 
           <div id="config-compress" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-4">
@@ -391,7 +507,7 @@
           </div>
         </div>
 
-        <!-- ================= TOOL 4: PDF TO IMAGE ================= -->
+        <!-- ================= TOOL 6: PDF TO IMAGE ================= -->
         <div id="tool-pdf2img-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
@@ -430,7 +546,7 @@
           </div>
         </div>
 
-        <!-- ================= TOOL 5: IMAGE TO PDF ================= -->
+        <!-- ================= TOOL 7: IMAGE TO PDF ================= -->
         <div id="tool-img2pdf-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
@@ -461,76 +577,44 @@
           </div>
         </div>
 
-        <!-- ================= TOOL 6: ORGANIZE & DELETE ================= -->
-        <div id="tool-organize-content" class="tool-content hidden">
+        <!-- ================= TOOL 8: PROTECT / PASSWORD ================= -->
+        <div id="tool-protect-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
-              <i data-lucide="layout-grid" class="w-6 h-6"></i>
+              <i data-lucide="lock" class="w-6 h-6"></i>
             </div>
             <div>
-              <h2 class="text-xl sm:text-2xl font-bold text-white">Organize &amp; Delete Pages</h2>
-              <p class="text-xs sm:text-sm text-slate-400">Click any page thumbnail to delete or keep it.</p>
+              <h2 class="text-xl sm:text-2xl font-bold text-white">Protect PDF with Password</h2>
+              <p class="text-xs sm:text-sm text-slate-400">Add client-side password protection to lock your document.</p>
             </div>
           </div>
 
-          <div id="dropzone-organize" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
-            <input type="file" id="input-organize" accept="application/pdf" class="hidden">
+          <div id="dropzone-protect" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-protect" accept="application/pdf" class="hidden">
             <i data-lucide="file-up" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
-            <p id="label-organize-file" class="text-base font-semibold text-white mb-1">Select a PDF to organize</p>
-            <p class="text-xs text-slate-400">Visual thumbnail inspector</p>
+            <p id="label-protect-file" class="text-base font-semibold text-white mb-1">Select a PDF to protect</p>
+            <p class="text-xs text-slate-400">Client-side encryption with zero server transmission</p>
           </div>
 
-          <div id="grid-organize" class="mt-6 hidden">
-            <div class="flex items-center justify-between mb-3 text-xs text-slate-400 px-1">
-              <span>Click on a page to toggle removal (red border = removed)</span>
-              <span id="organize-status-text" class="font-bold text-blue-400"></span>
+          <div id="config-protect" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Password:</label>
+              <input type="password" id="protect-password" placeholder="Enter secure password" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
             </div>
-            <div id="thumbnails-organize" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4 max-h-96 overflow-y-auto custom-scroll p-2 bg-slate-950/60 rounded-xl border border-slate-800"></div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Confirm Password:</label>
+              <input type="password" id="protect-password-confirm" placeholder="Re-enter password" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
+            </div>
           </div>
 
           <div class="mt-8 flex justify-end">
-            <button id="btn-run-organize" onclick="executeOrganize()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
-              <i data-lucide="download" class="w-4 h-4"></i> Save Organized PDF
+            <button id="btn-run-protect" onclick="executeProtect()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="lock" class="w-4 h-4"></i> Protect &amp; Download
             </button>
           </div>
         </div>
 
-        <!-- ================= TOOL 7: ROTATE ================= -->
-        <div id="tool-rotate-content" class="tool-content hidden">
-          <div class="flex items-center gap-3 mb-6">
-            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
-              <i data-lucide="rotate-cw" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <h2 class="text-xl sm:text-2xl font-bold text-white">Rotate PDF Pages</h2>
-              <p class="text-xs sm:text-sm text-slate-400">Permanently rotate pages by 90°, 180°, or 270°.</p>
-            </div>
-          </div>
-
-          <div id="dropzone-rotate" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
-            <input type="file" id="input-rotate" accept="application/pdf" class="hidden">
-            <i data-lucide="file-up" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
-            <p id="label-rotate-file" class="text-base font-semibold text-white mb-1">Select a PDF to rotate</p>
-            <p class="text-xs text-slate-400">Supports rotating all pages</p>
-          </div>
-
-          <div id="config-rotate" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 flex items-center justify-between">
-            <label class="text-xs font-semibold text-slate-300">Rotation Angle:</label>
-            <select id="select-rotate-angle" class="bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-xs text-white">
-              <option value="90">90° Clockwise</option>
-              <option value="180">180° Upside Down</option>
-              <option value="270">270° Counter-Clockwise</option>
-            </select>
-          </div>
-
-          <div class="mt-8 flex justify-end">
-            <button id="btn-run-rotate" onclick="executeRotate()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
-              <i data-lucide="rotate-cw" class="w-4 h-4"></i> Rotate &amp; Download
-            </button>
-          </div>
-        </div>
-
-        <!-- ================= TOOL 8: WATERMARK ================= -->
+        <!-- ================= TOOL 9: WATERMARK ================= -->
         <div id="tool-watermark-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
@@ -573,7 +657,7 @@
           </div>
         </div>
 
-        <!-- ================= TOOL 9: PAGE NUMBERS ================= -->
+        <!-- ================= TOOL 10: PAGE NUMBERS ================= -->
         <div id="tool-pagenums-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
@@ -621,7 +705,7 @@
           </div>
         </div>
 
-        <!-- ================= TOOL 10: EXTRACT TEXT ================= -->
+        <!-- ================= TOOL 11: EXTRACT TEXT ================= -->
         <div id="tool-extracttext-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
@@ -655,43 +739,6 @@
           </div>
         </div>
 
-        <!-- ================= TOOL 11: PROTECT / PASSWORD ================= -->
-        <div id="tool-protect-content" class="tool-content hidden">
-          <div class="flex items-center gap-3 mb-6">
-            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
-              <i data-lucide="lock" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <h2 class="text-xl sm:text-2xl font-bold text-white">Protect PDF with Password</h2>
-              <p class="text-xs sm:text-sm text-slate-400">Add a secure password to prevent unauthorized reading or opening.</p>
-            </div>
-          </div>
-
-          <div id="dropzone-protect" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
-            <input type="file" id="input-protect" accept="application/pdf" class="hidden">
-            <i data-lucide="file-up" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
-            <p id="label-protect-file" class="text-base font-semibold text-white mb-1">Select a PDF to protect</p>
-            <p class="text-xs text-slate-400">Client-side encryption</p>
-          </div>
-
-          <div id="config-protect" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-4">
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Password:</label>
-              <input type="password" id="protect-password" placeholder="Enter secure password" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
-            </div>
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Confirm Password:</label>
-              <input type="password" id="protect-password-confirm" placeholder="Re-enter password" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
-            </div>
-          </div>
-
-          <div class="mt-8 flex justify-end">
-            <button id="btn-run-protect" onclick="executeProtect()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
-              <i data-lucide="lock" class="w-4 h-4"></i> Protect &amp; Download
-            </button>
-          </div>
-        </div>
-
         <!-- ================= TOOL 12: METADATA INSPECTOR ================= -->
         <div id="tool-metadata-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
@@ -700,7 +747,7 @@
             </div>
             <div>
               <h2 class="text-xl sm:text-2xl font-bold text-white">PDF Info &amp; Metadata Inspector</h2>
-              <p class="text-xs sm:text-sm text-slate-400">View and edit document title, author, subject, and keywords.</p>
+              <p class="text-xs sm:text-sm text-slate-400">View and edit document title, author, subject, and creator.</p>
             </div>
           </div>
 
@@ -750,6 +797,21 @@
       </div>
     </div>
 
+    <!-- FULLSCREEN PAGE ZOOM PREVIEW MODAL -->
+    <div id="modal-zoom" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+      <div class="relative bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-4 flex flex-col max-h-[90vh]">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+          <span id="modal-zoom-title" class="text-sm font-bold text-white">Page Preview</span>
+          <button onclick="closeZoomModal()" class="p-1 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+        <div class="flex-1 overflow-auto flex items-center justify-center bg-slate-950 rounded-xl p-2">
+          <canvas id="modal-zoom-canvas" class="max-w-full max-h-[72vh] rounded shadow-2xl"></canvas>
+        </div>
+      </div>
+    </div>
+
     <!-- Notification Toast -->
     <div id="toast" class="fixed bottom-6 right-6 max-w-sm bg-slate-900 border border-blue-500/40 shadow-2xl rounded-2xl p-4 flex items-center gap-3 transform translate-y-24 opacity-0 transition-all duration-300 z-50">
       <div id="toast-icon"></div>
@@ -759,7 +821,7 @@
 
   <!-- Footer -->
   <footer class="border-t border-slate-900 bg-slate-950/80 py-6 text-center text-xs text-slate-500">
-    <p>PDF Orbit 360 &copy; 2026. 100% Free Client-Side PDF Tools. Zero Paid APIs.</p>
+    <p>PDF Orbit 360 &copy; 2026. 100% Free Client-Side Visual PDF Studio. Zero Paid APIs.</p>
   </footer>
 
   <script>
@@ -823,6 +885,27 @@
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
+    }
+
+    // Zoom Modal
+    let activePdfDoc = null;
+    async function openZoomModal(pageNum, title) {
+      if (!activePdfDoc) return;
+      document.getElementById('modal-zoom-title').textContent = title || `Page ${pageNum} Preview`;
+      const modal = document.getElementById('modal-zoom');
+      const canvas = document.getElementById('modal-zoom-canvas');
+      modal.classList.remove('hidden');
+
+      const page = await activePdfDoc.getPage(pageNum);
+      const viewport = page.getViewport({ scale: 1.5 });
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      const ctx = canvas.getContext('2d');
+      await page.render({ canvasContext: ctx, viewport }).promise;
+    }
+
+    function closeZoomModal() {
+      document.getElementById('modal-zoom').classList.add('hidden');
     }
 
     // ==========================================
@@ -918,15 +1001,17 @@
     }
 
     // ==========================================
-    // 2. SPLIT PDF
+    // 2. VISUAL SPLIT PDF
     // ==========================================
     let splitFile = null;
     let splitDocCache = null;
-    let splitTotalPagesCount = 0;
+    let splitPagesState = []; // array of { index: 0, pageNum: 1, selected: true }
     const dropzoneSplit = document.getElementById('dropzone-split');
     const inputSplit = document.getElementById('input-split');
-    const configSplit = document.getElementById('config-split');
+    const visualSplitWorkspace = document.getElementById('visual-split-workspace');
+    const splitThumbnailsGrid = document.getElementById('split-thumbnails-grid');
     const btnRunSplit = document.getElementById('btn-run-split');
+    const btnSplitZip = document.getElementById('btn-split-zip');
 
     dropzoneSplit.onclick = () => inputSplit.click();
     inputSplit.onchange = async (e) => {
@@ -935,95 +1020,428 @@
       splitFile = file;
 
       try {
+        document.getElementById('label-split-file').textContent = `${file.name} (${formatBytes(file.size)})`;
         const buffer = await file.arrayBuffer();
         splitDocCache = await PDFLib.PDFDocument.load(buffer);
-        splitTotalPagesCount = splitDocCache.getPageCount();
+        const total = splitDocCache.getPageCount();
 
-        document.getElementById('label-split-file').textContent = `${file.name} (${formatBytes(file.size)})`;
-        document.getElementById('split-total-pages').textContent = splitTotalPagesCount;
-        configSplit.classList.remove('hidden');
+        activePdfDoc = await pdfjsLib.getDocument({ data: buffer }).promise;
+
+        splitPagesState = [];
+        for (let i = 0; i < total; i++) {
+          splitPagesState.push({ index: i, pageNum: i + 1, selected: true });
+        }
+
+        visualSplitWorkspace.classList.remove('hidden');
         btnRunSplit.disabled = false;
-        showToast(`Loaded PDF with ${splitTotalPagesCount} pages.`);
+        btnSplitZip.disabled = false;
+        renderVisualSplitThumbnails();
+        showToast(`Loaded ${total} pages for visual split.`);
       } catch (err) {
         showToast('Error reading PDF: ' + err.message, false);
       }
     };
 
-    function toggleSplitMode() {
-      const mode = document.querySelector('input[name="split-mode"]:checked').value;
-      document.getElementById('split-range-box').style.display = mode === 'range' ? 'block' : 'none';
+    async function renderVisualSplitThumbnails() {
+      splitThumbnailsGrid.innerHTML = '';
+      updateSplitSummary();
+
+      for (let i = 0; i < splitPagesState.length; i++) {
+        const item = splitPagesState[i];
+        const page = await activePdfDoc.getPage(item.pageNum);
+        const viewport = page.getViewport({ scale: 0.35 });
+        const canvas = document.createElement('canvas');
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        const ctx = canvas.getContext('2d');
+        await page.render({ canvasContext: ctx, viewport }).promise;
+
+        const card = document.createElement('div');
+        card.id = `split-card-${item.index}`;
+        card.className = `relative flex flex-col p-2.5 rounded-xl border-2 cursor-pointer transition-all bg-slate-900/90 group ${
+          item.selected ? 'border-blue-500 shadow-lg shadow-blue-500/10' : 'border-slate-800 opacity-50'
+        }`;
+        card.onclick = () => toggleSplitSelection(item.index);
+
+        card.innerHTML = `
+          <div class="relative overflow-hidden rounded-lg bg-slate-950 flex items-center justify-center">
+            <img src="${canvas.toDataURL()}" class="w-full object-contain">
+            <div id="split-check-${item.index}" class="absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center ${
+              item.selected ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-500'
+            }">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+          </div>
+          <div class="flex items-center justify-between mt-2 px-1">
+            <span class="text-xs font-bold text-slate-300">Page ${item.pageNum}</span>
+            <button onclick="event.stopPropagation(); openZoomModal(${item.pageNum}, 'Page ${item.pageNum}')" class="text-slate-500 hover:text-blue-400 p-0.5" title="Preview large">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+            </button>
+          </div>
+        `;
+        splitThumbnailsGrid.appendChild(card);
+      }
+    }
+
+    function toggleSplitSelection(idx) {
+      splitPagesState[idx].selected = !splitPagesState[idx].selected;
+      const card = document.getElementById(`split-card-${idx}`);
+      const check = document.getElementById(`split-check-${idx}`);
+
+      if (splitPagesState[idx].selected) {
+        card.className = 'relative flex flex-col p-2.5 rounded-xl border-2 cursor-pointer transition-all bg-slate-900/90 group border-blue-500 shadow-lg shadow-blue-500/10';
+        check.className = 'absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center bg-blue-600 text-white';
+      } else {
+        card.className = 'relative flex flex-col p-2.5 rounded-xl border-2 cursor-pointer transition-all bg-slate-900/90 group border-slate-800 opacity-50';
+        check.className = 'absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center bg-slate-800 text-slate-500';
+      }
+      updateSplitSummary();
+    }
+
+    function splitSelectAll(val) {
+      splitPagesState.forEach(p => p.selected = val);
+      splitPagesState.forEach((p, idx) => {
+        const card = document.getElementById(`split-card-${idx}`);
+        const check = document.getElementById(`split-check-${idx}`);
+        if (!card) return;
+        if (val) {
+          card.className = 'relative flex flex-col p-2.5 rounded-xl border-2 cursor-pointer transition-all bg-slate-900/90 group border-blue-500 shadow-lg shadow-blue-500/10';
+          check.className = 'absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center bg-blue-600 text-white';
+        } else {
+          card.className = 'relative flex flex-col p-2.5 rounded-xl border-2 cursor-pointer transition-all bg-slate-900/90 group border-slate-800 opacity-50';
+          check.className = 'absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center bg-slate-800 text-slate-500';
+        }
+      });
+      updateSplitSummary();
+    }
+
+    function splitInvertSelection() {
+      splitPagesState.forEach((p, idx) => toggleSplitSelection(idx));
+    }
+
+    function updateSplitSummary() {
+      const selected = splitPagesState.filter(p => p.selected).length;
+      document.getElementById('split-selected-summary').textContent = `${selected} of ${splitPagesState.length} pages selected`;
+      btnRunSplit.disabled = selected === 0;
     }
 
     async function executeSplit() {
       if (!splitFile || !splitDocCache) return;
+      const selectedIndices = splitPagesState.filter(p => p.selected).map(p => p.index);
+      if (selectedIndices.length === 0) return;
+
       btnRunSplit.disabled = true;
-      btnRunSplit.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Splitting...`;
+      btnRunSplit.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Extracting...`;
 
       try {
-        const mode = document.querySelector('input[name="split-mode"]:checked').value;
+        const newDoc = await PDFLib.PDFDocument.create();
+        const copied = await newDoc.copyPages(splitDocCache, selectedIndices);
+        copied.forEach(p => newDoc.addPage(p));
 
-        if (mode === 'all') {
-          // Extract each page to individual file inside ZIP
-          const zip = new JSZip();
-          for (let i = 0; i < splitTotalPagesCount; i++) {
-            const singleDoc = await PDFLib.PDFDocument.create();
-            const [copied] = await singleDoc.copyPages(splitDocCache, [i]);
-            singleDoc.addPage(copied);
-            const bytes = await singleDoc.save();
-            zip.file(`page-${i + 1}.pdf`, bytes);
-          }
-          const zipContent = await zip.generateAsync({ type: 'blob' });
-          downloadBlob(zipContent, `${splitFile.name.replace('.pdf', '')}-split-pages.zip`, 'application/zip');
-          showToast('All pages split and downloaded in ZIP!');
-        } else {
-          // Range mode
-          const rangeStr = document.getElementById('split-range-input').value.trim();
-          if (!rangeStr) throw new Error('Please specify a page range (e.g. 1-3, 5)');
-
-          const pageIndices = parsePageRanges(rangeStr, splitTotalPagesCount);
-          if (pageIndices.length === 0) throw new Error('No valid pages found in range.');
-
-          const newDoc = await PDFLib.PDFDocument.create();
-          const copiedPages = await newDoc.copyPages(splitDocCache, pageIndices);
-          copiedPages.forEach(p => newDoc.addPage(p));
-
-          const bytes = await newDoc.save();
-          downloadBlob(bytes, `extracted-${splitFile.name}`, 'application/pdf');
-          showToast(`Extracted ${pageIndices.length} pages successfully!`);
-        }
+        const bytes = await newDoc.save();
+        downloadBlob(bytes, `extracted-${splitFile.name}`, 'application/pdf');
+        showToast(`Extracted ${selectedIndices.length} pages successfully!`);
       } catch (err) {
-        showToast(err.message, false);
+        showToast('Split error: ' + err.message, false);
       } finally {
         btnRunSplit.disabled = false;
-        btnRunSplit.innerHTML = `<i data-lucide="scissors" class="w-4 h-4"></i> Split &amp; Download`;
+        btnRunSplit.innerHTML = `<i data-lucide="scissors" class="w-4 h-4"></i> Extract Selected Pages`;
         lucide.createIcons();
       }
     }
 
-    function parsePageRanges(str, maxPages) {
-      const indices = new Set();
-      const parts = str.split(',').map(s => s.trim());
+    async function executeSplitToZip() {
+      if (!splitFile || !splitDocCache) return;
+      btnSplitZip.disabled = true;
+      btnSplitZip.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Creating ZIP...`;
 
-      parts.forEach(part => {
-        if (part.includes('-')) {
-          const [start, end] = part.split('-').map(n => parseInt(n.trim(), 10));
-          if (!isNaN(start) && !isNaN(end)) {
-            for (let i = Math.max(1, start); i <= Math.min(maxPages, end); i++) {
-              indices.add(i - 1);
-            }
-          }
-        } else {
-          const page = parseInt(part, 10);
-          if (!isNaN(page) && page >= 1 && page <= maxPages) {
-            indices.add(page - 1);
-          }
+      try {
+        const zip = new JSZip();
+        const total = splitDocCache.getPageCount();
+        for (let i = 0; i < total; i++) {
+          const singleDoc = await PDFLib.PDFDocument.create();
+          const [copied] = await singleDoc.copyPages(splitDocCache, [i]);
+          singleDoc.addPage(copied);
+          const bytes = await singleDoc.save();
+          zip.file(`page-${i + 1}.pdf`, bytes);
         }
-      });
-      return Array.from(indices).sort((a, b) => a - b);
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        downloadBlob(zipBlob, `${splitFile.name.replace('.pdf', '')}-all-pages.zip`, 'application/zip');
+        showToast('All pages split and saved in ZIP!');
+      } catch (err) {
+        showToast('Error: ' + err.message, false);
+      } finally {
+        btnSplitZip.disabled = false;
+        btnSplitZip.innerHTML = `Split Every Page to ZIP`;
+      }
     }
 
     // ==========================================
-    // 3. COMPRESS PDF
+    // 3. VISUAL ORGANIZE & REARRANGE
+    // ==========================================
+    let organizeFile = null;
+    let organizeDocCache = null;
+    let organizePages = []; // array of { origIndex, currentRotation, deleted, dataUrl }
+    const dropzoneOrganize = document.getElementById('dropzone-organize');
+    const inputOrganize = document.getElementById('input-organize');
+    const visualOrganizeWorkspace = document.getElementById('visual-organize-workspace');
+    const organizeThumbnailsGrid = document.getElementById('organize-thumbnails-grid');
+    const btnRunOrganize = document.getElementById('btn-run-organize');
+
+    dropzoneOrganize.onclick = () => inputOrganize.click();
+    inputOrganize.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      organizeFile = file;
+
+      try {
+        document.getElementById('label-organize-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        const buffer = await file.arrayBuffer();
+        organizeDocCache = await PDFLib.PDFDocument.load(buffer);
+        const total = organizeDocCache.getPageCount();
+
+        activePdfDoc = await pdfjsLib.getDocument({ data: buffer }).promise;
+
+        organizePages = [];
+        for (let i = 0; i < total; i++) {
+          const page = await activePdfDoc.getPage(i + 1);
+          const viewport = page.getViewport({ scale: 0.35 });
+          const canvas = document.createElement('canvas');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          const ctx = canvas.getContext('2d');
+          await page.render({ canvasContext: ctx, viewport }).promise;
+
+          organizePages.push({
+            origIndex: i,
+            rotation: 0,
+            deleted: false,
+            dataUrl: canvas.toDataURL()
+          });
+        }
+
+        visualOrganizeWorkspace.classList.remove('hidden');
+        btnRunOrganize.disabled = false;
+        renderOrganizeCards();
+        showToast(`Loaded ${total} pages for visual organize.`);
+      } catch (err) {
+        showToast('Error loading file: ' + err.message, false);
+      }
+    };
+
+    function renderOrganizeCards() {
+      organizeThumbnailsGrid.innerHTML = '';
+      const activeCount = organizePages.filter(p => !p.deleted).length;
+      document.getElementById('organize-status-text').textContent = `${activeCount} of ${organizePages.length} pages kept`;
+      btnRunOrganize.disabled = activeCount === 0;
+
+      organizePages.forEach((item, pos) => {
+        const card = document.createElement('div');
+        card.className = `relative flex flex-col p-2.5 rounded-2xl border bg-slate-900/90 transition-all ${
+          item.deleted ? 'border-red-500/60 opacity-40' : 'border-slate-800 hover:border-blue-500'
+        }`;
+
+        card.innerHTML = `
+          <div class="relative overflow-hidden rounded-xl bg-slate-950 flex items-center justify-center p-2 min-h-[140px]">
+            <img src="${item.dataUrl}" style="transform: rotate(${item.rotation}deg)" class="thumb-transition max-h-[130px] w-auto object-contain">
+            ${item.deleted ? `<div class="absolute inset-0 bg-red-950/80 flex items-center justify-center text-xs font-bold text-red-300">Deleted</div>` : ''}
+          </div>
+
+          <div class="flex items-center justify-between mt-2.5 px-1">
+            <span class="text-xs font-bold text-slate-300">P.${pos + 1} <span class="text-[10px] text-slate-500 font-normal">(was ${item.origIndex + 1})</span></span>
+            <div class="flex items-center gap-1">
+              <button onclick="moveOrganizePage(${pos}, -1)" ${pos === 0 ? 'disabled' : ''} class="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-white disabled:opacity-20" title="Move Left">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+              </button>
+              <button onclick="moveOrganizePage(${pos}, 1)" ${pos === organizePages.length - 1 ? 'disabled' : ''} class="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-white disabled:opacity-20" title="Move Right">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              </button>
+              <button onclick="rotateOrganizePage(${pos})" class="p-1 rounded hover:bg-slate-800 text-blue-400 hover:text-blue-300" title="Rotate 90°">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+              </button>
+              <button onclick="toggleDeleteOrganizePage(${pos})" class="p-1 rounded hover:bg-slate-800 ${item.deleted ? 'text-emerald-400' : 'text-slate-400 hover:text-red-400'}" title="${item.deleted ? 'Restore page' : 'Delete page'}">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${item.deleted ? 'M4 4l16 16m0-16L4 20' : 'M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'}"></path></svg>
+              </button>
+            </div>
+          </div>
+        `;
+        organizeThumbnailsGrid.appendChild(card);
+      });
+    }
+
+    function moveOrganizePage(fromPos, dir) {
+      const toPos = fromPos + dir;
+      if (toPos < 0 || toPos >= organizePages.length) return;
+      const temp = organizePages[fromPos];
+      organizePages[fromPos] = organizePages[toPos];
+      organizePages[toPos] = temp;
+      renderOrganizeCards();
+    }
+
+    function rotateOrganizePage(pos) {
+      organizePages[pos].rotation = (organizePages[pos].rotation + 90) % 360;
+      renderOrganizeCards();
+    }
+
+    function toggleDeleteOrganizePage(pos) {
+      organizePages[pos].deleted = !organizePages[pos].deleted;
+      renderOrganizeCards();
+    }
+
+    function resetOrganizePages() {
+      organizePages.sort((a, b) => a.origIndex - b.origIndex);
+      organizePages.forEach(p => { p.rotation = 0; p.deleted = false; });
+      renderOrganizeCards();
+    }
+
+    async function executeOrganize() {
+      if (!organizeDocCache || !organizeFile) return;
+      const validPages = organizePages.filter(p => !p.deleted);
+      if (validPages.length === 0) return;
+
+      btnRunOrganize.disabled = true;
+      btnRunOrganize.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Saving organized PDF...`;
+
+      try {
+        const newDoc = await PDFLib.PDFDocument.create();
+
+        for (const item of validPages) {
+          const [copiedPage] = await newDoc.copyPages(organizeDocCache, [item.origIndex]);
+          if (item.rotation !== 0) {
+            const currentRot = copiedPage.getRotation().angle;
+            copiedPage.setRotation(PDFLib.degrees((currentRot + item.rotation) % 360));
+          }
+          newDoc.addPage(copiedPage);
+        }
+
+        const bytes = await newDoc.save();
+        downloadBlob(bytes, `organized-${organizeFile.name}`, 'application/pdf');
+        showToast('Organized PDF saved successfully!');
+      } catch (err) {
+        showToast('Organize error: ' + err.message, false);
+      } finally {
+        btnRunOrganize.disabled = false;
+        btnRunOrganize.innerHTML = `<i data-lucide="save" class="w-4 h-4"></i> Save &amp; Download Organized PDF`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // 4. VISUAL ROTATE PDF
+    // ==========================================
+    let rotateFile = null;
+    let rotateDocCache = null;
+    let rotatePagesState = []; // array of { index, angle, dataUrl }
+    const dropzoneRotate = document.getElementById('dropzone-rotate');
+    const inputRotate = document.getElementById('input-rotate');
+    const visualRotateWorkspace = document.getElementById('visual-rotate-workspace');
+    const rotateThumbnailsGrid = document.getElementById('rotate-thumbnails-grid');
+    const btnRunRotate = document.getElementById('btn-run-rotate');
+
+    dropzoneRotate.onclick = () => inputRotate.click();
+    inputRotate.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      rotateFile = file;
+
+      try {
+        document.getElementById('label-rotate-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        const buffer = await file.arrayBuffer();
+        rotateDocCache = await PDFLib.PDFDocument.load(buffer);
+        const total = rotateDocCache.getPageCount();
+
+        activePdfDoc = await pdfjsLib.getDocument({ data: buffer }).promise;
+
+        rotatePagesState = [];
+        for (let i = 0; i < total; i++) {
+          const page = await activePdfDoc.getPage(i + 1);
+          const viewport = page.getViewport({ scale: 0.35 });
+          const canvas = document.createElement('canvas');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          const ctx = canvas.getContext('2d');
+          await page.render({ canvasContext: ctx, viewport }).promise;
+
+          rotatePagesState.push({
+            index: i,
+            angle: 0,
+            dataUrl: canvas.toDataURL()
+          });
+        }
+
+        document.getElementById('rotate-page-count').textContent = total;
+        visualRotateWorkspace.classList.remove('hidden');
+        btnRunRotate.disabled = false;
+        renderVisualRotateCards();
+        showToast(`Loaded ${total} pages for visual rotation.`);
+      } catch (err) {
+        showToast('Error reading PDF: ' + err.message, false);
+      }
+    };
+
+    function renderVisualRotateCards() {
+      rotateThumbnailsGrid.innerHTML = '';
+      rotatePagesState.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'relative flex flex-col p-2.5 rounded-2xl border border-slate-800 bg-slate-900/90 hover:border-blue-500 transition-all';
+        card.innerHTML = `
+          <div class="relative overflow-hidden rounded-xl bg-slate-950 flex items-center justify-center p-2 min-h-[140px]">
+            <img src="${item.dataUrl}" style="transform: rotate(${item.angle}deg)" class="thumb-transition max-h-[130px] w-auto object-contain">
+          </div>
+          <div class="flex items-center justify-between mt-2.5 px-1">
+            <span class="text-xs font-bold text-slate-300">P.${idx + 1} (${item.angle}°)</span>
+            <button onclick="rotateSinglePage(${idx})" class="p-1.5 rounded-lg bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white transition" title="Rotate 90°">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+            </button>
+          </div>
+        `;
+        rotateThumbnailsGrid.appendChild(card);
+      });
+    }
+
+    function rotateSinglePage(idx) {
+      rotatePagesState[idx].angle = (rotatePagesState[idx].angle + 90) % 360;
+      renderVisualRotateCards();
+    }
+
+    function rotateAllPages(deg) {
+      rotatePagesState.forEach(p => p.angle = (p.angle + deg) % 360);
+      renderVisualRotateCards();
+    }
+
+    function resetRotatePages() {
+      rotatePagesState.forEach(p => p.angle = 0);
+      renderVisualRotateCards();
+    }
+
+    async function executeRotate() {
+      if (!rotateFile || !rotateDocCache) return;
+      btnRunRotate.disabled = true;
+      btnRunRotate.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Applying rotation...`;
+
+      try {
+        const pages = rotateDocCache.getPages();
+        rotatePagesState.forEach((item, idx) => {
+          if (item.angle !== 0) {
+            const current = pages[idx].getRotation().angle;
+            pages[idx].setRotation(PDFLib.degrees((current + item.angle) % 360));
+          }
+        });
+
+        const bytes = await rotateDocCache.save();
+        downloadBlob(bytes, `rotated-${rotateFile.name}`, 'application/pdf');
+        showToast('Rotated PDF downloaded successfully!');
+      } catch (err) {
+        showToast('Rotate error: ' + err.message, false);
+      } finally {
+        btnRunRotate.disabled = false;
+        btnRunRotate.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i> Apply Rotation &amp; Download`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // 5. COMPRESS PDF
     // ==========================================
     let compressFile = null;
     const dropzoneCompress = document.getElementById('dropzone-compress');
@@ -1051,7 +1469,6 @@
         const quality = parseFloat(document.querySelector('input[name="comp-level"]:checked').value);
         const arrayBuffer = await compressFile.arrayBuffer();
         
-        // Re-encode PDF with PDF.js canvas downsampler for authentic client-side reduction
         const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
         const pdf = await loadingTask.promise;
         const newPdfDoc = await PDFLib.PDFDocument.create();
@@ -1096,7 +1513,7 @@
     }
 
     // ==========================================
-    // 4. PDF TO IMAGE
+    // 6. PDF TO IMAGE
     // ==========================================
     let pdf2ImgFile = null;
     let pdf2ImgNumPages = 0;
@@ -1141,7 +1558,7 @@
 
         for (let i = 1; i <= pdf.numPages; i++) {
           const page = await pdf.getPage(i);
-          const viewport = page.getViewport({ scale: 2.0 }); // High quality 2x
+          const viewport = page.getViewport({ scale: 2.0 });
           const canvas = document.createElement('canvas');
           canvas.width = viewport.width;
           canvas.height = viewport.height;
@@ -1171,7 +1588,7 @@
     }
 
     // ==========================================
-    // 5. IMAGE TO PDF
+    // 7. IMAGE TO PDF
     // ==========================================
     let img2PdfFiles = [];
     const dropzoneImg2Pdf = document.getElementById('dropzone-img2pdf');
@@ -1238,168 +1655,70 @@
     }
 
     // ==========================================
-    // 6. ORGANIZE & DELETE PAGES
+    // 8. PROTECT / PASSWORD (With @pdfsmaller/pdf-encrypt UMD)
     // ==========================================
-    let organizeFile = null;
-    let organizeDocCache = null;
-    let organizePagesStatus = []; // array of { pageNum: int, deleted: bool }
-    const dropzoneOrganize = document.getElementById('dropzone-organize');
-    const inputOrganize = document.getElementById('input-organize');
-    const gridOrganize = document.getElementById('grid-organize');
-    const thumbsOrganize = document.getElementById('thumbnails-organize');
-    const btnRunOrganize = document.getElementById('btn-run-organize');
+    let protectFile = null;
+    const dropzoneProtect = document.getElementById('dropzone-protect');
+    const inputProtect = document.getElementById('input-protect');
+    const configProtect = document.getElementById('config-protect');
+    const btnRunProtect = document.getElementById('btn-run-protect');
 
-    dropzoneOrganize.onclick = () => inputOrganize.click();
-    inputOrganize.onchange = async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      organizeFile = file;
-
-      try {
-        document.getElementById('label-organize-file').textContent = `${file.name} (${formatBytes(file.size)})`;
-        const buffer = await file.arrayBuffer();
-        organizeDocCache = await PDFLib.PDFDocument.load(buffer);
-        const total = organizeDocCache.getPageCount();
-
-        organizePagesStatus = [];
-        for (let i = 0; i < total; i++) {
-          organizePagesStatus.push({ index: i, deleted: false });
-        }
-
-        gridOrganize.classList.remove('hidden');
-        btnRunOrganize.disabled = false;
-        renderOrganizeThumbnails(buffer, total);
-      } catch (err) {
-        showToast('Error loading document: ' + err.message, false);
-      }
-    };
-
-    async function renderOrganizeThumbnails(buffer, total) {
-      thumbsOrganize.innerHTML = '';
-      updateOrganizeStatus();
-
-      const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
-      for (let i = 1; i <= total; i++) {
-        const page = await pdf.getPage(i);
-        const viewport = page.getViewport({ scale: 0.35 });
-        const canvas = document.createElement('canvas');
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
-        const ctx = canvas.getContext('2d');
-        await page.render({ canvasContext: ctx, viewport }).promise;
-
-        const thumb = document.createElement('div');
-        thumb.id = `thumb-${i - 1}`;
-        thumb.className = 'relative flex flex-col items-center p-2 rounded-xl border-2 border-slate-700 bg-slate-900 cursor-pointer hover:border-blue-500 transition-all';
-        thumb.onclick = () => togglePageDeletion(i - 1);
-
-        thumb.innerHTML = `
-          <img src="${canvas.toDataURL()}" class="rounded shadow w-full">
-          <span class="text-[11px] font-bold text-slate-400 mt-2">Page ${i}</span>
-          <div id="badge-del-${i - 1}" class="hidden absolute inset-0 bg-red-950/70 backdrop-blur-[2px] rounded-xl flex items-center justify-center text-xs font-bold text-red-300 border-2 border-red-500">
-            Deleted
-          </div>
-        `;
-        thumbsOrganize.appendChild(thumb);
-      }
-    }
-
-    function togglePageDeletion(idx) {
-      organizePagesStatus[idx].deleted = !organizePagesStatus[idx].deleted;
-      const badge = document.getElementById(`badge-del-${idx}`);
-      const thumb = document.getElementById(`thumb-${idx}`);
-
-      if (organizePagesStatus[idx].deleted) {
-        badge.classList.remove('hidden');
-        thumb.classList.add('border-red-500');
-      } else {
-        badge.classList.add('hidden');
-        thumb.classList.remove('border-red-500');
-      }
-      updateOrganizeStatus();
-    }
-
-    function updateOrganizeStatus() {
-      const remaining = organizePagesStatus.filter(p => !p.deleted).length;
-      document.getElementById('organize-status-text').textContent = `Keeping ${remaining} of ${organizePagesStatus.length} pages`;
-      btnRunOrganize.disabled = remaining === 0;
-    }
-
-    async function executeOrganize() {
-      if (!organizeDocCache) return;
-      btnRunOrganize.disabled = true;
-      btnRunOrganize.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Saving...`;
-
-      try {
-        const keptIndices = organizePagesStatus.filter(p => !p.deleted).map(p => p.index);
-        if (keptIndices.length === 0) throw new Error('You must keep at least 1 page!');
-
-        const newDoc = await PDFLib.PDFDocument.create();
-        const copied = await newDoc.copyPages(organizeDocCache, keptIndices);
-        copied.forEach(p => newDoc.addPage(p));
-
-        const bytes = await newDoc.save();
-        downloadBlob(bytes, `organized-${organizeFile.name}`, 'application/pdf');
-        showToast('Organized PDF saved successfully!');
-      } catch (err) {
-        showToast(err.message, false);
-      } finally {
-        btnRunOrganize.disabled = false;
-        btnRunOrganize.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i> Save Organized PDF`;
-        lucide.createIcons();
-      }
-    }
-
-    // ==========================================
-    // 7. ROTATE PDF
-    // ==========================================
-    let rotateFile = null;
-    const dropzoneRotate = document.getElementById('dropzone-rotate');
-    const inputRotate = document.getElementById('input-rotate');
-    const configRotate = document.getElementById('config-rotate');
-    const btnRunRotate = document.getElementById('btn-run-rotate');
-
-    dropzoneRotate.onclick = () => inputRotate.click();
-    inputRotate.onchange = (e) => {
+    dropzoneProtect.onclick = () => inputProtect.click();
+    inputProtect.onchange = (e) => {
       const file = e.target.files[0];
       if (file) {
-        rotateFile = file;
-        document.getElementById('label-rotate-file').textContent = `${file.name} (${formatBytes(file.size)})`;
-        configRotate.classList.remove('hidden');
-        btnRunRotate.disabled = false;
+        protectFile = file;
+        document.getElementById('label-protect-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        configProtect.classList.remove('hidden');
+        btnRunProtect.disabled = false;
       }
     };
 
-    async function executeRotate() {
-      if (!rotateFile) return;
-      btnRunRotate.disabled = true;
-      btnRunRotate.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Rotating...`;
+    async function executeProtect() {
+      if (!protectFile) return;
+      const p1 = document.getElementById('protect-password').value;
+      const p2 = document.getElementById('protect-password-confirm').value;
+
+      if (!p1) {
+        showToast('Please enter a password', false);
+        return;
+      }
+      if (p1 !== p2) {
+        showToast('Passwords do not match', false);
+        return;
+      }
+
+      btnRunProtect.disabled = true;
+      btnRunProtect.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Encrypting PDF...`;
 
       try {
-        const deg = parseInt(document.getElementById('select-rotate-angle').value, 10);
-        const buffer = await rotateFile.arrayBuffer();
-        const doc = await PDFLib.PDFDocument.load(buffer);
-        const pages = doc.getPages();
+        const buffer = await protectFile.arrayBuffer();
+        let encryptedBytes;
 
-        pages.forEach(p => {
-          const current = p.getRotation().angle;
-          p.setRotation(PDFLib.degrees((current + deg) % 360));
-        });
+        if (window.PDFEncrypt && typeof window.PDFEncrypt.encryptPDF === 'function') {
+          // Encrypt with RC4 fallback to support all origins including file://
+          encryptedBytes = await window.PDFEncrypt.encryptPDF(buffer, p1, {
+            ownerPassword: p1,
+            algorithm: 'RC4'
+          });
+        } else {
+          throw new Error('Encryption engine not initialized. Please refresh.');
+        }
 
-        const bytes = await doc.save();
-        downloadBlob(bytes, `rotated-${rotateFile.name}`, 'application/pdf');
-        showToast('Pages rotated successfully!');
+        downloadBlob(encryptedBytes, `protected-${protectFile.name}`, 'application/pdf');
+        showToast('PDF encrypted with password successfully!');
       } catch (err) {
-        showToast('Rotate error: ' + err.message, false);
+        console.error(err);
+        showToast('Encryption error: ' + err.message, false);
       } finally {
-        btnRunRotate.disabled = false;
-        btnRunRotate.innerHTML = `<i data-lucide="rotate-cw" class="w-4 h-4"></i> Rotate &amp; Download`;
+        btnRunProtect.disabled = false;
+        btnRunProtect.innerHTML = `<i data-lucide="lock" class="w-4 h-4"></i> Protect &amp; Download`;
         lucide.createIcons();
       }
     }
 
     // ==========================================
-    // 8. ADD WATERMARK
+    // 9. ADD WATERMARK
     // ==========================================
     let watermarkFile = null;
     const dropzoneWatermark = document.getElementById('dropzone-watermark');
@@ -1443,7 +1762,7 @@
             y: height / 2 - textHeight / 2,
             size: size,
             font: font,
-            color: PDFLib.rgb(0.2, 0.4, 0.9),
+            color: PDFLib.rgb(0.14, 0.38, 0.92),
             opacity: opacity,
             rotate: PDFLib.degrees(45)
           });
@@ -1462,13 +1781,13 @@
     }
 
     // ==========================================
-    // 9. PAGE NUMBERS
+    // 10. PAGE NUMBERS
     // ==========================================
     let pageNumsFile = null;
     const dropzonePageNums = document.getElementById('dropzone-pagenums');
     const inputPageNums = document.getElementById('input-pagenums');
     const configPageNums = document.getElementById('config-pagenums');
-    const btnRunPageNums = document.getElementById('btn-run-pagenums');
+    const btnRunPageNums = document.getElementById('btn-run-pageNums');
 
     dropzonePageNums.onclick = () => inputPageNums.click();
     inputPageNums.onchange = (e) => {
@@ -1543,7 +1862,7 @@
     }
 
     // ==========================================
-    // 10. EXTRACT TEXT
+    // 11. EXTRACT TEXT
     // ==========================================
     let extractTextFile = null;
     let extractedTextContent = '';
@@ -1592,72 +1911,6 @@
     function downloadExtractedText() {
       if (!extractedTextContent) return;
       downloadBlob(extractedTextContent, `${extractTextFile.name.replace('.pdf', '')}-text.txt`, 'text/plain');
-    }
-
-    // ==========================================
-    // 11. PROTECT / PASSWORD
-    // ==========================================
-    let protectFile = null;
-    const dropzoneProtect = document.getElementById('dropzone-protect');
-    const inputProtect = document.getElementById('input-protect');
-    const configProtect = document.getElementById('config-protect');
-    const btnRunProtect = document.getElementById('btn-run-protect');
-
-    dropzoneProtect.onclick = () => inputProtect.click();
-    inputProtect.onchange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        protectFile = file;
-        document.getElementById('label-protect-file').textContent = `${file.name} (${formatBytes(file.size)})`;
-        configProtect.classList.remove('hidden');
-        btnRunProtect.disabled = false;
-      }
-    };
-
-    async function executeProtect() {
-      if (!protectFile) return;
-      const p1 = document.getElementById('protect-password').value;
-      const p2 = document.getElementById('protect-password-confirm').value;
-
-      if (!p1) {
-        showToast('Please enter a password', false);
-        return;
-      }
-      if (p1 !== p2) {
-        showToast('Passwords do not match', false);
-        return;
-      }
-
-      btnRunProtect.disabled = true;
-      btnRunProtect.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Encrypting...`;
-
-      try {
-        const buffer = await protectFile.arrayBuffer();
-        const doc = await PDFLib.PDFDocument.load(buffer);
-        doc.encrypt({
-          userPassword: p1,
-          ownerPassword: p1 + '_owner',
-          permissions: {
-            printing: 'highResolution',
-            modifying: false,
-            copying: false,
-            annotating: false,
-            fillingForms: true,
-            contentAccessibility: true,
-            documentAssembly: false
-          }
-        });
-
-        const bytes = await doc.save();
-        downloadBlob(bytes, `protected-${protectFile.name}`, 'application/pdf');
-        showToast('PDF encrypted with password!');
-      } catch (err) {
-        showToast('Encryption error: ' + err.message, false);
-      } finally {
-        btnRunProtect.disabled = false;
-        btnRunProtect.innerHTML = `<i data-lucide="lock" class="w-4 h-4"></i> Protect &amp; Download`;
-        lucide.createIcons();
-      }
     }
 
     // ==========================================
