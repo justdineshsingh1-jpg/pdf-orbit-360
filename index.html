@@ -289,12 +289,20 @@
             <p class="text-xs text-slate-400">Add 2 or more PDF documents</p>
           </div>
 
-          <div id="list-merge" class="mt-6 space-y-2 hidden">
-            <div class="flex items-center justify-between text-xs text-slate-400 px-1 font-semibold">
-              <span>Files to merge (<span id="count-merge">0</span>)</span>
-              <button onclick="clearMergeList()" class="text-slate-400 hover:text-white underline">Clear all</button>
+          <div id="list-merge" class="mt-6 space-y-3 hidden">
+            <div class="flex flex-wrap items-center justify-between gap-3 p-3 bg-slate-950/70 border border-slate-800 rounded-xl">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="text-xs text-slate-300 font-semibold mr-1">Files (<span id="count-merge" class="text-blue-400 font-bold">0</span>)</span>
+                <button onclick="sortMergeFiles('asc')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-500/30 text-xs font-bold transition" title="Sort files 1→9, A→Z">
+                  <i data-lucide="arrow-down-narrow-wide" class="w-3.5 h-3.5"></i> Sort ASC (1→9, A→Z)
+                </button>
+                <button onclick="sortMergeFiles('desc')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold transition" title="Sort files 9→1, Z→A">
+                  <i data-lucide="arrow-up-wide-narrow" class="w-3.5 h-3.5"></i> Sort DSC (9→1, Z→A)
+                </button>
+              </div>
+              <button onclick="clearMergeList()" class="text-xs text-slate-400 hover:text-white underline">Clear all</button>
             </div>
-            <div id="items-merge" class="space-y-2 max-h-60 overflow-y-auto custom-scroll pr-1"></div>
+            <div id="items-merge" class="space-y-2 max-h-64 overflow-y-auto custom-scroll pr-1"></div>
           </div>
 
           <div class="mt-8 flex justify-end">
@@ -935,6 +943,26 @@
       renderMergeList();
     }
 
+    function sortMergeFiles(order) {
+      if (mergeFiles.length < 2) return;
+      const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+      mergeFiles.sort((a, b) => {
+        const comp = collator.compare(a.name, b.name);
+        return order === 'asc' ? comp : -comp;
+      });
+      renderMergeList();
+      showToast(order === 'asc' ? 'Sorted in Ascending Order (1 → 9, A → Z)' : 'Sorted in Descending Order (9 → 1, Z → A)');
+    }
+
+    function moveMergeFile(index, dir) {
+      const target = index + dir;
+      if (target < 0 || target >= mergeFiles.length) return;
+      const temp = mergeFiles[index];
+      mergeFiles[index] = mergeFiles[target];
+      mergeFiles[target] = temp;
+      renderMergeList();
+    }
+
     function renderMergeList() {
       itemsMerge.innerHTML = '';
       countMerge.textContent = mergeFiles.length;
@@ -949,19 +977,28 @@
 
       mergeFiles.forEach((file, index) => {
         const item = document.createElement('div');
-        item.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs';
+        item.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs hover:border-slate-700 transition';
         item.innerHTML = `
           <div class="flex items-center gap-3 truncate">
             <span class="w-6 h-6 rounded-lg bg-blue-600/20 text-blue-400 flex items-center justify-center font-bold text-[11px]">${index + 1}</span>
             <span class="font-medium text-slate-200 truncate">${file.name}</span>
-            <span class="text-slate-500">(${formatBytes(file.size)})</span>
+            <span class="text-slate-500 text-[11px]">(${formatBytes(file.size)})</span>
           </div>
-          <button onclick="removeMergeFile(${index})" class="text-slate-500 hover:text-slate-300 p-1">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-          </button>
+          <div class="flex items-center gap-1.5 ml-2">
+            <button onclick="moveMergeFile(${index}, -1)" ${index === 0 ? 'disabled' : ''} class="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-white disabled:opacity-20" title="Move Up">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+            </button>
+            <button onclick="moveMergeFile(${index}, 1)" ${index === mergeFiles.length - 1 ? 'disabled' : ''} class="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-white disabled:opacity-20" title="Move Down">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <button onclick="removeMergeFile(${index})" class="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-red-400" title="Remove">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+          </div>
         `;
         itemsMerge.appendChild(item);
       });
+      lucide.createIcons();
     }
 
     function removeMergeFile(i) {
