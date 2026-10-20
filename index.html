@@ -235,7 +235,8 @@
       <!-- Categories Filter Tabs (Horizontal scroll on mobile, wrap on desktop) -->
       <div class="relative mb-6 sm:mb-8 -mx-4 px-4 sm:mx-0 sm:px-0">
         <div class="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar sm:flex-wrap sm:justify-center">
-          <button onclick="filterCategory('all')" id="btn-cat-all" class="cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-blue-600 text-white shadow-md shadow-blue-600/25 flex-shrink-0">All Tools (23)</button>
+          <button onclick="filterCategory('all')" id="btn-cat-all" class="cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-blue-600 text-white shadow-md shadow-blue-600/25 flex-shrink-0">All Tools (26)</button>
+          <button onclick="filterCategory('edit-pdf')" id="btn-cat-edit-pdf" class="cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex items-center gap-1.5 flex-shrink-0"><i data-lucide="edit-3" class="w-3.5 h-3.5 text-blue-400"></i> Edit PDF <span class="bg-blue-600/30 text-blue-300 text-[9px] px-1.5 py-0.2 rounded-full font-bold">New!</span></button>
           <button onclick="filterCategory('intelligence')" id="btn-cat-intelligence" class="cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex items-center gap-1.5 flex-shrink-0"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-blue-400"></i> PDF Intelligence <span class="bg-blue-600/30 text-blue-300 text-[9px] px-1.5 py-0.2 rounded-full font-bold">New!</span></button>
           <button onclick="filterCategory('convert-to-pdf')" id="btn-cat-convert-to-pdf" class="cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex-shrink-0">Convert to PDF</button>
           <button onclick="filterCategory('convert-from-pdf')" id="btn-cat-convert-from-pdf" class="cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex-shrink-0">Convert from PDF</button>
@@ -567,6 +568,51 @@
               <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">New!</span>
             </div>
             <p class="text-xs text-slate-400 leading-relaxed">Easily turn PDFs into Markdown (.md) files. Perfect for notes, docs, and LLMs with preserved headings, lists, and tables.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- 24. EDIT PDF (NEW) -->
+        <div data-cat="organize edit-pdf" onclick="openTool('editpdf')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="edit-3" class="w-6 h-6"></i>
+            </div>
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Edit PDF</h3>
+              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">New!</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">Add text, annotations, shapes, highlights, or freehand drawing to your PDF. Fully customize font, size, and colors.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- 25. CROP PDF (NEW) -->
+        <div data-cat="organize edit-pdf" onclick="openTool('croppdf')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="crop" class="w-6 h-6"></i>
+            </div>
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Crop PDF</h3>
+              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">New!</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">Trim margins or select a custom bounding crop box visually. Apply changes to a single page or the entire document.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- 26. PDF FORMS (NEW) -->
+        <div data-cat="organize edit-pdf" onclick="openTool('forms')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="text-cursor-input" class="w-6 h-6"></i>
+            </div>
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">PDF Forms</h3>
+              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">New!</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">Fill existing PDF form fields or create interactive fillable PDFs by adding text boxes, checkboxes, radio options, and date pickers.</p>
           </div>
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
@@ -1860,6 +1906,234 @@
           <div class="mt-8 flex justify-end">
             <button id="btn-run-pdf2md" onclick="executePdf2Md()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
               <i data-lucide="download" class="w-4 h-4"></i> Convert &amp; Download Markdown (.md)
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL: EDIT PDF ================= -->
+        <div id="tool-editpdf-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="edit-3" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h2 class="text-xl sm:text-2xl font-bold text-white">Edit PDF</h2>
+                <span class="text-[10px] bg-blue-600/30 text-blue-300 px-2 py-0.5 rounded-full font-bold">New!</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-400">Add text, annotations, shapes, highlights, or draw freehand. Edit font size, colors, and opacity.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-editpdf" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-editpdf" accept="application/pdf" class="hidden">
+            <i data-lucide="edit" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-editpdf-file" class="text-base font-semibold text-white mb-1">Select a PDF to edit</p>
+            <p class="text-xs text-slate-400">Full visual canvas editor with text, shapes, and drawing</p>
+          </div>
+
+          <div id="config-editpdf" class="mt-6 hidden space-y-4">
+            <!-- Toolbar -->
+            <div class="p-3.5 bg-slate-950/80 border border-slate-800 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs">
+              <div class="flex flex-wrap items-center gap-2">
+                <div class="flex items-center gap-1 bg-slate-900 border border-slate-800 rounded-xl p-1">
+                  <button type="button" onclick="setEditPdfMode('text')" id="btn-edit-mode-text" class="px-2.5 py-1 rounded-lg font-bold bg-blue-600 text-white flex items-center gap-1">
+                    <i data-lucide="type" class="w-3.5 h-3.5"></i> Text
+                  </button>
+                  <button type="button" onclick="setEditPdfMode('draw')" id="btn-edit-mode-draw" class="px-2.5 py-1 rounded-lg font-bold bg-slate-800 text-slate-300 hover:text-white flex items-center gap-1">
+                    <i data-lucide="pen" class="w-3.5 h-3.5"></i> Draw
+                  </button>
+                  <button type="button" onclick="setEditPdfMode('rect')" id="btn-edit-mode-rect" class="px-2.5 py-1 rounded-lg font-bold bg-slate-800 text-slate-300 hover:text-white flex items-center gap-1">
+                    <i data-lucide="square" class="w-3.5 h-3.5"></i> Rectangle
+                  </button>
+                  <button type="button" onclick="setEditPdfMode('highlight')" id="btn-edit-mode-highlight" class="px-2.5 py-1 rounded-lg font-bold bg-slate-800 text-slate-300 hover:text-white flex items-center gap-1">
+                    <i data-lucide="highlighter" class="w-3.5 h-3.5"></i> Highlight
+                  </button>
+                </div>
+
+                <!-- Text Input Controls -->
+                <div id="edit-text-controls" class="flex items-center gap-2">
+                  <input type="text" id="edit-text-val" placeholder="Type text..." value="Sample Text" class="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none w-28 sm:w-36">
+                  <select id="edit-font-size" class="bg-slate-900 border border-slate-800 rounded-lg px-2 py-1 text-xs text-white">
+                    <option value="12">12px</option>
+                    <option value="16" selected>16px</option>
+                    <option value="20">20px</option>
+                    <option value="26">26px</option>
+                    <option value="36">36px</option>
+                  </select>
+                </div>
+
+                <!-- Color Picker -->
+                <div class="flex items-center gap-1.5">
+                  <span class="text-slate-400">Color:</span>
+                  <input type="color" id="edit-color" value="#2563eb" class="w-7 h-7 rounded border border-slate-700 bg-transparent cursor-pointer">
+                </div>
+              </div>
+
+              <!-- Page navigation & Clear -->
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="changeEditPdfPage(-1)" class="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                <span class="text-white font-semibold">Page <span id="editpdf-curr-page">1</span> / <span id="editpdf-total-pages">1</span></span>
+                <button type="button" onclick="changeEditPdfPage(1)" class="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                <button type="button" onclick="clearEditPdfCanvas()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-red-950 text-slate-300 hover:text-red-400 border border-slate-700">Clear Page</button>
+              </div>
+            </div>
+
+            <!-- Visual Editor Canvas Area -->
+            <div class="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl flex flex-col items-center justify-center overflow-auto max-h-[580px]">
+              <p class="text-xs text-slate-400 mb-2.5 flex items-center gap-1.5 select-none">
+                <i data-lucide="info" class="w-4 h-4 text-blue-400"></i> Click on the PDF to place text/shapes, or drag to draw and highlight.
+              </p>
+              <div id="editpdf-canvas-wrapper" class="relative inline-block border border-slate-800 rounded shadow-2xl bg-white select-none">
+                <canvas id="editpdf-base-canvas" class="block max-w-full cursor-crosshair"></canvas>
+                <canvas id="editpdf-draw-canvas" class="absolute inset-0 w-full h-full cursor-crosshair pointer-events-auto"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-editpdf" onclick="executeSaveEditPdf()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="save" class="w-4 h-4"></i> Save &amp; Download Edited PDF
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL: CROP PDF ================= -->
+        <div id="tool-croppdf-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="crop" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h2 class="text-xl sm:text-2xl font-bold text-white">Crop PDF Margins</h2>
+                <span class="text-[10px] bg-blue-600/30 text-blue-300 px-2 py-0.5 rounded-full font-bold">New!</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-400">Crop margins or select a custom bounding box visually. Apply to one page or all pages.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-croppdf" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-croppdf" accept="application/pdf" class="hidden">
+            <i data-lucide="crop" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-croppdf-file" class="text-base font-semibold text-white mb-1">Select a PDF to crop</p>
+            <p class="text-xs text-slate-400">Interactive visual selection box with presets</p>
+          </div>
+
+          <div id="config-croppdf" class="mt-6 hidden space-y-4">
+            <!-- Controls bar -->
+            <div class="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs">
+              <div class="flex flex-wrap items-center gap-3">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-slate-400 font-semibold">Margin Preset:</span>
+                  <select id="croppdf-preset" onchange="applyCropPreset(this.value)" class="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1 text-white focus:outline-none">
+                    <option value="custom" selected>Custom Crop Box</option>
+                    <option value="trim5">Trim 5% Margins</option>
+                    <option value="trim10">Trim 10% Margins</option>
+                    <option value="trim15">Trim 15% Margins</option>
+                  </select>
+                </div>
+
+                <div class="flex items-center gap-1.5">
+                  <span class="text-slate-400 font-semibold">Apply To:</span>
+                  <select id="croppdf-scope" class="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1 text-white focus:outline-none">
+                    <option value="all" selected>All Pages</option>
+                    <option value="current">Current Page Only</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="changeCropPdfPage(-1)" class="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                <span class="text-white font-semibold">Page <span id="croppdf-curr-page">1</span> / <span id="croppdf-total-pages">1</span></span>
+                <button type="button" onclick="changeCropPdfPage(1)" class="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+              </div>
+            </div>
+
+            <!-- Visual Crop Canvas Area -->
+            <div class="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl flex flex-col items-center justify-center overflow-auto max-h-[580px]">
+              <p class="text-xs text-slate-400 mb-2.5 flex items-center gap-1.5 select-none">
+                <i data-lucide="info" class="w-4 h-4 text-blue-400"></i> Click &amp; drag across the page to define your crop area rectangle.
+              </p>
+              <div id="croppdf-canvas-wrapper" class="relative inline-block border border-slate-800 rounded shadow-2xl bg-white select-none">
+                <canvas id="croppdf-page-canvas" class="block max-w-full cursor-crosshair"></canvas>
+                <canvas id="croppdf-overlay-canvas" class="absolute inset-0 w-full h-full cursor-crosshair pointer-events-auto"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-croppdf" onclick="executeCropPdf()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="crop" class="w-4 h-4"></i> Crop Document &amp; Download
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= TOOL: PDF FORMS ================= -->
+        <div id="tool-forms-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="text-cursor-input" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h2 class="text-xl sm:text-2xl font-bold text-white">PDF Forms Creator &amp; Filler</h2>
+                <span class="text-[10px] bg-blue-600/30 text-blue-300 px-2 py-0.5 rounded-full font-bold">New!</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-400">Fill existing PDF forms or create fillable interactive forms with text fields, checkboxes, and buttons.</p>
+            </div>
+          </div>
+
+          <div id="dropzone-forms" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-forms" accept="application/pdf" class="hidden">
+            <i data-lucide="check-square" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-forms-file" class="text-base font-semibold text-white mb-1">Select a PDF to fill or add form fields</p>
+            <p class="text-xs text-slate-400">Auto-detects fillable AcroForm fields &amp; allows adding interactive inputs</p>
+          </div>
+
+          <div id="config-forms" class="mt-6 hidden space-y-4">
+            <!-- Mode Switcher -->
+            <div class="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs">
+              <div class="flex items-center gap-2">
+                <button type="button" id="btn-tab-form-fill" onclick="switchFormTab('fill')" class="px-3.5 py-1.5 rounded-xl font-bold bg-blue-600 text-white">Fill Form Fields</button>
+                <button type="button" id="btn-tab-form-create" onclick="switchFormTab('create')" class="px-3.5 py-1.5 rounded-xl font-bold bg-slate-800 text-slate-400 hover:text-white">Add Interactive Fields</button>
+              </div>
+
+              <div class="flex items-center gap-2 text-slate-400">
+                <span>Fields Detected: <span id="forms-field-count" class="text-white font-bold">0</span></span>
+              </div>
+            </div>
+
+            <!-- Tab 1: Fill Fields Form Container -->
+            <div id="tab-form-fill-container" class="space-y-3">
+              <div id="forms-fill-list" class="bg-slate-950 border border-slate-800 rounded-2xl p-5 space-y-4 max-h-[500px] overflow-y-auto custom-scroll"></div>
+            </div>
+
+            <!-- Tab 2: Create / Stamp Fields Canvas Container -->
+            <div id="tab-form-create-container" class="hidden space-y-4">
+              <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl flex flex-wrap items-center gap-3 text-xs">
+                <span class="text-slate-400 font-semibold">Field Type to Add:</span>
+                <select id="forms-new-field-type" class="bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 text-white">
+                  <option value="text" selected>Text Box Field</option>
+                  <option value="checkbox">Checkbox Field</option>
+                  <option value="button">Submit/Action Button</option>
+                </select>
+                <input type="text" id="forms-new-field-name" placeholder="Field Name (e.g. FullName)" value="InputField" class="bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 text-white w-40">
+                <p class="text-blue-400 ml-auto">Click on the document below to place field</p>
+              </div>
+
+              <div class="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl flex flex-col items-center justify-center overflow-auto max-h-[580px]">
+                <div id="forms-canvas-wrapper" class="relative inline-block border border-slate-800 rounded shadow-2xl bg-white select-none">
+                  <canvas id="forms-page-canvas" class="block max-w-full cursor-crosshair"></canvas>
+                  <div id="forms-fields-overlay" class="absolute inset-0 w-full h-full pointer-events-auto"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <button id="btn-run-forms" onclick="executeSaveFormsPdf()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+              <i data-lucide="check-square" class="w-4 h-4"></i> Save &amp; Download Interactive Form
             </button>
           </div>
         </div>
@@ -5449,6 +5723,759 @@ ${compareTextB}
       html = html.replace(/\n\n+/g, '<p class="my-2 leading-relaxed text-slate-300"></p>');
 
       return html;
+    }
+
+    // ==========================================
+    // TOOL: EDIT PDF (ANNOTATIONS, SHAPES, TEXT)
+    // ==========================================
+    let editPdfFile = null;
+    let editPdfDoc = null;
+    let editPdfCurrentPage = 1;
+    let editPdfTotalPages = 1;
+    let editPdfMode = 'text'; // 'text', 'draw', 'rect', 'highlight'
+    let editPdfAnnotations = {}; // { pageNum: [ { type, x, y, ... } ] }
+    let isEditDrawing = false;
+    let editDrawStartX = 0;
+    let editDrawStartY = 0;
+
+    const dropzoneEditPdf = document.getElementById('dropzone-editpdf');
+    const inputEditPdf = document.getElementById('input-editpdf');
+    const configEditPdf = document.getElementById('config-editpdf');
+    const btnRunEditPdf = document.getElementById('btn-run-editpdf');
+    const editBaseCanvas = document.getElementById('editpdf-base-canvas');
+    const editDrawCanvas = document.getElementById('editpdf-draw-canvas');
+    const editBaseCtx = editBaseCanvas?.getContext('2d');
+    const editDrawCtx = editDrawCanvas?.getContext('2d');
+
+    dropzoneEditPdf.onclick = () => inputEditPdf.click();
+    inputEditPdf.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      editPdfFile = file;
+
+      try {
+        document.getElementById('label-editpdf-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        const buffer = await file.arrayBuffer();
+        editPdfDoc = await pdfjsLib.getDocument({ data: buffer }).promise;
+        editPdfTotalPages = editPdfDoc.numPages;
+        editPdfCurrentPage = 1;
+        editPdfAnnotations = {};
+
+        document.getElementById('editpdf-total-pages').textContent = editPdfTotalPages;
+        configEditPdf.classList.remove('hidden');
+        btnRunEditPdf.disabled = false;
+        await renderEditPdfPage(1);
+        initEditCanvasEvents();
+        showToast(`Document ready to edit! Select tools and click on the PDF.`);
+      } catch (err) {
+        showToast('Error loading PDF: ' + err.message, false);
+      }
+    };
+
+    function setEditPdfMode(mode) {
+      editPdfMode = mode;
+      ['text', 'draw', 'rect', 'highlight'].forEach(m => {
+        const btn = document.getElementById(`btn-edit-mode-${m}`);
+        if (btn) {
+          if (m === mode) {
+            btn.className = 'px-2.5 py-1 rounded-lg font-bold bg-blue-600 text-white flex items-center gap-1';
+          } else {
+            btn.className = 'px-2.5 py-1 rounded-lg font-bold bg-slate-800 text-slate-300 hover:text-white flex items-center gap-1';
+          }
+        }
+      });
+      const textCtrl = document.getElementById('edit-text-controls');
+      if (textCtrl) textCtrl.style.display = (mode === 'text') ? 'flex' : 'none';
+    }
+
+    async function renderEditPdfPage(pageNum) {
+      if (!editPdfDoc) return;
+      editPdfCurrentPage = pageNum;
+      document.getElementById('editpdf-curr-page').textContent = pageNum;
+
+      const page = await editPdfDoc.getPage(pageNum);
+      const viewport = page.getViewport({ scale: 1.35 });
+
+      editBaseCanvas.width = viewport.width;
+      editBaseCanvas.height = viewport.height;
+      editDrawCanvas.width = viewport.width;
+      editDrawCanvas.height = viewport.height;
+
+      await page.render({ canvasContext: editBaseCtx, viewport }).promise;
+      redrawEditAnnotations();
+    }
+
+    function initEditCanvasEvents() {
+      if (!editDrawCanvas) return;
+
+      editDrawCanvas.onmousedown = (e) => {
+        const rect = editDrawCanvas.getBoundingClientRect();
+        const x = (e.clientX - rect.left) * (editDrawCanvas.width / rect.width);
+        const y = (e.clientY - rect.top) * (editDrawCanvas.height / rect.height);
+
+        const color = document.getElementById('edit-color').value || '#2563eb';
+        const fontSize = parseInt(document.getElementById('edit-font-size').value) || 16;
+        const textVal = document.getElementById('edit-text-val').value || '';
+
+        if (!editPdfAnnotations[editPdfCurrentPage]) {
+          editPdfAnnotations[editPdfCurrentPage] = [];
+        }
+
+        if (editPdfMode === 'text') {
+          if (textVal.trim()) {
+            editPdfAnnotations[editPdfCurrentPage].push({
+              type: 'text',
+              normX: x / editDrawCanvas.width,
+              normY: y / editDrawCanvas.height,
+              text: textVal,
+              fontSize: fontSize,
+              color: color
+            });
+            redrawEditAnnotations();
+          }
+          return;
+        }
+
+        isEditDrawing = true;
+        editDrawStartX = x;
+        editDrawStartY = y;
+
+        if (editPdfMode === 'draw') {
+          editPdfAnnotations[editPdfCurrentPage].push({
+            type: 'path',
+            points: [{ x: x / editDrawCanvas.width, y: y / editDrawCanvas.height }],
+            color: color,
+            lineWidth: 2.5
+          });
+        }
+      };
+
+      editDrawCanvas.onmousemove = (e) => {
+        if (!isEditDrawing) return;
+        const rect = editDrawCanvas.getBoundingClientRect();
+        const currX = (e.clientX - rect.left) * (editDrawCanvas.width / rect.width);
+        const currY = (e.clientY - rect.top) * (editDrawCanvas.height / rect.height);
+        const color = document.getElementById('edit-color').value || '#2563eb';
+
+        if (editPdfMode === 'draw') {
+          const list = editPdfAnnotations[editPdfCurrentPage];
+          const currPath = list[list.length - 1];
+          if (currPath && currPath.type === 'path') {
+            currPath.points.push({ x: currX / editDrawCanvas.width, y: currY / editDrawCanvas.height });
+            redrawEditAnnotations();
+          }
+        } else if (editPdfMode === 'rect' || editPdfMode === 'highlight') {
+          redrawEditAnnotations();
+          // Draw live preview box
+          editDrawCtx.save();
+          if (editPdfMode === 'highlight') {
+            editDrawCtx.fillStyle = 'rgba(250, 204, 21, 0.4)';
+            editDrawCtx.fillRect(editDrawStartX, editDrawStartY, currX - editDrawStartX, currY - editDrawStartY);
+          } else {
+            editDrawCtx.strokeStyle = color;
+            editDrawCtx.lineWidth = 2;
+            editDrawCtx.strokeRect(editDrawStartX, editDrawStartY, currX - editDrawStartX, currY - editDrawStartY);
+          }
+          editDrawCtx.restore();
+        }
+      };
+
+      const finishEditDrawing = (e) => {
+        if (!isEditDrawing) return;
+        isEditDrawing = false;
+        const rect = editDrawCanvas.getBoundingClientRect();
+        const currX = (e.clientX - rect.left) * (editDrawCanvas.width / rect.width);
+        const currY = (e.clientY - rect.top) * (editDrawCanvas.height / rect.height);
+        const color = document.getElementById('edit-color').value || '#2563eb';
+
+        const normX = Math.min(editDrawStartX, currX) / editDrawCanvas.width;
+        const normY = Math.min(editDrawStartY, currY) / editDrawCanvas.height;
+        const normW = Math.abs(currX - editDrawStartX) / editDrawCanvas.width;
+        const normH = Math.abs(currY - editDrawStartY) / editDrawCanvas.height;
+
+        if (normW > 0.005 && normH > 0.005) {
+          if (editPdfMode === 'rect') {
+            editPdfAnnotations[editPdfCurrentPage].push({
+              type: 'rect', normX, normY, normW, normH, color
+            });
+          } else if (editPdfMode === 'highlight') {
+            editPdfAnnotations[editPdfCurrentPage].push({
+              type: 'highlight', normX, normY, normW, normH
+            });
+          }
+        }
+        redrawEditAnnotations();
+      };
+
+      editDrawCanvas.onmouseup = finishEditDrawing;
+      editDrawCanvas.onmouseleave = finishEditDrawing;
+    }
+
+    function redrawEditAnnotations() {
+      if (!editDrawCtx || !editDrawCanvas) return;
+      editDrawCtx.clearRect(0, 0, editDrawCanvas.width, editDrawCanvas.height);
+
+      const items = editPdfAnnotations[editPdfCurrentPage] || [];
+      items.forEach(it => {
+        if (it.type === 'text') {
+          editDrawCtx.save();
+          editDrawCtx.font = `bold ${it.fontSize}px sans-serif`;
+          editDrawCtx.fillStyle = it.color;
+          editDrawCtx.fillText(it.text, it.normX * editDrawCanvas.width, it.normY * editDrawCanvas.height);
+          editDrawCtx.restore();
+        } else if (it.type === 'path') {
+          if (it.points.length < 2) return;
+          editDrawCtx.save();
+          editDrawCtx.strokeStyle = it.color;
+          editDrawCtx.lineWidth = it.lineWidth || 2.5;
+          editDrawCtx.lineCap = 'round';
+          editDrawCtx.lineJoin = 'round';
+          editDrawCtx.beginPath();
+          editDrawCtx.moveTo(it.points[0].x * editDrawCanvas.width, it.points[0].y * editDrawCanvas.height);
+          for (let p = 1; p < it.points.length; p++) {
+            editDrawCtx.lineTo(it.points[p].x * editDrawCanvas.width, it.points[p].y * editDrawCanvas.height);
+          }
+          editDrawCtx.stroke();
+          editDrawCtx.restore();
+        } else if (it.type === 'rect') {
+          editDrawCtx.save();
+          editDrawCtx.strokeStyle = it.color;
+          editDrawCtx.lineWidth = 2;
+          editDrawCtx.strokeRect(
+            it.normX * editDrawCanvas.width,
+            it.normY * editDrawCanvas.height,
+            it.normW * editDrawCanvas.width,
+            it.normH * editDrawCanvas.height
+          );
+          editDrawCtx.restore();
+        } else if (it.type === 'highlight') {
+          editDrawCtx.save();
+          editDrawCtx.fillStyle = 'rgba(250, 204, 21, 0.4)';
+          editDrawCtx.fillRect(
+            it.normX * editDrawCanvas.width,
+            it.normY * editDrawCanvas.height,
+            it.normW * editDrawCanvas.width,
+            it.normH * editDrawCanvas.height
+          );
+          editDrawCtx.restore();
+        }
+      });
+    }
+
+    function changeEditPdfPage(delta) {
+      const target = editPdfCurrentPage + delta;
+      if (target >= 1 && target <= editPdfTotalPages) {
+        renderEditPdfPage(target);
+      }
+    }
+
+    function clearEditPdfCanvas() {
+      editPdfAnnotations[editPdfCurrentPage] = [];
+      redrawEditAnnotations();
+      showToast('Cleared annotations on this page.');
+    }
+
+    async function executeSaveEditPdf() {
+      if (!editPdfFile) return;
+      btnRunEditPdf.disabled = true;
+      btnRunEditPdf.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Saving edits...`;
+
+      try {
+        const buffer = await editPdfFile.arrayBuffer();
+        const pdfDoc = await PDFLib.PDFDocument.load(buffer, { ignoreEncryption: true });
+        const font = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+        const pages = pdfDoc.getPages();
+
+        let totalAnnotations = 0;
+        for (const [pageNumStr, items] of Object.entries(editPdfAnnotations)) {
+          const pIdx = parseInt(pageNumStr) - 1;
+          if (pIdx < 0 || pIdx >= pages.length) continue;
+          const page = pages[pIdx];
+          const { width: pW, height: pH } = page.getSize();
+
+          items.forEach(it => {
+            totalAnnotations++;
+            if (it.type === 'text') {
+              const x = it.normX * pW;
+              const y = pH - (it.normY * pH);
+              const hex = it.color.replace('#', '');
+              const r = parseInt(hex.substring(0, 2), 16) / 255;
+              const g = parseInt(hex.substring(2, 4), 16) / 255;
+              const b = parseInt(hex.substring(4, 6), 16) / 255;
+
+              page.drawText(it.text, {
+                x, y, size: it.fontSize * 0.75, font, color: PDFLib.rgb(r, g, b)
+              });
+            } else if (it.type === 'rect') {
+              const x = it.normX * pW;
+              const w = it.normW * pW;
+              const h = it.normH * pH;
+              const y = pH - (it.normY * pH) - h;
+              const hex = it.color.replace('#', '');
+              const r = parseInt(hex.substring(0, 2), 16) / 255;
+              const g = parseInt(hex.substring(2, 4), 16) / 255;
+              const b = parseInt(hex.substring(4, 6), 16) / 255;
+
+              page.drawRectangle({
+                x, y, width: w, height: h,
+                borderColor: PDFLib.rgb(r, g, b),
+                borderWidth: 2,
+                opacity: 1
+              });
+            } else if (it.type === 'highlight') {
+              const x = it.normX * pW;
+              const w = it.normW * pW;
+              const h = it.normH * pH;
+              const y = pH - (it.normY * pH) - h;
+
+              page.drawRectangle({
+                x, y, width: w, height: h,
+                color: PDFLib.rgb(1, 0.9, 0.2),
+                opacity: 0.4
+              });
+            }
+          });
+        }
+
+        const savedBytes = await pdfDoc.save();
+        downloadBlob(savedBytes, `edited-${editPdfFile.name}`, 'application/pdf');
+        showToast(`Document saved with ${totalAnnotations} annotations!`);
+      } catch (err) {
+        showToast('Error saving edited PDF: ' + err.message, false);
+      } finally {
+        btnRunEditPdf.disabled = false;
+        btnRunEditPdf.innerHTML = `<i data-lucide="save" class="w-4 h-4"></i> Save &amp; Download Edited PDF`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // TOOL: CROP PDF (MARGINS & BOUNDING BOX)
+    // ==========================================
+    let cropPdfFile = null;
+    let cropPdfDoc = null;
+    let cropPdfCurrentPage = 1;
+    let cropPdfTotalPages = 1;
+    let cropBox = { normX: 0.05, normY: 0.05, normW: 0.9, normH: 0.9 }; // Normalized (0-1)
+    let isCroppingDrag = false;
+    let cropDragStart = { x: 0, y: 0 };
+
+    const dropzoneCropPdf = document.getElementById('dropzone-croppdf');
+    const inputCropPdf = document.getElementById('input-croppdf');
+    const configCropPdf = document.getElementById('config-croppdf');
+    const btnRunCropPdf = document.getElementById('btn-run-croppdf');
+    const cropPageCanvas = document.getElementById('croppdf-page-canvas');
+    const cropOverlayCanvas = document.getElementById('croppdf-overlay-canvas');
+    const cropPageCtx = cropPageCanvas?.getContext('2d');
+    const cropOverlayCtx = cropOverlayCanvas?.getContext('2d');
+
+    dropzoneCropPdf.onclick = () => inputCropPdf.click();
+    inputCropPdf.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      cropPdfFile = file;
+
+      try {
+        document.getElementById('label-croppdf-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        const buffer = await file.arrayBuffer();
+        cropPdfDoc = await pdfjsLib.getDocument({ data: buffer }).promise;
+        cropPdfTotalPages = cropPdfDoc.numPages;
+        cropPdfCurrentPage = 1;
+        cropBox = { normX: 0.05, normY: 0.05, normW: 0.9, normH: 0.9 };
+
+        document.getElementById('croppdf-total-pages').textContent = cropPdfTotalPages;
+        configCropPdf.classList.remove('hidden');
+        btnRunCropPdf.disabled = false;
+        await renderCropPdfPage(1);
+        initCropCanvasEvents();
+        showToast(`Document loaded. Adjust crop box or select a preset.`);
+      } catch (err) {
+        showToast('Error loading PDF: ' + err.message, false);
+      }
+    };
+
+    async function renderCropPdfPage(pageNum) {
+      if (!cropPdfDoc) return;
+      cropPdfCurrentPage = pageNum;
+      document.getElementById('croppdf-curr-page').textContent = pageNum;
+
+      const page = await cropPdfDoc.getPage(pageNum);
+      const viewport = page.getViewport({ scale: 1.25 });
+
+      cropPageCanvas.width = viewport.width;
+      cropPageCanvas.height = viewport.height;
+      cropOverlayCanvas.width = viewport.width;
+      cropOverlayCanvas.height = viewport.height;
+
+      await page.render({ canvasContext: cropPageCtx, viewport }).promise;
+      drawCropOverlay();
+    }
+
+    function drawCropOverlay() {
+      if (!cropOverlayCtx || !cropOverlayCanvas) return;
+      const w = cropOverlayCanvas.width;
+      const h = cropOverlayCanvas.height;
+
+      cropOverlayCtx.clearRect(0, 0, w, h);
+
+      // Darken out-of-bounds area
+      cropOverlayCtx.fillStyle = 'rgba(0, 0, 0, 0.55)';
+      cropOverlayCtx.fillRect(0, 0, w, h);
+
+      const bx = cropBox.normX * w;
+      const by = cropBox.normY * h;
+      const bw = cropBox.normW * w;
+      const bh = cropBox.normH * h;
+
+      // Clear the crop box window
+      cropOverlayCtx.clearRect(bx, by, bw, bh);
+
+      // Draw dashed border & handles
+      cropOverlayCtx.save();
+      cropOverlayCtx.strokeStyle = '#3b82f6';
+      cropOverlayCtx.lineWidth = 2.5;
+      cropOverlayCtx.setLineDash([6, 4]);
+      cropOverlayCtx.strokeRect(bx, by, bw, bh);
+
+      cropOverlayCtx.fillStyle = '#3b82f6';
+      const handleSize = 8;
+      // Corners
+      cropOverlayCtx.fillRect(bx - handleSize/2, by - handleSize/2, handleSize, handleSize);
+      cropOverlayCtx.fillRect(bx + bw - handleSize/2, by - handleSize/2, handleSize, handleSize);
+      cropOverlayCtx.fillRect(bx - handleSize/2, by + bh - handleSize/2, handleSize, handleSize);
+      cropOverlayCtx.fillRect(bx + bw - handleSize/2, by + bh - handleSize/2, handleSize, handleSize);
+      cropOverlayCtx.restore();
+    }
+
+    function initCropCanvasEvents() {
+      if (!cropOverlayCanvas) return;
+
+      cropOverlayCanvas.onmousedown = (e) => {
+        const rect = cropOverlayCanvas.getBoundingClientRect();
+        const x = (e.clientX - rect.left) * (cropOverlayCanvas.width / rect.width);
+        const y = (e.clientY - rect.top) * (cropOverlayCanvas.height / rect.height);
+
+        isCroppingDrag = true;
+        cropDragStart = { x, y };
+      };
+
+      cropOverlayCanvas.onmousemove = (e) => {
+        if (!isCroppingDrag) return;
+        const rect = cropOverlayCanvas.getBoundingClientRect();
+        const currX = (e.clientX - rect.left) * (cropOverlayCanvas.width / rect.width);
+        const currY = (e.clientY - rect.top) * (cropOverlayCanvas.height / rect.height);
+
+        const xMin = Math.min(cropDragStart.x, currX);
+        const yMin = Math.min(cropDragStart.y, currY);
+        const boxW = Math.abs(currX - cropDragStart.x);
+        const boxH = Math.abs(currY - cropDragStart.y);
+
+        cropBox.normX = Math.max(0, xMin / cropOverlayCanvas.width);
+        cropBox.normY = Math.max(0, yMin / cropOverlayCanvas.height);
+        cropBox.normW = Math.min(1 - cropBox.normX, boxW / cropOverlayCanvas.width);
+        cropBox.normH = Math.min(1 - cropBox.normY, boxH / cropOverlayCanvas.height);
+
+        drawCropOverlay();
+      };
+
+      const finishCrop = () => {
+        isCroppingDrag = false;
+        document.getElementById('croppdf-preset').value = 'custom';
+      };
+
+      cropOverlayCanvas.onmouseup = finishCrop;
+      cropOverlayCanvas.onmouseleave = finishCrop;
+    }
+
+    function applyCropPreset(preset) {
+      if (preset === 'trim5') {
+        cropBox = { normX: 0.05, normY: 0.05, normW: 0.90, normH: 0.90 };
+      } else if (preset === 'trim10') {
+        cropBox = { normX: 0.10, normY: 0.10, normW: 0.80, normH: 0.80 };
+      } else if (preset === 'trim15') {
+        cropBox = { normX: 0.15, normY: 0.15, normW: 0.70, normH: 0.70 };
+      }
+      drawCropOverlay();
+    }
+
+    function changeCropPdfPage(delta) {
+      const target = cropPdfCurrentPage + delta;
+      if (target >= 1 && target <= cropPdfTotalPages) {
+        renderCropPdfPage(target);
+      }
+    }
+
+    async function executeCropPdf() {
+      if (!cropPdfFile) return;
+      btnRunCropPdf.disabled = true;
+      btnRunCropPdf.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Cropping document...`;
+
+      try {
+        const buffer = await cropPdfFile.arrayBuffer();
+        const pdfDoc = await PDFLib.PDFDocument.load(buffer, { ignoreEncryption: true });
+        const scope = document.getElementById('croppdf-scope').value;
+        const pages = pdfDoc.getPages();
+
+        const targetIndices = (scope === 'current') 
+          ? [cropPdfCurrentPage - 1] 
+          : pages.map((_, i) => i);
+
+        targetIndices.forEach(idx => {
+          const page = pages[idx];
+          const { width: pW, height: pH } = page.getSize();
+
+          // Calculate PDF crop box in points (Origin is bottom-left)
+          const cropX = cropBox.normX * pW;
+          const cropW = cropBox.normW * pW;
+          const cropH = cropBox.normH * pH;
+          const cropY = pH - (cropBox.normY * pH) - cropH;
+
+          // Set CropBox and MediaBox to permanently trim margins
+          page.setCropBox(cropX, Math.max(0, cropY), cropW, cropH);
+          page.setMediaBox(cropX, Math.max(0, cropY), cropW, cropH);
+        });
+
+        const croppedBytes = await pdfDoc.save();
+        downloadBlob(croppedBytes, `cropped-${cropPdfFile.name}`, 'application/pdf');
+        showToast(`PDF cropped across ${targetIndices.length} page(s) successfully!`);
+      } catch (err) {
+        showToast('Crop error: ' + err.message, false);
+      } finally {
+        btnRunCropPdf.disabled = false;
+        btnRunCropPdf.innerHTML = `<i data-lucide="crop" class="w-4 h-4"></i> Crop Document &amp; Download`;
+        lucide.createIcons();
+      }
+    }
+
+    // ==========================================
+    // TOOL: PDF FORMS (CREATOR & FILLER)
+    // ==========================================
+    let formsFile = null;
+    let formsPdfDoc = null;
+    let formsLoadedFields = []; // [ { name, type, value } ]
+    let formsNewFields = [];    // user added interactive fields
+
+    const dropzoneForms = document.getElementById('dropzone-forms');
+    const inputForms = document.getElementById('input-forms');
+    const configForms = document.getElementById('config-forms');
+    const btnRunForms = document.getElementById('btn-run-forms');
+    const formsFillList = document.getElementById('forms-fill-list');
+    const formsPageCanvas = document.getElementById('forms-page-canvas');
+    const formsFieldsOverlay = document.getElementById('forms-fields-overlay');
+    const formsPageCtx = formsPageCanvas?.getContext('2d');
+
+    dropzoneForms.onclick = () => inputForms.click();
+    inputForms.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      formsFile = file;
+
+      try {
+        document.getElementById('label-forms-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+        const buffer = await file.arrayBuffer();
+
+        // 1. Detect existing Form fields with pdf-lib
+        const pdfDoc = await PDFLib.PDFDocument.load(buffer, { ignoreEncryption: true });
+        const form = pdfDoc.getForm();
+        const fields = form.getFields();
+
+        formsLoadedFields = fields.map(f => {
+          const name = f.getName();
+          let type = 'text';
+          let val = '';
+          try {
+            if (f instanceof PDFLib.PDFCheckBox) {
+              type = 'checkbox';
+              val = f.isChecked();
+            } else if (f instanceof PDFLib.PDFTextField) {
+              type = 'text';
+              val = f.getText() || '';
+            }
+          } catch (_) {}
+          return { name, type, value: val };
+        });
+
+        document.getElementById('forms-field-count').textContent = formsLoadedFields.length;
+        renderFormsFillList();
+
+        // 2. Render Page 1 for visual field builder
+        formsPdfDoc = await pdfjsLib.getDocument({ data: buffer }).promise;
+        const page1 = await formsPdfDoc.getPage(1);
+        const viewport = page1.getViewport({ scale: 1.25 });
+        formsPageCanvas.width = viewport.width;
+        formsPageCanvas.height = viewport.height;
+        await page1.render({ canvasContext: formsPageCtx, viewport }).promise;
+
+        formsNewFields = [];
+        initFormsOverlayClick();
+
+        configForms.classList.remove('hidden');
+        btnRunForms.disabled = false;
+        showToast(formsLoadedFields.length > 0 
+          ? `Detected ${formsLoadedFields.length} interactive form fields!` 
+          : `No existing form fields detected. You can add new fillable fields below.`);
+      } catch (err) {
+        showToast('Error reading PDF forms: ' + err.message, false);
+      }
+    };
+
+    function renderFormsFillList() {
+      if (!formsFillList) return;
+      formsFillList.innerHTML = '';
+
+      if (formsLoadedFields.length === 0) {
+        formsFillList.innerHTML = `
+          <div class="text-center py-6 text-xs text-slate-400 space-y-2">
+            <i data-lucide="info" class="w-8 h-8 text-blue-400 mx-auto"></i>
+            <p>This PDF does not contain pre-existing fillable AcroForm fields.</p>
+            <p class="text-blue-400 font-semibold cursor-pointer hover:underline" onclick="switchFormTab('create')">
+              👉 Click here to switch to "Add Interactive Fields" and place text boxes or checkboxes on the document!
+            </p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      formsLoadedFields.forEach((f, idx) => {
+        const item = document.createElement('div');
+        item.className = 'flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs';
+
+        if (f.type === 'checkbox') {
+          item.innerHTML = `
+            <span class="font-bold text-white">${f.name}</span>
+            <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
+              <input type="checkbox" id="form-field-input-${idx}" ${f.value ? 'checked' : ''} class="w-4 h-4 rounded bg-slate-950 border-slate-700 text-blue-600">
+              <span>Checked</span>
+            </label>
+          `;
+        } else {
+          item.innerHTML = `
+            <span class="font-bold text-white min-w-[140px] truncate" title="${f.name}">${f.name}</span>
+            <input type="text" id="form-field-input-${idx}" value="${f.value}" placeholder="Enter text..." class="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-white focus:outline-none focus:border-blue-500">
+          `;
+        }
+        formsFillList.appendChild(item);
+      });
+    }
+
+    function switchFormTab(tab) {
+      const btnFill = document.getElementById('btn-tab-form-fill');
+      const btnCreate = document.getElementById('btn-tab-form-create');
+      const contFill = document.getElementById('tab-form-fill-container');
+      const contCreate = document.getElementById('tab-form-create-container');
+
+      if (tab === 'fill') {
+        btnFill.className = 'px-3.5 py-1.5 rounded-xl font-bold bg-blue-600 text-white';
+        btnCreate.className = 'px-3.5 py-1.5 rounded-xl font-bold bg-slate-800 text-slate-400 hover:text-white';
+        contFill.classList.remove('hidden');
+        contCreate.classList.add('hidden');
+      } else {
+        btnCreate.className = 'px-3.5 py-1.5 rounded-xl font-bold bg-blue-600 text-white';
+        btnFill.className = 'px-3.5 py-1.5 rounded-xl font-bold bg-slate-800 text-slate-400 hover:text-white';
+        contCreate.classList.remove('hidden');
+        contFill.classList.add('hidden');
+      }
+    }
+
+    function initFormsOverlayClick() {
+      if (!formsFieldsOverlay) return;
+
+      formsFieldsOverlay.onclick = (e) => {
+        const rect = formsFieldsOverlay.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
+
+        const fType = document.getElementById('forms-new-field-type').value;
+        const fName = (document.getElementById('forms-new-field-name').value.trim() || 'Field') + '_' + (formsNewFields.length + 1);
+
+        formsNewFields.push({ type: fType, name: fName, normX: x, normY: y });
+        renderFormsOverlayItems();
+        showToast(`Added interactive ${fType} field: ${fName}`);
+      };
+    }
+
+    function renderFormsOverlayItems() {
+      if (!formsFieldsOverlay) return;
+      formsFieldsOverlay.innerHTML = '';
+
+      formsNewFields.forEach((f, idx) => {
+        const el = document.createElement('div');
+        el.className = 'absolute transform -translate-x-1/2 -translate-y-1/2 p-1.5 rounded-lg border-2 border-dashed border-blue-500 bg-blue-600/30 text-[10px] text-white font-bold flex items-center gap-1 shadow-lg cursor-pointer';
+        el.style.left = `${f.normX * 100}%`;
+        el.style.top = `${f.normY * 100}%`;
+
+        el.innerHTML = `
+          <span>${f.name} (${f.type})</span>
+          <button type="button" onclick="event.stopPropagation(); removeNewFormField(${idx})" class="p-0.5 rounded hover:bg-red-600 text-red-300 hover:text-white">✕</button>
+        `;
+        formsFieldsOverlay.appendChild(el);
+      });
+    }
+
+    function removeNewFormField(idx) {
+      formsNewFields.splice(idx, 1);
+      renderFormsOverlayItems();
+    }
+
+    async function executeSaveFormsPdf() {
+      if (!formsFile) return;
+      btnRunForms.disabled = true;
+      btnRunForms.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Saving form document...`;
+
+      try {
+        const buffer = await formsFile.arrayBuffer();
+        const pdfDoc = await PDFLib.PDFDocument.load(buffer, { ignoreEncryption: true });
+        const form = pdfDoc.getForm();
+
+        // 1. Save user-filled values into existing form
+        formsLoadedFields.forEach((f, idx) => {
+          const inputEl = document.getElementById(`form-field-input-${idx}`);
+          if (!inputEl) return;
+          try {
+            const field = form.getField(f.name);
+            if (field instanceof PDFLib.PDFTextField) {
+              field.setText(inputEl.value);
+            } else if (field instanceof PDFLib.PDFCheckBox) {
+              if (inputEl.checked) field.check();
+              else field.uncheck();
+            }
+          } catch (_) {}
+        });
+
+        // 2. Add newly created interactive fields
+        if (formsNewFields.length > 0) {
+          const page1 = pdfDoc.getPage(0);
+          const { width: pW, height: pH } = page1.getSize();
+
+          formsNewFields.forEach(nf => {
+            const x = (nf.normX * pW) - 60;
+            const y = pH - (nf.normY * pH) - 12;
+
+            if (nf.type === 'text') {
+              const textField = form.createTextField(nf.name);
+              textField.setText('');
+              textField.addToPage(page1, { x: Math.max(0, x), y: Math.max(0, y), width: 140, height: 24 });
+            } else if (nf.type === 'checkbox') {
+              const checkBox = form.createCheckBox(nf.name);
+              checkBox.addToPage(page1, { x: Math.max(0, x), y: Math.max(0, y), width: 20, height: 20 });
+            } else if (nf.type === 'button') {
+              const btn = form.createButton(nf.name);
+              btn.addToPage(page1, { x: Math.max(0, x), y: Math.max(0, y), width: 100, height: 26 });
+            }
+          });
+        }
+
+        const savedBytes = await pdfDoc.save();
+        downloadBlob(savedBytes, `form-${formsFile.name}`, 'application/pdf');
+        showToast('Interactive PDF Form saved and downloaded successfully!');
+      } catch (err) {
+        showToast('Form save error: ' + err.message, false);
+      } finally {
+        btnRunForms.disabled = false;
+        btnRunForms.innerHTML = `<i data-lucide="check-square" class="w-4 h-4"></i> Save &amp; Download Interactive Form`;
+        lucide.createIcons();
+      }
     }
   </script>
 </body>
