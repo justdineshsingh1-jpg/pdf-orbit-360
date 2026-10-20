@@ -154,13 +154,29 @@
     body.light-mode .custom-scroll::-webkit-scrollbar-thumb {
       background-color: #cbd5e1 !important;
     }
-    body.light-mode #toast {
-      background-color: #ffffff !important;
-      border-color: #cbd5e1 !important;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
-    }
     body.light-mode #toast #toast-msg {
       color: #0f172a !important;
+    }
+    /* Badges & Pills High Contrast in Light Mode */
+    body.light-mode .text-blue-300 {
+      color: #1d4ed8 !important; /* Deep vibrant blue for clear legibility on light background */
+    }
+    body.light-mode .bg-blue-600\/30,
+    body.light-mode .bg-blue-600\/20,
+    body.light-mode .bg-blue-600\/10 {
+      background-color: #dbeafe !important; /* Soft distinct light blue badge background */
+      border: 1px solid #bfdbfe !important;
+    }
+    body.light-mode .text-blue-400 {
+      color: #2563eb !important;
+    }
+    body.light-mode .bg-slate-900\/60,
+    body.light-mode .bg-slate-900\/90,
+    body.light-mode .bg-slate-900 {
+      background-color: #ffffff !important;
+    }
+    body.light-mode span.font-bold.text-\[10px\] {
+      font-weight: 700 !important;
     }
     /* Theme Transition */
     body, header, footer, .tool-card, input, select, textarea, button {
