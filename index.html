@@ -72,7 +72,7 @@
     }
 
     /* ========================================================
-       LIGHT MODE THEME SYSTEM
+       LIGHT MODE THEME SYSTEM (High-Contrast, Enterprise Quality)
        ======================================================== */
     body.light-mode {
       background-color: #f8fafc !important;
@@ -82,15 +82,47 @@
       background: radial-gradient(circle at 15% 15%, rgba(37, 99, 235, 0.08), transparent 45%),
                   radial-gradient(circle at 85% 85%, rgba(59, 130, 246, 0.05), transparent 45%) !important;
     }
+    
+    /* Header & Brand in Light Mode */
     body.light-mode header {
-      background-color: rgba(255, 255, 255, 0.95) !important;
+      background-color: #ffffff !important;
       border-color: #e2e8f0 !important;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
     }
+    body.light-mode header .bg-clip-text {
+      background: linear-gradient(to right, #1d4ed8, #2563eb, #3b82f6) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+    }
+    body.light-mode header button:not(.bg-blue-600) {
+      background-color: #f8fafc !important;
+      border: 1px solid #cbd5e1 !important;
+      color: #1e293b !important;
+    }
+    body.light-mode header button:not(.bg-blue-600):hover {
+      background-color: #f1f5f9 !important;
+      border-color: #94a3b8 !important;
+      color: #0f172a !important;
+    }
+    body.light-mode #btn-share-app {
+      background-color: #eff6ff !important;
+      border: 1px solid #bfdbfe !important;
+      color: #1d4ed8 !important;
+    }
+    body.light-mode #btn-share-app:hover {
+      background-color: #2563eb !important;
+      border-color: #2563eb !important;
+      color: #ffffff !important;
+    }
+
+    /* Footer in Light Mode */
     body.light-mode footer {
       background-color: #ffffff !important;
       border-color: #e2e8f0 !important;
       color: #64748b !important;
     }
+
+    /* Backgrounds & Borders */
     body.light-mode .bg-slate-900,
     body.light-mode .bg-slate-900\/95,
     body.light-mode .bg-slate-900\/90,
@@ -110,7 +142,15 @@
     body.light-mode .border-slate-900 {
       border-color: #e2e8f0 !important;
     }
-    body.light-mode .text-white {
+
+    /* Typography & Contrast */
+    body.light-mode h1.text-white,
+    body.light-mode h2.text-white,
+    body.light-mode h3.text-white,
+    body.light-mode h4.text-white,
+    body.light-mode p.text-white,
+    body.light-mode div.text-white:not(.bg-blue-600 *):not(button.bg-blue-600 *),
+    body.light-mode span.text-white:not(.bg-blue-600 *):not(button.bg-blue-600 *) {
       color: #0f172a !important;
     }
     body.light-mode .text-slate-100,
@@ -124,6 +164,8 @@
     body.light-mode .text-slate-500 {
       color: #64748b !important;
     }
+
+    /* Tool Cards */
     body.light-mode .tool-card {
       background-color: #ffffff !important;
       border-color: #e2e8f0 !important;
@@ -133,51 +175,176 @@
       border-color: #3b82f6 !important;
       box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.1), 0 4px 6px -4px rgba(37, 99, 235, 0.1) !important;
     }
+
+    /* Primary Royal Blue Buttons - ALWAYS PURE CRISP WHITE TEXT */
+    body.light-mode .bg-blue-600,
+    body.light-mode button.bg-blue-600,
+    body.light-mode .cat-filter-btn.bg-blue-600,
+    body.light-mode .bg-blue-600 *,
+    body.light-mode button.bg-blue-600 *,
+    body.light-mode .cat-filter-btn.bg-blue-600 *,
+    body.light-mode a.bg-blue-600,
+    body.light-mode a.bg-blue-600 * {
+      color: #ffffff !important;
+    }
+    body.light-mode .bg-blue-600:not([class*="/"]),
+    body.light-mode button.bg-blue-600 {
+      background-color: #2563eb !important;
+    }
+    body.light-mode .bg-blue-600:not([class*="/"]):hover,
+    body.light-mode button.bg-blue-600:hover {
+      background-color: #1d4ed8 !important;
+    }
+
+    /* Secondary / Action Buttons */
+    body.light-mode button.bg-slate-800,
+    body.light-mode button.bg-slate-900,
+    body.light-mode button.border-slate-700 {
+      background-color: #f8fafc !important;
+      border: 1px solid #cbd5e1 !important;
+      color: #1e293b !important;
+    }
+    body.light-mode button.bg-slate-800:hover,
+    body.light-mode button.bg-slate-900:hover {
+      background-color: #f1f5f9 !important;
+      border-color: #94a3b8 !important;
+      color: #0f172a !important;
+    }
+    body.light-mode .hover\:text-white:hover {
+      color: #0f172a !important;
+    }
+    body.light-mode .hover\:bg-slate-700:hover,
+    body.light-mode .hover\:bg-slate-800:hover {
+      background-color: #e2e8f0 !important;
+    }
+
+    /* Category Filter Tabs */
+    body.light-mode .cat-filter-btn:not(.bg-blue-600) {
+      background-color: #ffffff !important;
+      border: 1px solid #cbd5e1 !important;
+      color: #334155 !important;
+    }
+    body.light-mode .cat-filter-btn:not(.bg-blue-600):hover {
+      background-color: #f1f5f9 !important;
+      border-color: #94a3b8 !important;
+      color: #0f172a !important;
+    }
+    body.light-mode .cat-filter-btn.bg-blue-600 {
+      background-color: #2563eb !important;
+      border: 1px solid #2563eb !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.25) !important;
+    }
+
+    /* Badges & Chips High Contrast in Light Mode */
+    body.light-mode [class*="bg-blue-600/"],
+    body.light-mode .bg-blue-600\/30,
+    body.light-mode .bg-blue-600\/20,
+    body.light-mode .bg-blue-600\/10 {
+      background-color: #eff6ff !important;
+      border: 1px solid #bfdbfe !important;
+      color: #1d4ed8 !important;
+    }
+    body.light-mode [class*="text-blue-300"],
+    body.light-mode [class*="text-blue-400"],
+    body.light-mode .text-blue-300,
+    body.light-mode .text-blue-400 {
+      color: #1d4ed8 !important;
+      font-weight: 700 !important;
+    }
+    body.light-mode [class*="text-indigo-400"],
+    body.light-mode [class*="text-indigo-300"],
+    body.light-mode [class*="text-sky-400"],
+    body.light-mode [class*="text-sky-300"] {
+      color: #1e40af !important;
+    }
+    body.light-mode [class*="text-emerald-400"],
+    body.light-mode [class*="text-emerald-300"] {
+      color: #047857 !important;
+    }
+    body.light-mode [class*="text-amber-400"],
+    body.light-mode [class*="text-amber-300"] {
+      color: #b45309 !important;
+    }
+    body.light-mode [class*="text-rose-400"],
+    body.light-mode [class*="text-red-400"] {
+      color: #b91c1c !important;
+    }
+
+    /* Form Controls & Inputs */
     body.light-mode input[type="text"],
     body.light-mode input[type="password"],
     body.light-mode input[type="number"],
     body.light-mode select,
     body.light-mode textarea {
+      background-color: #ffffff !important;
+      border: 1px solid #cbd5e1 !important;
+      color: #0f172a !important;
+    }
+    body.light-mode select option {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+    }
+    body.light-mode input::placeholder,
+    body.light-mode textarea::placeholder {
+      color: #94a3b8 !important;
+    }
+
+    /* Dropzones & Workspaces */
+    body.light-mode [id^="dropzone-"] {
       background-color: #f8fafc !important;
+      border-color: #cbd5e1 !important;
+    }
+    body.light-mode [id^="dropzone-"]:hover {
+      background-color: #eff6ff !important;
+      border-color: #2563eb !important;
+    }
+    body.light-mode [id^="dropzone-"] p.text-white,
+    body.light-mode [id^="label-"] {
+      color: #0f172a !important;
+    }
+    body.light-mode [id^="dropzone-"] p.text-slate-400 {
+      color: #475569 !important;
+    }
+    body.light-mode #view-workspace > div:last-child {
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05) !important;
+    }
+    body.light-mode [id^="config-"],
+    body.light-mode [id^="list-"] {
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important;
+    }
+
+    /* Modals & Popups */
+    body.light-mode #modal-progress,
+    body.light-mode #modal-zoom {
+      background-color: rgba(15, 23, 42, 0.45) !important;
+    }
+    body.light-mode #modal-progress > div,
+    body.light-mode #modal-zoom > div {
+      background-color: #ffffff !important;
       border-color: #cbd5e1 !important;
       color: #0f172a !important;
     }
-    body.light-mode .cat-filter-btn:not(.bg-blue-600) {
+
+    /* Toast */
+    body.light-mode #toast {
       background-color: #ffffff !important;
-      border-color: #e2e8f0 !important;
-      color: #475569 !important;
-    }
-    body.light-mode .cat-filter-btn:not(.bg-blue-600):hover {
-      background-color: #f1f5f9 !important;
+      border-color: #cbd5e1 !important;
       color: #0f172a !important;
-    }
-    body.light-mode .custom-scroll::-webkit-scrollbar-thumb {
-      background-color: #cbd5e1 !important;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
     }
     body.light-mode #toast #toast-msg {
       color: #0f172a !important;
     }
-    /* Badges & Pills High Contrast in Light Mode */
-    body.light-mode .text-blue-300 {
-      color: #1d4ed8 !important; /* Deep vibrant blue for clear legibility on light background */
+
+    /* Scrollbars */
+    body.light-mode .custom-scroll::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1 !important;
     }
-    body.light-mode .bg-blue-600\/30,
-    body.light-mode .bg-blue-600\/20,
-    body.light-mode .bg-blue-600\/10 {
-      background-color: #dbeafe !important; /* Soft distinct light blue badge background */
-      border: 1px solid #bfdbfe !important;
-    }
-    body.light-mode .text-blue-400 {
-      color: #2563eb !important;
-    }
-    body.light-mode .bg-slate-900\/60,
-    body.light-mode .bg-slate-900\/90,
-    body.light-mode .bg-slate-900 {
-      background-color: #ffffff !important;
-    }
-    body.light-mode span.font-bold.text-\[10px\] {
-      font-weight: 700 !important;
-    }
+
     /* Theme Transition */
     body, header, footer, .tool-card, input, select, textarea, button {
       transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease !important;
@@ -202,7 +369,7 @@
       
       <!-- Header Actions -->
       <div class="flex items-center gap-2">
-        <button onclick="showDashboard()" class="hidden sm:inline-flex items-center text-xs font-semibold text-slate-300 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition">
+        <button id="btn-all-tools" onclick="showDashboard()" class="hidden sm:inline-flex items-center text-xs font-semibold text-slate-300 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition">
           All Tools
         </button>
         <!-- Light / Dark Mode Toggle Button -->
@@ -210,7 +377,7 @@
           <i id="theme-toggle-icon" data-lucide="sun" class="w-3.5 h-3.5 text-amber-400"></i>
           <span id="theme-toggle-label" class="hidden xs:inline">Light</span>
         </button>
-        <button onclick="shareApp()" class="flex items-center gap-1.5 text-xs font-semibold text-blue-400 hover:text-white px-2.5 sm:px-3 py-1.5 rounded-lg border border-blue-500/30 bg-blue-600/10 hover:bg-blue-600 transition shadow-sm" title="Share with friends">
+        <button id="btn-share-app" onclick="shareApp()" class="flex items-center gap-1.5 text-xs font-semibold text-blue-400 hover:text-white px-2.5 sm:px-3 py-1.5 rounded-lg border border-blue-500/30 bg-blue-600/10 hover:bg-blue-600 transition shadow-sm" title="Share with friends">
           <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
           <span class="hidden xs:inline">Share</span>
         </button>
@@ -2359,17 +2526,20 @@
       const icon = document.getElementById('theme-toggle-icon');
       const label = document.getElementById('theme-toggle-label');
       const btn = document.getElementById('theme-toggle-btn');
+      const allToolsBtn = document.getElementById('btn-all-tools');
 
       if (theme === 'light') {
         body.classList.add('light-mode');
         if (icon) {
           icon.setAttribute('data-lucide', 'moon');
-          icon.className = 'w-3.5 h-3.5 text-blue-500';
+          icon.className = 'w-3.5 h-3.5 text-blue-600';
         }
         if (label) label.textContent = 'Dark';
         if (btn) {
-          btn.classList.remove('bg-slate-800', 'text-slate-200', 'border-slate-700');
-          btn.classList.add('bg-white', 'text-slate-700', 'border-slate-300');
+          btn.className = 'flex items-center gap-1.5 text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 transition shadow-sm';
+        }
+        if (allToolsBtn) {
+          allToolsBtn.className = 'hidden sm:inline-flex items-center text-xs font-semibold text-slate-700 hover:text-slate-900 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 transition';
         }
       } else {
         body.classList.remove('light-mode');
@@ -2379,9 +2549,14 @@
         }
         if (label) label.textContent = 'Light';
         if (btn) {
-          btn.classList.remove('bg-white', 'text-slate-700', 'border-slate-300');
-          btn.classList.add('bg-slate-800', 'text-slate-200', 'border-slate-700');
+          btn.className = 'flex items-center gap-1.5 text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800 text-slate-200 hover:border-blue-500 hover:text-white transition shadow-sm';
         }
+        if (allToolsBtn) {
+          allToolsBtn.className = 'hidden sm:inline-flex items-center text-xs font-semibold text-slate-300 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition';
+        }
+      }
+      if (typeof currentCategory !== 'undefined' && document.getElementById('btn-cat-all')) {
+        filterCategory(currentCategory);
       }
       localStorage.setItem('pdforbit_theme', theme);
       lucide.createIcons();
@@ -2437,15 +2612,25 @@
       }
     }
 
+    let currentCategory = 'all';
     function filterCategory(cat) {
+      currentCategory = cat || 'all';
+      const isLight = document.body.classList.contains('light-mode');
       document.querySelectorAll('.cat-filter-btn').forEach(btn => {
-        btn.className = 'cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700';
+        if (isLight) {
+          btn.className = 'cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 flex items-center gap-1.5 flex-shrink-0';
+        } else {
+          btn.className = 'cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex items-center gap-1.5 flex-shrink-0';
+        }
       });
-      document.getElementById(`btn-cat-${cat}`).className = 'cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-blue-600 text-white shadow-lg shadow-blue-600/20';
+      const activeBtn = document.getElementById(`btn-cat-${currentCategory}`);
+      if (activeBtn) {
+        activeBtn.className = 'cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-blue-600 text-white shadow-md shadow-blue-600/25 flex items-center gap-1.5 flex-shrink-0';
+      }
 
       const cards = document.querySelectorAll('.tool-card');
       cards.forEach(card => {
-        if (cat === 'all' || (card.dataset.cat && card.dataset.cat.includes(cat))) {
+        if (currentCategory === 'all' || (card.dataset.cat && card.dataset.cat.includes(currentCategory))) {
           card.classList.remove('hidden');
         } else {
           card.classList.add('hidden');
