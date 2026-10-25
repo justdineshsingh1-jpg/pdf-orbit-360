@@ -234,6 +234,17 @@
     }
 
     /* Category Filter Tabs */
+    .cat-filter-btn * {
+      pointer-events: none;
+    }
+    .cat-filter-btn.bg-blue-600 svg,
+    .cat-filter-btn.bg-blue-600 i,
+    .cat-filter-btn.bg-blue-600 span {
+      color: #ffffff !important;
+    }
+    .cat-filter-btn.bg-blue-600 span {
+      background-color: rgba(255, 255, 255, 0.25) !important;
+    }
     body.light-mode .cat-filter-btn:not(.bg-blue-600) {
       background-color: #ffffff !important;
       border: 1px solid #cbd5e1 !important;
@@ -372,7 +383,7 @@
   <header class="border-b border-slate-800/80 bg-slate-900/95 backdrop-blur sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between">
       <!-- Brand Logo & Title -->
-      <div class="flex items-center gap-2.5 sm:gap-3 cursor-pointer" onclick="showDashboard()">
+      <div class="flex items-center gap-2.5 sm:gap-3 cursor-pointer" onclick="showDashboard(true)">
         <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-gradient-to-b from-blue-500 to-blue-700 flex items-center justify-center shadow-md shadow-blue-600/30 flex-shrink-0">
           <svg class="w-5 h-5 text-white" fill="none" stroke="#ffffff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
             <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/>
@@ -388,7 +399,7 @@
       
       <!-- Header Actions -->
       <div class="flex items-center gap-2">
-        <button id="btn-all-tools" onclick="showDashboard()" class="hidden sm:inline-flex items-center text-xs font-semibold text-slate-300 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition">
+        <button id="btn-all-tools" onclick="showDashboard(true)" class="hidden sm:inline-flex items-center text-xs font-semibold text-slate-300 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition">
           All Tools
         </button>
         <!-- Light / Dark Mode Toggle Button -->
@@ -482,7 +493,7 @@
         </div>
 
         <!-- 4. VISUAL ROTATE -->
-        <div data-cat="organize" onclick="openTool('rotate')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <div data-cat="organize edit-pdf" onclick="openTool('rotate')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="rotate-cw" class="w-6 h-6"></i>
@@ -608,7 +619,7 @@
         </div>
 
         <!-- 13. COMPRESS PDF -->
-        <div data-cat="organize compress" onclick="openTool('compress')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <div data-cat="compress" onclick="openTool('compress')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="minimize-2" class="w-6 h-6"></i>
@@ -635,7 +646,7 @@
         </div>
 
         <!-- 15. ADD WATERMARK -->
-        <div data-cat="organize" onclick="openTool('watermark')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <div data-cat="edit-pdf organize security" onclick="openTool('watermark')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="stamp" class="w-6 h-6"></i>
@@ -647,7 +658,7 @@
         </div>
 
         <!-- 16. PAGE NUMBERS & METADATA -->
-        <div data-cat="organize" onclick="openTool('pagenums')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <div data-cat="edit-pdf organize" onclick="openTool('pagenums')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="hash" class="w-6 h-6"></i>
@@ -659,7 +670,7 @@
         </div>
 
         <!-- 17. SIGN PDF -->
-        <div data-cat="security organize" onclick="openTool('sign')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <div data-cat="edit-pdf security organize" onclick="openTool('sign')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="pen-tool" class="w-6 h-6"></i>
@@ -689,7 +700,7 @@
         </div>
 
         <!-- 19. COMPARE PDF -->
-        <div data-cat="organize" onclick="openTool('compare')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <div data-cat="security organize" onclick="openTool('compare')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="columns-2" class="w-6 h-6"></i>
@@ -704,7 +715,7 @@
         </div>
 
         <!-- 20. REDACT PDF -->
-        <div data-cat="security organize" onclick="openTool('redact')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <div data-cat="edit-pdf security organize" onclick="openTool('redact')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="eye-off" class="w-6 h-6"></i>
@@ -809,7 +820,7 @@
         </div>
 
         <!-- 27. COMPRESS WORD (DOCX) (NEW) -->
-        <div data-cat="organize compress word" onclick="openTool('compressword')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <div data-cat="compress word" onclick="openTool('compressword')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="file-archive" class="w-6 h-6"></i>
@@ -824,7 +835,7 @@
         </div>
 
         <!-- 28. COMPRESS IMAGE (NEW) -->
-        <div data-cat="organize compress" onclick="openTool('compressimg')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <div data-cat="compress" onclick="openTool('compressimg')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="image-down" class="w-6 h-6"></i>
@@ -869,7 +880,7 @@
         </div>
 
         <!-- 31. UNIVERSAL FILE COMPRESSOR (NEW) -->
-        <div data-cat="organize compress" onclick="openTool('compressfile')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <div data-cat="compress" onclick="openTool('compressfile')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="archive" class="w-6 h-6"></i>
@@ -890,7 +901,7 @@
     <div id="view-workspace" class="hidden flex-1 flex flex-col">
       <!-- Back button & Breadcrumb -->
       <div class="flex items-center justify-between mb-4 sm:mb-6">
-        <button onclick="showDashboard()" class="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-slate-400 hover:text-white px-3 sm:px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition">
+        <button onclick="showDashboard(true)" class="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-slate-400 hover:text-white px-3 sm:px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition">
           <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Tools
         </button>
         <span id="workspace-badge" class="text-[11px] sm:text-xs font-medium px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-blue-600/10 text-blue-400 border border-blue-500/20 max-w-[170px] sm:max-w-none truncate"></span>
@@ -2836,10 +2847,14 @@
     lucide.createIcons();
 
     // Navigation & Views
-    function showDashboard() {
+    function showDashboard(resetCategory = false) {
       document.getElementById('view-dashboard').classList.remove('hidden');
       document.getElementById('view-workspace').classList.add('hidden');
       document.querySelectorAll('.tool-content').forEach(el => el.classList.add('hidden'));
+      if (resetCategory) {
+        filterCategory('all');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function shareApp() {
@@ -2891,7 +2906,8 @@
 
       const cards = document.querySelectorAll('.tool-card');
       cards.forEach(card => {
-        if (currentCategory === 'all' || (card.dataset.cat && card.dataset.cat.includes(currentCategory))) {
+        const catList = (card.dataset.cat || '').toLowerCase().split(/\s+/);
+        if (currentCategory === 'all' || catList.includes(currentCategory.toLowerCase())) {
           card.classList.remove('hidden');
         } else {
           card.classList.add('hidden');
@@ -4813,10 +4829,15 @@
 
     function setSignMode(mode) {
       signCurrentMode = mode;
+      const isLight = document.body.classList.contains('light-mode');
+      const inactiveCls = isLight
+        ? 'px-3 py-1 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300 transition'
+        : 'px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 hover:text-white border border-slate-700/60 transition';
+      const activeCls = 'px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-md shadow-blue-600/30 transition';
+
       ['draw', 'type', 'upload'].forEach(m => {
-        document.getElementById(`tab-sig-${m}`).className = m === mode
-          ? 'px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition'
-          : 'px-3 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition';
+        const tabEl = document.getElementById(`tab-sig-${m}`);
+        if (tabEl) tabEl.className = (m === mode ? activeCls : inactiveCls);
         const panel = document.getElementById(`sign-mode-${m}`);
         if (panel) panel.classList.toggle('hidden', m !== mode);
       });
@@ -4867,11 +4888,12 @@
     function getActiveSignatureDataUrl() {
       if (signCurrentMode === 'upload' && signUploadedDataUrl) {
         return signUploadedDataUrl;
-      } else if (signCurrentMode === 'type') {
+      } else if (signCurrentMode === 'type' && signTypedCanvas) {
         return signTypedCanvas.toDataURL('image/png');
-      } else {
+      } else if (signPadCanvas) {
         return signPadCanvas.toDataURL('image/png');
       }
+      return null;
     }
 
     async function renderSignPagePreview() {
@@ -5432,15 +5454,21 @@
     }
 
     function setCompareView(view) {
-      document.getElementById('btn-compare-view-visual').className = view === 'visual'
-        ? 'px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition'
-        : 'px-3 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition';
-      document.getElementById('btn-compare-view-text').className = view === 'text'
-        ? 'px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition'
-        : 'px-3 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition';
+      const isLight = document.body.classList.contains('light-mode');
+      const inactiveCls = isLight
+        ? 'px-3 py-1 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300 transition'
+        : 'px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 hover:text-white border border-slate-700/60 transition';
+      const activeCls = 'px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-md shadow-blue-600/30 transition';
 
-      document.getElementById('compare-view-visual').classList.toggle('hidden', view !== 'visual');
-      document.getElementById('compare-view-text').classList.toggle('hidden', view !== 'text');
+      const btnVis = document.getElementById('btn-compare-view-visual');
+      const btnTxt = document.getElementById('btn-compare-view-text');
+      if (btnVis) btnVis.className = (view === 'visual' ? activeCls : inactiveCls);
+      if (btnTxt) btnTxt.className = (view === 'text' ? activeCls : inactiveCls);
+
+      const vVis = document.getElementById('compare-view-visual');
+      const vTxt = document.getElementById('compare-view-text');
+      if (vVis) vVis.classList.toggle('hidden', view !== 'visual');
+      if (vTxt) vTxt.classList.toggle('hidden', view !== 'text');
     }
 
     function downloadComparisonReport() {
@@ -6267,14 +6295,20 @@ ${compareTextB}
       const contSource = document.getElementById('container-md-source');
       const contPreview = document.getElementById('container-md-preview');
 
+      const isLight = document.body.classList.contains('light-mode');
+      const inactiveCls = isLight
+        ? 'px-3 py-1 rounded-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300 transition'
+        : 'px-3 py-1 rounded-lg font-bold bg-slate-800 text-slate-400 hover:text-white border border-slate-700/60 transition';
+      const activeCls = 'px-3 py-1 rounded-lg font-bold bg-blue-600 text-white shadow-md shadow-blue-600/30 transition';
+
       if (tab === 'source') {
-        btnSource.className = 'px-3 py-1 rounded-lg font-bold bg-blue-600 text-white';
-        btnPreview.className = 'px-3 py-1 rounded-lg font-bold bg-slate-800 text-slate-400 hover:text-white';
+        btnSource.className = activeCls;
+        btnPreview.className = inactiveCls;
         contSource.classList.remove('hidden');
         contPreview.classList.add('hidden');
       } else {
-        btnPreview.className = 'px-3 py-1 rounded-lg font-bold bg-blue-600 text-white';
-        btnSource.className = 'px-3 py-1 rounded-lg font-bold bg-slate-800 text-slate-400 hover:text-white';
+        btnPreview.className = activeCls;
+        btnSource.className = inactiveCls;
         contPreview.innerHTML = markdownToSimpleHtml(document.getElementById('textarea-pdf2md').value);
         contSource.classList.add('hidden');
         contPreview.classList.remove('hidden');
@@ -6375,14 +6409,16 @@ ${compareTextB}
 
     function setEditPdfMode(mode) {
       editPdfMode = mode;
+      const isLight = document.body.classList.contains('light-mode');
+      const inactiveCls = isLight
+        ? 'px-2.5 py-1 rounded-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300 flex items-center gap-1 transition'
+        : 'px-2.5 py-1 rounded-lg font-bold bg-slate-800 text-slate-300 hover:text-white border border-slate-700/60 flex items-center gap-1 transition';
+      const activeCls = 'px-2.5 py-1 rounded-lg font-bold bg-blue-600 text-white shadow-md shadow-blue-600/30 flex items-center gap-1 transition';
+
       ['text', 'draw', 'rect', 'highlight'].forEach(m => {
         const btn = document.getElementById(`btn-edit-mode-${m}`);
         if (btn) {
-          if (m === mode) {
-            btn.className = 'px-2.5 py-1 rounded-lg font-bold bg-blue-600 text-white flex items-center gap-1';
-          } else {
-            btn.className = 'px-2.5 py-1 rounded-lg font-bold bg-slate-800 text-slate-300 hover:text-white flex items-center gap-1';
-          }
+          btn.className = (m === mode ? activeCls : inactiveCls);
         }
       });
       const textCtrl = document.getElementById('edit-text-controls');
@@ -6966,14 +7002,20 @@ ${compareTextB}
       const contFill = document.getElementById('tab-form-fill-container');
       const contCreate = document.getElementById('tab-form-create-container');
 
+      const isLight = document.body.classList.contains('light-mode');
+      const inactiveCls = isLight
+        ? 'px-3.5 py-1.5 rounded-xl font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300 transition'
+        : 'px-3.5 py-1.5 rounded-xl font-bold bg-slate-800 text-slate-400 hover:text-white border border-slate-700/60 transition';
+      const activeCls = 'px-3.5 py-1.5 rounded-xl font-bold bg-blue-600 text-white shadow-md shadow-blue-600/30 transition';
+
       if (tab === 'fill') {
-        btnFill.className = 'px-3.5 py-1.5 rounded-xl font-bold bg-blue-600 text-white';
-        btnCreate.className = 'px-3.5 py-1.5 rounded-xl font-bold bg-slate-800 text-slate-400 hover:text-white';
+        btnFill.className = activeCls;
+        btnCreate.className = inactiveCls;
         contFill.classList.remove('hidden');
         contCreate.classList.add('hidden');
       } else {
-        btnCreate.className = 'px-3.5 py-1.5 rounded-xl font-bold bg-blue-600 text-white';
-        btnFill.className = 'px-3.5 py-1.5 rounded-xl font-bold bg-slate-800 text-slate-400 hover:text-white';
+        btnCreate.className = activeCls;
+        btnFill.className = inactiveCls;
         contCreate.classList.remove('hidden');
         contFill.classList.add('hidden');
       }
