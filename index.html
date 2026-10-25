@@ -72,7 +72,7 @@
     }
 
     /* ========================================================
-       LIGHT MODE THEME SYSTEM (High-Contrast, Enterprise Quality)
+       LIGHT MODE THEME SYSTEM
        ======================================================== */
     body.light-mode {
       background-color: #f8fafc !important;
@@ -82,62 +82,15 @@
       background: radial-gradient(circle at 15% 15%, rgba(37, 99, 235, 0.08), transparent 45%),
                   radial-gradient(circle at 85% 85%, rgba(59, 130, 246, 0.05), transparent 45%) !important;
     }
-    
-    /* Header & Brand in Light Mode */
     body.light-mode header {
-      background-color: #ffffff !important;
+      background-color: rgba(255, 255, 255, 0.95) !important;
       border-color: #e2e8f0 !important;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
     }
-    body.light-mode header .brand-title {
-      color: #2563eb !important;
-      -webkit-text-fill-color: #2563eb !important;
-      background: none !important;
-    }
-    body.light-mode header .bg-blue-50 {
-      background-color: #eff6ff !important;
-      color: #1d4ed8 !important;
-      border-color: #bfdbfe !important;
-    }
-    body:not(.light-mode) header .brand-title {
-      background: linear-gradient(to right, #60a5fa, #93c5fd, #c7d2fe);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    body:not(.light-mode) header .bg-blue-50 {
-      background-color: rgba(37, 99, 235, 0.2) !important;
-      color: #93c5fd !important;
-      border-color: rgba(59, 130, 246, 0.3) !important;
-    }
-    body.light-mode header button:not(.bg-blue-600) {
-      background-color: #f8fafc !important;
-      border: 1px solid #cbd5e1 !important;
-      color: #1e293b !important;
-    }
-    body.light-mode header button:not(.bg-blue-600):hover {
-      background-color: #f1f5f9 !important;
-      border-color: #94a3b8 !important;
-      color: #0f172a !important;
-    }
-    body.light-mode #btn-share-app {
-      background-color: #eff6ff !important;
-      border: 1px solid #bfdbfe !important;
-      color: #1d4ed8 !important;
-    }
-    body.light-mode #btn-share-app:hover {
-      background-color: #2563eb !important;
-      border-color: #2563eb !important;
-      color: #ffffff !important;
-    }
-
-    /* Footer in Light Mode */
     body.light-mode footer {
       background-color: #ffffff !important;
       border-color: #e2e8f0 !important;
       color: #64748b !important;
     }
-
-    /* Backgrounds & Borders */
     body.light-mode .bg-slate-900,
     body.light-mode .bg-slate-900\/95,
     body.light-mode .bg-slate-900\/90,
@@ -157,15 +110,7 @@
     body.light-mode .border-slate-900 {
       border-color: #e2e8f0 !important;
     }
-
-    /* Typography & Contrast */
-    body.light-mode h1.text-white,
-    body.light-mode h2.text-white,
-    body.light-mode h3.text-white,
-    body.light-mode h4.text-white,
-    body.light-mode p.text-white,
-    body.light-mode div.text-white:not(.bg-blue-600 *):not(button.bg-blue-600 *),
-    body.light-mode span.text-white:not(.bg-blue-600 *):not(button.bg-blue-600 *) {
+    body.light-mode .text-white {
       color: #0f172a !important;
     }
     body.light-mode .text-slate-100,
@@ -179,8 +124,6 @@
     body.light-mode .text-slate-500 {
       color: #64748b !important;
     }
-
-    /* Tool Cards */
     body.light-mode .tool-card {
       background-color: #ffffff !important;
       border-color: #e2e8f0 !important;
@@ -190,187 +133,51 @@
       border-color: #3b82f6 !important;
       box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.1), 0 4px 6px -4px rgba(37, 99, 235, 0.1) !important;
     }
-
-    /* Primary Royal Blue Buttons - ALWAYS PURE CRISP WHITE TEXT */
-    body.light-mode .bg-blue-600,
-    body.light-mode button.bg-blue-600,
-    body.light-mode .cat-filter-btn.bg-blue-600,
-    body.light-mode .bg-blue-600 *,
-    body.light-mode button.bg-blue-600 *,
-    body.light-mode .cat-filter-btn.bg-blue-600 *,
-    body.light-mode a.bg-blue-600,
-    body.light-mode a.bg-blue-600 * {
-      color: #ffffff !important;
-    }
-    body.light-mode .bg-blue-600:not([class*="/"]),
-    body.light-mode button.bg-blue-600 {
-      background-color: #2563eb !important;
-    }
-    body.light-mode .bg-blue-600:not([class*="/"]):hover,
-    body.light-mode button.bg-blue-600:hover {
-      background-color: #1d4ed8 !important;
-    }
-
-    /* Secondary / Action Buttons */
-    body.light-mode button.bg-slate-800,
-    body.light-mode button.bg-slate-900,
-    body.light-mode button.border-slate-700 {
-      background-color: #f8fafc !important;
-      border: 1px solid #cbd5e1 !important;
-      color: #1e293b !important;
-    }
-    body.light-mode button.bg-slate-800:hover,
-    body.light-mode button.bg-slate-900:hover {
-      background-color: #f1f5f9 !important;
-      border-color: #94a3b8 !important;
-      color: #0f172a !important;
-    }
-    body.light-mode .hover\:text-white:hover {
-      color: #0f172a !important;
-    }
-    body.light-mode .hover\:bg-slate-700:hover,
-    body.light-mode .hover\:bg-slate-800:hover {
-      background-color: #e2e8f0 !important;
-    }
-
-    /* Category Filter Tabs */
-    .cat-filter-btn * {
-      pointer-events: none;
-    }
-    .cat-filter-btn.bg-blue-600 svg,
-    .cat-filter-btn.bg-blue-600 i,
-    .cat-filter-btn.bg-blue-600 span {
-      color: #ffffff !important;
-    }
-    .cat-filter-btn.bg-blue-600 span {
-      background-color: rgba(255, 255, 255, 0.25) !important;
-    }
-    body.light-mode .cat-filter-btn:not(.bg-blue-600) {
-      background-color: #ffffff !important;
-      border: 1px solid #cbd5e1 !important;
-      color: #334155 !important;
-    }
-    body.light-mode .cat-filter-btn:not(.bg-blue-600):hover {
-      background-color: #f1f5f9 !important;
-      border-color: #94a3b8 !important;
-      color: #0f172a !important;
-    }
-    body.light-mode .cat-filter-btn.bg-blue-600 {
-      background-color: #2563eb !important;
-      border: 1px solid #2563eb !important;
-      color: #ffffff !important;
-      box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.25) !important;
-    }
-
-    /* Badges & Chips High Contrast in Light Mode */
-    body.light-mode [class*="bg-blue-600/"],
-    body.light-mode .bg-blue-600\/30,
-    body.light-mode .bg-blue-600\/20,
-    body.light-mode .bg-blue-600\/10 {
-      background-color: #eff6ff !important;
-      border: 1px solid #bfdbfe !important;
-      color: #1d4ed8 !important;
-    }
-    body.light-mode [class*="text-blue-300"],
-    body.light-mode [class*="text-blue-400"],
-    body.light-mode .text-blue-300,
-    body.light-mode .text-blue-400 {
-      color: #1d4ed8 !important;
-      font-weight: 700 !important;
-    }
-    body.light-mode [class*="text-indigo-400"],
-    body.light-mode [class*="text-indigo-300"],
-    body.light-mode [class*="text-sky-400"],
-    body.light-mode [class*="text-sky-300"] {
-      color: #1e40af !important;
-    }
-    body.light-mode [class*="text-emerald-400"],
-    body.light-mode [class*="text-emerald-300"] {
-      color: #047857 !important;
-    }
-    body.light-mode [class*="text-amber-400"],
-    body.light-mode [class*="text-amber-300"] {
-      color: #b45309 !important;
-    }
-    body.light-mode [class*="text-rose-400"],
-    body.light-mode [class*="text-red-400"] {
-      color: #b91c1c !important;
-    }
-
-    /* Form Controls & Inputs */
     body.light-mode input[type="text"],
     body.light-mode input[type="password"],
     body.light-mode input[type="number"],
     body.light-mode select,
     body.light-mode textarea {
-      background-color: #ffffff !important;
-      border: 1px solid #cbd5e1 !important;
-      color: #0f172a !important;
-    }
-    body.light-mode select option {
-      background-color: #ffffff !important;
-      color: #0f172a !important;
-    }
-    body.light-mode input::placeholder,
-    body.light-mode textarea::placeholder {
-      color: #94a3b8 !important;
-    }
-
-    /* Dropzones & Workspaces */
-    body.light-mode [id^="dropzone-"] {
       background-color: #f8fafc !important;
       border-color: #cbd5e1 !important;
-    }
-    body.light-mode [id^="dropzone-"]:hover {
-      background-color: #eff6ff !important;
-      border-color: #2563eb !important;
-    }
-    body.light-mode [id^="dropzone-"] p.text-white,
-    body.light-mode [id^="label-"] {
       color: #0f172a !important;
     }
-    body.light-mode [id^="dropzone-"] p.text-slate-400 {
+    body.light-mode .cat-filter-btn:not(.bg-blue-600) {
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important;
       color: #475569 !important;
     }
-    body.light-mode #view-workspace > div:last-child {
-      background-color: #ffffff !important;
-      border-color: #e2e8f0 !important;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05) !important;
-    }
-    body.light-mode [id^="config-"],
-    body.light-mode [id^="list-"] {
-      background-color: #ffffff !important;
-      border-color: #e2e8f0 !important;
-    }
-
-    /* Modals & Popups */
-    body.light-mode #modal-progress,
-    body.light-mode #modal-zoom {
-      background-color: rgba(15, 23, 42, 0.45) !important;
-    }
-    body.light-mode #modal-progress > div,
-    body.light-mode #modal-zoom > div {
-      background-color: #ffffff !important;
-      border-color: #cbd5e1 !important;
+    body.light-mode .cat-filter-btn:not(.bg-blue-600):hover {
+      background-color: #f1f5f9 !important;
       color: #0f172a !important;
     }
-
-    /* Toast */
-    body.light-mode #toast {
-      background-color: #ffffff !important;
-      border-color: #cbd5e1 !important;
-      color: #0f172a !important;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+    body.light-mode .custom-scroll::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1 !important;
     }
     body.light-mode #toast #toast-msg {
       color: #0f172a !important;
     }
-
-    /* Scrollbars */
-    body.light-mode .custom-scroll::-webkit-scrollbar-thumb {
-      background-color: #cbd5e1 !important;
+    /* Badges & Pills High Contrast in Light Mode */
+    body.light-mode .text-blue-300 {
+      color: #1d4ed8 !important; /* Deep vibrant blue for clear legibility on light background */
     }
-
+    body.light-mode .bg-blue-600\/30,
+    body.light-mode .bg-blue-600\/20,
+    body.light-mode .bg-blue-600\/10 {
+      background-color: #dbeafe !important; /* Soft distinct light blue badge background */
+      border: 1px solid #bfdbfe !important;
+    }
+    body.light-mode .text-blue-400 {
+      color: #2563eb !important;
+    }
+    body.light-mode .bg-slate-900\/60,
+    body.light-mode .bg-slate-900\/90,
+    body.light-mode .bg-slate-900 {
+      background-color: #ffffff !important;
+    }
+    body.light-mode span.font-bold.text-\[10px\] {
+      font-weight: 700 !important;
+    }
     /* Theme Transition */
     body, header, footer, .tool-card, input, select, textarea, button {
       transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease !important;
@@ -383,23 +190,19 @@
   <header class="border-b border-slate-800/80 bg-slate-900/95 backdrop-blur sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between">
       <!-- Brand Logo & Title -->
-      <div class="flex items-center gap-2.5 sm:gap-3 cursor-pointer" onclick="showDashboard(true)">
-        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-gradient-to-b from-blue-500 to-blue-700 flex items-center justify-center shadow-md shadow-blue-600/30 flex-shrink-0">
-          <svg class="w-5 h-5 text-white" fill="none" stroke="#ffffff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-            <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/>
-            <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/>
-            <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>
-          </svg>
+      <div class="flex items-center gap-2.5 sm:gap-3 cursor-pointer" onclick="showDashboard()">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-sky-400 flex items-center justify-center shadow-lg shadow-blue-600/30 flex-shrink-0">
+          <i data-lucide="layers" class="w-4 h-4 sm:w-5 sm:h-5 text-white"></i>
         </div>
         <div class="flex items-center gap-2">
-          <span class="brand-title text-lg sm:text-xl font-extrabold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent whitespace-nowrap">PDF Orbit 360</span>
-          <span class="hidden md:inline-block text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">Secure &amp; Offline</span>
+          <span class="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-400 via-sky-300 to-indigo-200 bg-clip-text text-transparent whitespace-nowrap">PDF Orbit 360</span>
+          <span class="hidden md:inline-block text-[11px] font-semibold px-2 py-0.5 rounded-full bg-blue-600/20 text-blue-400 border border-blue-500/30">Secure &amp; Offline</span>
         </div>
       </div>
       
       <!-- Header Actions -->
       <div class="flex items-center gap-2">
-        <button id="btn-all-tools" onclick="showDashboard(true)" class="hidden sm:inline-flex items-center text-xs font-semibold text-slate-300 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition">
+        <button onclick="showDashboard()" class="hidden sm:inline-flex items-center text-xs font-semibold text-slate-300 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition">
           All Tools
         </button>
         <!-- Light / Dark Mode Toggle Button -->
@@ -407,7 +210,7 @@
           <i id="theme-toggle-icon" data-lucide="sun" class="w-3.5 h-3.5 text-amber-400"></i>
           <span id="theme-toggle-label" class="hidden xs:inline">Light</span>
         </button>
-        <button id="btn-share-app" onclick="shareApp()" class="flex items-center gap-1.5 text-xs font-semibold text-blue-400 hover:text-white px-2.5 sm:px-3 py-1.5 rounded-lg border border-blue-500/30 bg-blue-600/10 hover:bg-blue-600 transition shadow-sm" title="Share with friends">
+        <button onclick="shareApp()" class="flex items-center gap-1.5 text-xs font-semibold text-blue-400 hover:text-white px-2.5 sm:px-3 py-1.5 rounded-lg border border-blue-500/30 bg-blue-600/10 hover:bg-blue-600 transition shadow-sm" title="Share with friends">
           <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
           <span class="hidden xs:inline">Share</span>
         </button>
@@ -432,9 +235,7 @@
       <!-- Categories Filter Tabs (Horizontal scroll on mobile, wrap on desktop) -->
       <div class="relative mb-6 sm:mb-8 -mx-4 px-4 sm:mx-0 sm:px-0">
         <div class="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar sm:flex-wrap sm:justify-center">
-          <button onclick="filterCategory('all')" id="btn-cat-all" class="cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-blue-600 text-white shadow-md shadow-blue-600/25 flex-shrink-0">All Tools (31)</button>
-          <button onclick="filterCategory('compress')" id="btn-cat-compress" class="cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex items-center gap-1.5 flex-shrink-0"><i data-lucide="minimize-2" class="w-3.5 h-3.5 text-blue-400"></i> Compress <span class="bg-blue-600/30 text-blue-300 text-[9px] px-1.5 py-0.2 rounded-full font-bold">New!</span></button>
-          <button onclick="filterCategory('word')" id="btn-cat-word" class="cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex items-center gap-1.5 flex-shrink-0"><i data-lucide="file-type" class="w-3.5 h-3.5 text-blue-400"></i> Word Studio <span class="bg-blue-600/30 text-blue-300 text-[9px] px-1.5 py-0.2 rounded-full font-bold">New!</span></button>
+          <button onclick="filterCategory('all')" id="btn-cat-all" class="cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-blue-600 text-white shadow-md shadow-blue-600/25 flex-shrink-0">All Tools (26)</button>
           <button onclick="filterCategory('edit-pdf')" id="btn-cat-edit-pdf" class="cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex items-center gap-1.5 flex-shrink-0"><i data-lucide="edit-3" class="w-3.5 h-3.5 text-blue-400"></i> Edit PDF <span class="bg-blue-600/30 text-blue-300 text-[9px] px-1.5 py-0.2 rounded-full font-bold">New!</span></button>
           <button onclick="filterCategory('intelligence')" id="btn-cat-intelligence" class="cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex items-center gap-1.5 flex-shrink-0"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-blue-400"></i> PDF Intelligence <span class="bg-blue-600/30 text-blue-300 text-[9px] px-1.5 py-0.2 rounded-full font-bold">New!</span></button>
           <button onclick="filterCategory('convert-to-pdf')" id="btn-cat-convert-to-pdf" class="cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex-shrink-0">Convert to PDF</button>
@@ -493,7 +294,7 @@
         </div>
 
         <!-- 4. VISUAL ROTATE -->
-        <div data-cat="organize edit-pdf" onclick="openTool('rotate')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <div data-cat="organize" onclick="openTool('rotate')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="rotate-cw" class="w-6 h-6"></i>
@@ -508,7 +309,7 @@
         </div>
 
         <!-- 5. PDF TO WORD (NEW) -->
-        <div data-cat="convert-from-pdf word" onclick="openTool('pdf2word')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <div data-cat="convert-from-pdf" onclick="openTool('pdf2word')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="file-type" class="w-6 h-6"></i>
@@ -523,7 +324,7 @@
         </div>
 
         <!-- 6. WORD TO PDF (NEW) -->
-        <div data-cat="convert-to-pdf word" onclick="openTool('word2pdf')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <div data-cat="convert-to-pdf" onclick="openTool('word2pdf')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="file-text" class="w-6 h-6"></i>
@@ -619,15 +420,12 @@
         </div>
 
         <!-- 13. COMPRESS PDF -->
-        <div data-cat="compress" onclick="openTool('compress')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <div data-cat="organize" onclick="openTool('compress')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="minimize-2" class="w-6 h-6"></i>
             </div>
-            <div class="flex items-center gap-2 mb-1">
-              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Compress PDF</h3>
-              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">PDF</span>
-            </div>
+            <h3 class="text-base font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">Compress PDF</h3>
             <p class="text-xs text-slate-400 leading-relaxed">Reduce PDF file size by recompressing pages in browser memory.</p>
           </div>
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
@@ -646,7 +444,7 @@
         </div>
 
         <!-- 15. ADD WATERMARK -->
-        <div data-cat="edit-pdf organize security" onclick="openTool('watermark')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <div data-cat="organize" onclick="openTool('watermark')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="stamp" class="w-6 h-6"></i>
@@ -658,7 +456,7 @@
         </div>
 
         <!-- 16. PAGE NUMBERS & METADATA -->
-        <div data-cat="edit-pdf organize" onclick="openTool('pagenums')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <div data-cat="organize" onclick="openTool('pagenums')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="hash" class="w-6 h-6"></i>
@@ -670,7 +468,7 @@
         </div>
 
         <!-- 17. SIGN PDF -->
-        <div data-cat="edit-pdf security organize" onclick="openTool('sign')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <div data-cat="security organize" onclick="openTool('sign')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="pen-tool" class="w-6 h-6"></i>
@@ -700,7 +498,7 @@
         </div>
 
         <!-- 19. COMPARE PDF -->
-        <div data-cat="security organize" onclick="openTool('compare')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <div data-cat="organize" onclick="openTool('compare')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="columns-2" class="w-6 h-6"></i>
@@ -715,7 +513,7 @@
         </div>
 
         <!-- 20. REDACT PDF -->
-        <div data-cat="edit-pdf security organize" onclick="openTool('redact')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+        <div data-cat="security organize" onclick="openTool('redact')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="eye-off" class="w-6 h-6"></i>
@@ -819,81 +617,6 @@
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
 
-        <!-- 27. COMPRESS WORD (DOCX) (NEW) -->
-        <div data-cat="compress word" onclick="openTool('compressword')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
-              <i data-lucide="file-archive" class="w-6 h-6"></i>
-            </div>
-            <div class="flex items-center gap-2 mb-1">
-              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Compress Word</h3>
-              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">DOCX</span>
-            </div>
-            <p class="text-xs text-slate-400 leading-relaxed">Compress Microsoft Word (.docx) files by recompressing embedded high-res images and zip streams.</p>
-          </div>
-          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
-        </div>
-
-        <!-- 28. COMPRESS IMAGE (NEW) -->
-        <div data-cat="compress" onclick="openTool('compressimg')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
-              <i data-lucide="image-down" class="w-6 h-6"></i>
-            </div>
-            <div class="flex items-center gap-2 mb-1">
-              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Compress Image</h3>
-              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">JPG / PNG / WEBP</span>
-            </div>
-            <p class="text-xs text-slate-400 leading-relaxed">Compress JPG, PNG, WEBP, and GIF images while preserving visual quality. Bulk compression supported.</p>
-          </div>
-          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
-        </div>
-
-        <!-- 29. SPLIT WORD (NEW) -->
-        <div data-cat="organize word" onclick="openTool('splitword')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
-              <i data-lucide="scissors" class="w-6 h-6"></i>
-            </div>
-            <div class="flex items-center gap-2 mb-1">
-              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Split Word (.docx)</h3>
-              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">New!</span>
-            </div>
-            <p class="text-xs text-slate-400 leading-relaxed">Split Word files by headings, chapters, page breaks, or into custom parts. Separate DOCX downloads.</p>
-          </div>
-          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
-        </div>
-
-        <!-- 30. MERGE WORD (NEW) -->
-        <div data-cat="organize word" onclick="openTool('mergeword')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
-              <i data-lucide="copy-plus" class="w-6 h-6"></i>
-            </div>
-            <div class="flex items-center gap-2 mb-1">
-              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Merge Word (.docx)</h3>
-              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">ASC / DSC</span>
-            </div>
-            <p class="text-xs text-slate-400 leading-relaxed">Combine multiple Word documents into one unified DOCX file. Automatic page breaks &amp; sorting.</p>
-          </div>
-          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
-        </div>
-
-        <!-- 31. UNIVERSAL FILE COMPRESSOR (NEW) -->
-        <div data-cat="compress" onclick="openTool('compressfile')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
-              <i data-lucide="archive" class="w-6 h-6"></i>
-            </div>
-            <div class="flex items-center gap-2 mb-1">
-              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Universal Compressor</h3>
-              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">Any File</span>
-            </div>
-            <p class="text-xs text-slate-400 leading-relaxed">Compress ANY file: games (.pak, .bin), ISO, EXE, video, images, or documents with ultra DEFLATE ratio.</p>
-          </div>
-          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
-        </div>
-
       </div>
     </div>
 
@@ -901,7 +624,7 @@
     <div id="view-workspace" class="hidden flex-1 flex flex-col">
       <!-- Back button & Breadcrumb -->
       <div class="flex items-center justify-between mb-4 sm:mb-6">
-        <button onclick="showDashboard(true)" class="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-slate-400 hover:text-white px-3 sm:px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition">
+        <button onclick="showDashboard()" class="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-slate-400 hover:text-white px-3 sm:px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition">
           <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Tools
         </button>
         <span id="workspace-badge" class="text-[11px] sm:text-xs font-medium px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-blue-600/10 text-blue-400 border border-blue-500/20 max-w-[170px] sm:max-w-none truncate"></span>
@@ -2415,323 +2138,6 @@
           </div>
         </div>
 
-        <!-- ================= TOOL: COMPRESS WORD (DOCX) ================= -->
-        <div id="tool-compressword-content" class="tool-content hidden">
-          <div class="flex items-center gap-3 mb-6">
-            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
-              <i data-lucide="file-archive" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h2 class="text-xl sm:text-2xl font-bold text-white">Compress Word Document</h2>
-                <span class="text-[10px] bg-blue-600/30 text-blue-300 px-2 py-0.5 rounded-full font-bold">New!</span>
-              </div>
-              <p class="text-xs sm:text-sm text-slate-400">Reduce DOCX file size by compressing embedded images and optimizing XML package streams.</p>
-            </div>
-          </div>
-
-          <div id="dropzone-compressword" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
-            <input type="file" id="input-compressword" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="hidden">
-            <i data-lucide="file-text" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
-            <p id="label-compressword-file" class="text-base font-semibold text-white mb-1">Select a Microsoft Word (.docx) file</p>
-            <p class="text-xs text-slate-400">Pure client-side DOCX compression with zero server uploads</p>
-          </div>
-
-          <div id="config-compressword" class="mt-6 hidden bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-4">
-            <label class="block text-xs font-semibold text-slate-300">Compression Strength:</label>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <label class="flex flex-col p-3 rounded-lg border border-slate-700 bg-slate-900 cursor-pointer">
-                <div class="flex items-center gap-2 mb-1">
-                  <input type="radio" name="compword-level" value="0.75" checked class="text-blue-600">
-                  <span class="text-xs font-bold text-slate-200">Recommended</span>
-                </div>
-                <span class="text-[11px] text-slate-400">Balanced image quality and substantial file size reduction.</span>
-              </label>
-              <label class="flex flex-col p-3 rounded-lg border border-slate-700 bg-slate-900 cursor-pointer">
-                <div class="flex items-center gap-2 mb-1">
-                  <input type="radio" name="compword-level" value="0.55" class="text-blue-600">
-                  <span class="text-xs font-bold text-slate-200">Extreme Compression</span>
-                </div>
-                <span class="text-[11px] text-slate-400">Maximum compression for email attachment size limits.</span>
-              </label>
-              <label class="flex flex-col p-3 rounded-lg border border-slate-700 bg-slate-900 cursor-pointer">
-                <div class="flex items-center gap-2 mb-1">
-                  <input type="radio" name="compword-level" value="0.90" class="text-blue-600">
-                  <span class="text-xs font-bold text-slate-200">Light Compression</span>
-                </div>
-                <span class="text-[11px] text-slate-400">Preserves original high-definition photography.</span>
-              </label>
-            </div>
-
-            <div id="compressword-info-box" class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs text-slate-300 flex items-center justify-between">
-              <span>Embedded Media Detected:</span>
-              <span id="compressword-media-count" class="font-bold text-blue-400">Analyzing...</span>
-            </div>
-          </div>
-
-          <div class="mt-8 flex justify-end">
-            <button id="btn-run-compressword" onclick="executeCompressWord()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
-              <i data-lucide="minimize-2" class="w-4 h-4"></i> Compress Word Document
-            </button>
-          </div>
-        </div>
-
-        <!-- ================= TOOL: COMPRESS IMAGE ================= -->
-        <div id="tool-compressimg-content" class="tool-content hidden">
-          <div class="flex items-center gap-3 mb-6">
-            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
-              <i data-lucide="image-down" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h2 class="text-xl sm:text-2xl font-bold text-white">Compress Images</h2>
-                <span class="text-[10px] bg-blue-600/30 text-blue-300 px-2 py-0.5 rounded-full font-bold">New!</span>
-              </div>
-              <p class="text-xs sm:text-sm text-slate-400">Compress JPG, PNG, WEBP, and GIF pictures while preserving clarity. Single or bulk download.</p>
-            </div>
-          </div>
-
-          <div id="dropzone-compressimg" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
-            <input type="file" id="input-compressimg" multiple accept="image/*" class="hidden">
-            <i data-lucide="images" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
-            <p id="label-compressimg-file" class="text-base font-semibold text-white mb-1">Click to select or drag &amp; drop images</p>
-            <p class="text-xs text-slate-400">Select one or multiple images (JPG, PNG, WEBP)</p>
-          </div>
-
-          <div id="config-compressimg" class="mt-6 hidden space-y-4">
-            <div class="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
-              <div>
-                <label class="block text-slate-400 mb-1 font-semibold">Quality Level: <span id="compimg-quality-val" class="text-blue-400 font-bold">75%</span></label>
-                <input type="range" id="compimg-quality-range" min="20" max="95" value="75" oninput="document.getElementById('compimg-quality-val').textContent = this.value + '%'" class="w-full accent-blue-600">
-              </div>
-
-              <div>
-                <label class="block text-slate-400 mb-1 font-semibold">Max Width (optional resize)</label>
-                <select id="compimg-max-width" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-white focus:outline-none">
-                  <option value="original" selected>Original Dimensions</option>
-                  <option value="1920">Full HD (1920px max)</option>
-                  <option value="1280">Standard HD (1280px max)</option>
-                  <option value="800">Web Compact (800px max)</option>
-                </select>
-              </div>
-
-              <div>
-                <label class="block text-slate-400 mb-1 font-semibold">Output Format</label>
-                <select id="compimg-output-format" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-white focus:outline-none">
-                  <option value="auto" selected>Auto (Same as Original)</option>
-                  <option value="image/jpeg">JPEG (.jpg)</option>
-                  <option value="image/webp">Modern WEBP (.webp)</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Image list preview & savings breakdown -->
-            <div id="compimg-list-preview" class="space-y-2 max-h-72 overflow-y-auto custom-scroll p-1"></div>
-          </div>
-
-          <div class="mt-8 flex justify-end">
-            <button id="btn-run-compressimg" onclick="executeCompressImages()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
-              <i data-lucide="minimize-2" class="w-4 h-4"></i> Compress &amp; Download Images
-            </button>
-          </div>
-        </div>
-
-        <!-- ================= TOOL: SPLIT WORD (.DOCX) ================= -->
-        <div id="tool-splitword-content" class="tool-content hidden">
-          <div class="flex items-center gap-3 mb-6">
-            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
-              <i data-lucide="scissors" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h2 class="text-xl sm:text-2xl font-bold text-white">Split Word (.docx)</h2>
-                <span class="text-[10px] bg-blue-600/30 text-blue-300 px-2 py-0.5 rounded-full font-bold">New!</span>
-              </div>
-              <p class="text-xs sm:text-sm text-slate-400">Split Microsoft Word documents into separate .docx files by headings, chapters, page breaks, or custom parts.</p>
-            </div>
-          </div>
-
-          <div id="dropzone-splitword" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
-            <input type="file" id="input-splitword" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="hidden">
-            <i data-lucide="file-text" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
-            <p id="label-splitword-file" class="text-base font-semibold text-white mb-1">Select a Word document (.docx) to split</p>
-            <p class="text-xs text-slate-400">Supports split by Headings/Chapters, Page Breaks, or equal parts</p>
-          </div>
-
-          <div id="config-splitword" class="mt-6 hidden space-y-4">
-            <!-- Detection Summary -->
-            <div class="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-              <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl">
-                <span class="text-slate-400 block text-[11px]">Total Elements</span>
-                <span id="splitword-stat-paragraphs" class="text-base font-bold text-white">0</span>
-              </div>
-              <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl">
-                <span class="text-slate-400 block text-[11px]">Headings / Chapters</span>
-                <span id="splitword-stat-headings" class="text-base font-bold text-blue-400">0</span>
-              </div>
-              <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl">
-                <span class="text-slate-400 block text-[11px]">Explicit Page Breaks</span>
-                <span id="splitword-stat-breaks" class="text-base font-bold text-emerald-400">0</span>
-              </div>
-            </div>
-
-            <!-- Controls -->
-            <div class="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl flex flex-wrap items-center justify-between gap-4 text-xs">
-              <div class="flex flex-wrap items-center gap-3">
-                <label class="text-slate-300 font-semibold">Split Method:</label>
-                <select id="splitword-method" onchange="onSplitWordMethodChange()" class="bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-white focus:outline-none">
-                  <option value="headings" selected>By Headings / Chapters (Heading 1/2)</option>
-                  <option value="pagebreaks">By Page Breaks</option>
-                  <option value="parts">Split into Equal Parts</option>
-                  <option value="paragraphs">By Paragraph Count</option>
-                </select>
-              </div>
-
-              <div id="splitword-param-container" class="flex items-center gap-2">
-                <span id="splitword-param-label" class="text-slate-400">Number of Parts:</span>
-                <input type="number" id="splitword-param-value" min="2" max="50" value="2" oninput="updateSplitWordPreview()" class="w-20 bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1 text-white text-center">
-              </div>
-            </div>
-
-            <!-- Preview of Output Files -->
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-semibold text-slate-300">Generated Documents Preview (<span id="splitword-preview-count" class="text-blue-400 font-bold">0</span> files):</span>
-              </div>
-              <div id="splitword-parts-list" class="space-y-2 max-h-72 overflow-y-auto custom-scroll p-1"></div>
-            </div>
-          </div>
-
-          <div class="mt-8 flex justify-end gap-3">
-            <button id="btn-run-splitword-zip" onclick="executeSplitWordZip()" disabled class="flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm bg-slate-800 hover:bg-slate-700 text-slate-200 disabled:opacity-40 disabled:cursor-not-allowed transition-all border border-slate-700">
-              <i data-lucide="archive" class="w-4 h-4"></i> Download All as ZIP
-            </button>
-            <button id="btn-run-splitword" onclick="executeSplitWordPrimary()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
-              <i data-lucide="scissors" class="w-4 h-4"></i> Split &amp; Download Part 1
-            </button>
-          </div>
-        </div>
-
-        <!-- ================= TOOL: MERGE WORD (.DOCX) ================= -->
-        <div id="tool-mergeword-content" class="tool-content hidden">
-          <div class="flex items-center gap-3 mb-6">
-            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
-              <i data-lucide="copy-plus" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h2 class="text-xl sm:text-2xl font-bold text-white">Merge Word Documents (.docx)</h2>
-                <span class="text-[10px] bg-blue-600/30 text-blue-300 px-2 py-0.5 rounded-full font-bold">New!</span>
-              </div>
-              <p class="text-xs sm:text-sm text-slate-400">Combine multiple Microsoft Word documents into one single, unified .docx file. Sort ASC / DSC or drag to arrange.</p>
-            </div>
-          </div>
-
-          <div id="dropzone-mergeword" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
-            <input type="file" id="input-mergeword" multiple accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="hidden">
-            <i data-lucide="folder-plus" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
-            <p id="label-mergeword-file" class="text-base font-semibold text-white mb-1">Click to select or drag &amp; drop Word documents</p>
-            <p class="text-xs text-slate-400">Add 2 or more .docx files to combine</p>
-          </div>
-
-          <div id="list-mergeword" class="mt-6 space-y-3 hidden">
-            <div class="flex flex-wrap items-center justify-between gap-3 p-3 bg-slate-950/70 border border-slate-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-2">
-                <span class="text-xs text-slate-300 font-semibold mr-1">Word Files (<span id="count-mergeword" class="text-blue-400 font-bold">0</span>)</span>
-                <button onclick="sortMergeWordFiles('asc')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-500/30 text-xs font-bold transition" title="Sort files 1→9, A→Z">
-                  <i data-lucide="arrow-down-narrow-wide" class="w-3.5 h-3.5"></i> Sort ASC
-                </button>
-                <button onclick="sortMergeWordFiles('desc')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold transition" title="Sort files 9→1, Z→A">
-                  <i data-lucide="arrow-up-wide-narrow" class="w-3.5 h-3.5"></i> Sort DSC
-                </button>
-              </div>
-
-              <div class="flex items-center gap-3">
-                <label class="flex items-center gap-1.5 text-xs text-slate-300 cursor-pointer">
-                  <input type="checkbox" id="mergeword-pagebreak" checked class="accent-blue-600 rounded">
-                  <span>Page break between files</span>
-                </label>
-                <button onclick="clearMergeWordList()" class="text-xs text-slate-400 hover:text-white underline">Clear all</button>
-              </div>
-            </div>
-
-            <div id="items-mergeword" class="space-y-2 max-h-64 overflow-y-auto custom-scroll pr-1"></div>
-          </div>
-
-          <div class="mt-8 flex justify-end">
-            <button id="btn-run-mergeword" onclick="executeMergeWord()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
-              <i data-lucide="combine" class="w-4 h-4"></i> Merge and Download Word (.docx)
-            </button>
-          </div>
-        </div>
-
-        <!-- ================= TOOL: UNIVERSAL FILE COMPRESSOR ================= -->
-        <div id="tool-compressfile-content" class="tool-content hidden">
-          <div class="flex items-center gap-3 mb-6">
-            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
-              <i data-lucide="archive" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h2 class="text-xl sm:text-2xl font-bold text-white">Universal File Compressor</h2>
-                <span class="text-[10px] bg-blue-600/30 text-blue-300 px-2 py-0.5 rounded-full font-bold">Any File</span>
-              </div>
-              <p class="text-xs sm:text-sm text-slate-400">Compress ANY files or folders: Game files, ISOs, binaries, executables, PDFs, images, video, audio, or datasets with maximum DEFLATE ratio.</p>
-            </div>
-          </div>
-
-          <div id="dropzone-compressfile" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
-            <input type="file" id="input-compressfile" multiple class="hidden">
-            <i data-lucide="package-plus" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
-            <p id="label-compressfile-file" class="text-base font-semibold text-white mb-1">Click to select or drag &amp; drop ANY files to compress</p>
-            <p class="text-xs text-slate-400">Game data (.pak, .dat, .bin), Executables (.exe), Images, Documents, ISOs, Archives &amp; more</p>
-          </div>
-
-          <div id="config-compressfile" class="mt-6 hidden space-y-4">
-            <div class="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
-              <div>
-                <label class="block text-slate-400 mb-1 font-semibold">Compression Strength:</label>
-                <select id="compfile-level" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-white focus:outline-none">
-                  <option value="9" selected>Ultra Compression (Level 9 - Max Size Reduction)</option>
-                  <option value="6">Balanced Compression (Level 6 - Standard)</option>
-                  <option value="1">Fast Archive (Level 1 - Fastest)</option>
-                  <option value="0">Store Only (Level 0 - Instant Packaging)</option>
-                </select>
-              </div>
-
-              <div>
-                <label class="block text-slate-400 mb-1 font-semibold">Archive File Name:</label>
-                <input type="text" id="compfile-archive-name" value="compressed_archive.zip" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-white focus:outline-none">
-              </div>
-
-              <div class="flex flex-col justify-center">
-                <span class="text-slate-400 text-[11px] block">Total Uncompressed:</span>
-                <span id="compfile-total-size-badge" class="text-sm font-bold text-blue-400">0 KB (0 files)</span>
-              </div>
-            </div>
-
-            <!-- File list preview -->
-            <div id="compfile-list-preview" class="space-y-2 max-h-72 overflow-y-auto custom-scroll p-1"></div>
-
-            <!-- Savings banner -->
-            <div id="compfile-savings-card" class="hidden p-4 rounded-xl bg-blue-600/10 border border-blue-500/30 flex items-center justify-between text-xs">
-              <div>
-                <span class="text-slate-300 font-semibold block">Compression Result:</span>
-                <span id="compfile-savings-text" class="text-blue-400 font-bold text-sm">Reduced by 45%</span>
-              </div>
-              <div class="text-right">
-                <span id="compfile-sizes-text" class="text-slate-400 text-[11px]">80 MB → 44 MB</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="mt-8 flex justify-end">
-            <button id="btn-run-compressfile" onclick="executeCompressAnyFiles()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
-              <i data-lucide="archive" class="w-4 h-4"></i> Compress &amp; Download Archive
-            </button>
-          </div>
-        </div>
-
       </div>
     </div>
 
@@ -2789,9 +2195,6 @@
   </footer>
 
   <script>
-    // Global Category & Navigation State
-    let currentCategory = 'all';
-
     // Theme Management (Light / Dark Mode with LocalStorage persistence)
     let currentTheme = localStorage.getItem('pdforbit_theme') || 'dark';
 
@@ -2801,20 +2204,17 @@
       const icon = document.getElementById('theme-toggle-icon');
       const label = document.getElementById('theme-toggle-label');
       const btn = document.getElementById('theme-toggle-btn');
-      const allToolsBtn = document.getElementById('btn-all-tools');
 
       if (theme === 'light') {
         body.classList.add('light-mode');
         if (icon) {
           icon.setAttribute('data-lucide', 'moon');
-          icon.className = 'w-3.5 h-3.5 text-blue-600';
+          icon.className = 'w-3.5 h-3.5 text-blue-500';
         }
         if (label) label.textContent = 'Dark';
         if (btn) {
-          btn.className = 'flex items-center gap-1.5 text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 transition shadow-sm';
-        }
-        if (allToolsBtn) {
-          allToolsBtn.className = 'hidden sm:inline-flex items-center text-xs font-semibold text-slate-700 hover:text-slate-900 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 transition';
+          btn.classList.remove('bg-slate-800', 'text-slate-200', 'border-slate-700');
+          btn.classList.add('bg-white', 'text-slate-700', 'border-slate-300');
         }
       } else {
         body.classList.remove('light-mode');
@@ -2824,17 +2224,12 @@
         }
         if (label) label.textContent = 'Light';
         if (btn) {
-          btn.className = 'flex items-center gap-1.5 text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800 text-slate-200 hover:border-blue-500 hover:text-white transition shadow-sm';
+          btn.classList.remove('bg-white', 'text-slate-700', 'border-slate-300');
+          btn.classList.add('bg-slate-800', 'text-slate-200', 'border-slate-700');
         }
-        if (allToolsBtn) {
-          allToolsBtn.className = 'hidden sm:inline-flex items-center text-xs font-semibold text-slate-300 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition';
-        }
-      }
-      if (typeof filterCategory === 'function' && document.getElementById('btn-cat-all')) {
-        filterCategory(currentCategory);
       }
       localStorage.setItem('pdforbit_theme', theme);
-      if (window.lucide) lucide.createIcons();
+      lucide.createIcons();
     }
 
     function toggleTheme() {
@@ -2843,15 +2238,17 @@
       showToast(`Switched to ${nextTheme === 'light' ? 'Light' : 'Dark'} Mode!`);
     }
 
+    // Apply saved theme immediately
+    applyTheme(currentTheme);
+
+    // Initialize icons
+    lucide.createIcons();
+
     // Navigation & Views
-    function showDashboard(resetCategory = false) {
+    function showDashboard() {
       document.getElementById('view-dashboard').classList.remove('hidden');
       document.getElementById('view-workspace').classList.add('hidden');
       document.querySelectorAll('.tool-content').forEach(el => el.classList.add('hidden'));
-      if (resetCategory) {
-        filterCategory('all');
-      }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function shareApp() {
@@ -2881,41 +2278,25 @@
       if (target) {
         target.classList.remove('hidden');
         document.getElementById('workspace-badge').textContent = `Tool: ${toolKey.toUpperCase()}`;
-        if (window.lucide) lucide.createIcons();
+        lucide.createIcons();
       }
     }
 
     function filterCategory(cat) {
-      currentCategory = cat || 'all';
-      const isLight = document.body.classList.contains('light-mode');
       document.querySelectorAll('.cat-filter-btn').forEach(btn => {
-        if (isLight) {
-          btn.className = 'cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 flex items-center gap-1.5 flex-shrink-0';
-        } else {
-          btn.className = 'cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex items-center gap-1.5 flex-shrink-0';
-        }
+        btn.className = 'cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700';
       });
-      const activeBtn = document.getElementById(`btn-cat-${currentCategory}`);
-      if (activeBtn) {
-        activeBtn.className = 'cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-blue-600 text-white shadow-md shadow-blue-600/25 flex items-center gap-1.5 flex-shrink-0';
-      }
+      document.getElementById(`btn-cat-${cat}`).className = 'cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-blue-600 text-white shadow-lg shadow-blue-600/20';
 
       const cards = document.querySelectorAll('.tool-card');
       cards.forEach(card => {
-        const catList = (card.dataset.cat || '').toLowerCase().split(/\s+/);
-        if (currentCategory === 'all' || catList.includes(currentCategory.toLowerCase())) {
+        if (cat === 'all' || (card.dataset.cat && card.dataset.cat.includes(cat))) {
           card.classList.remove('hidden');
         } else {
           card.classList.add('hidden');
         }
       });
     }
-
-    // Apply saved theme immediately AFTER functions and state are defined
-    applyTheme(currentTheme);
-
-    // Initialize icons
-    if (window.lucide) lucide.createIcons();
 
     // Helper: Toast Notifications
     function showToast(msg, isSuccess = true) {
@@ -4831,15 +4212,10 @@
 
     function setSignMode(mode) {
       signCurrentMode = mode;
-      const isLight = document.body.classList.contains('light-mode');
-      const inactiveCls = isLight
-        ? 'px-3 py-1 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300 transition'
-        : 'px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 hover:text-white border border-slate-700/60 transition';
-      const activeCls = 'px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-md shadow-blue-600/30 transition';
-
       ['draw', 'type', 'upload'].forEach(m => {
-        const tabEl = document.getElementById(`tab-sig-${m}`);
-        if (tabEl) tabEl.className = (m === mode ? activeCls : inactiveCls);
+        document.getElementById(`tab-sig-${m}`).className = m === mode
+          ? 'px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition'
+          : 'px-3 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition';
         const panel = document.getElementById(`sign-mode-${m}`);
         if (panel) panel.classList.toggle('hidden', m !== mode);
       });
@@ -4890,12 +4266,11 @@
     function getActiveSignatureDataUrl() {
       if (signCurrentMode === 'upload' && signUploadedDataUrl) {
         return signUploadedDataUrl;
-      } else if (signCurrentMode === 'type' && signTypedCanvas) {
+      } else if (signCurrentMode === 'type') {
         return signTypedCanvas.toDataURL('image/png');
-      } else if (signPadCanvas) {
+      } else {
         return signPadCanvas.toDataURL('image/png');
       }
-      return null;
     }
 
     async function renderSignPagePreview() {
@@ -5456,21 +4831,15 @@
     }
 
     function setCompareView(view) {
-      const isLight = document.body.classList.contains('light-mode');
-      const inactiveCls = isLight
-        ? 'px-3 py-1 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300 transition'
-        : 'px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 hover:text-white border border-slate-700/60 transition';
-      const activeCls = 'px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-md shadow-blue-600/30 transition';
+      document.getElementById('btn-compare-view-visual').className = view === 'visual'
+        ? 'px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition'
+        : 'px-3 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition';
+      document.getElementById('btn-compare-view-text').className = view === 'text'
+        ? 'px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition'
+        : 'px-3 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition';
 
-      const btnVis = document.getElementById('btn-compare-view-visual');
-      const btnTxt = document.getElementById('btn-compare-view-text');
-      if (btnVis) btnVis.className = (view === 'visual' ? activeCls : inactiveCls);
-      if (btnTxt) btnTxt.className = (view === 'text' ? activeCls : inactiveCls);
-
-      const vVis = document.getElementById('compare-view-visual');
-      const vTxt = document.getElementById('compare-view-text');
-      if (vVis) vVis.classList.toggle('hidden', view !== 'visual');
-      if (vTxt) vTxt.classList.toggle('hidden', view !== 'text');
+      document.getElementById('compare-view-visual').classList.toggle('hidden', view !== 'visual');
+      document.getElementById('compare-view-text').classList.toggle('hidden', view !== 'text');
     }
 
     function downloadComparisonReport() {
@@ -6297,20 +5666,14 @@ ${compareTextB}
       const contSource = document.getElementById('container-md-source');
       const contPreview = document.getElementById('container-md-preview');
 
-      const isLight = document.body.classList.contains('light-mode');
-      const inactiveCls = isLight
-        ? 'px-3 py-1 rounded-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300 transition'
-        : 'px-3 py-1 rounded-lg font-bold bg-slate-800 text-slate-400 hover:text-white border border-slate-700/60 transition';
-      const activeCls = 'px-3 py-1 rounded-lg font-bold bg-blue-600 text-white shadow-md shadow-blue-600/30 transition';
-
       if (tab === 'source') {
-        btnSource.className = activeCls;
-        btnPreview.className = inactiveCls;
+        btnSource.className = 'px-3 py-1 rounded-lg font-bold bg-blue-600 text-white';
+        btnPreview.className = 'px-3 py-1 rounded-lg font-bold bg-slate-800 text-slate-400 hover:text-white';
         contSource.classList.remove('hidden');
         contPreview.classList.add('hidden');
       } else {
-        btnPreview.className = activeCls;
-        btnSource.className = inactiveCls;
+        btnPreview.className = 'px-3 py-1 rounded-lg font-bold bg-blue-600 text-white';
+        btnSource.className = 'px-3 py-1 rounded-lg font-bold bg-slate-800 text-slate-400 hover:text-white';
         contPreview.innerHTML = markdownToSimpleHtml(document.getElementById('textarea-pdf2md').value);
         contSource.classList.add('hidden');
         contPreview.classList.remove('hidden');
@@ -6411,16 +5774,14 @@ ${compareTextB}
 
     function setEditPdfMode(mode) {
       editPdfMode = mode;
-      const isLight = document.body.classList.contains('light-mode');
-      const inactiveCls = isLight
-        ? 'px-2.5 py-1 rounded-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300 flex items-center gap-1 transition'
-        : 'px-2.5 py-1 rounded-lg font-bold bg-slate-800 text-slate-300 hover:text-white border border-slate-700/60 flex items-center gap-1 transition';
-      const activeCls = 'px-2.5 py-1 rounded-lg font-bold bg-blue-600 text-white shadow-md shadow-blue-600/30 flex items-center gap-1 transition';
-
       ['text', 'draw', 'rect', 'highlight'].forEach(m => {
         const btn = document.getElementById(`btn-edit-mode-${m}`);
         if (btn) {
-          btn.className = (m === mode ? activeCls : inactiveCls);
+          if (m === mode) {
+            btn.className = 'px-2.5 py-1 rounded-lg font-bold bg-blue-600 text-white flex items-center gap-1';
+          } else {
+            btn.className = 'px-2.5 py-1 rounded-lg font-bold bg-slate-800 text-slate-300 hover:text-white flex items-center gap-1';
+          }
         }
       });
       const textCtrl = document.getElementById('edit-text-controls');
@@ -7004,20 +6365,14 @@ ${compareTextB}
       const contFill = document.getElementById('tab-form-fill-container');
       const contCreate = document.getElementById('tab-form-create-container');
 
-      const isLight = document.body.classList.contains('light-mode');
-      const inactiveCls = isLight
-        ? 'px-3.5 py-1.5 rounded-xl font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300 transition'
-        : 'px-3.5 py-1.5 rounded-xl font-bold bg-slate-800 text-slate-400 hover:text-white border border-slate-700/60 transition';
-      const activeCls = 'px-3.5 py-1.5 rounded-xl font-bold bg-blue-600 text-white shadow-md shadow-blue-600/30 transition';
-
       if (tab === 'fill') {
-        btnFill.className = activeCls;
-        btnCreate.className = inactiveCls;
+        btnFill.className = 'px-3.5 py-1.5 rounded-xl font-bold bg-blue-600 text-white';
+        btnCreate.className = 'px-3.5 py-1.5 rounded-xl font-bold bg-slate-800 text-slate-400 hover:text-white';
         contFill.classList.remove('hidden');
         contCreate.classList.add('hidden');
       } else {
-        btnCreate.className = activeCls;
-        btnFill.className = inactiveCls;
+        btnCreate.className = 'px-3.5 py-1.5 rounded-xl font-bold bg-blue-600 text-white';
+        btnFill.className = 'px-3.5 py-1.5 rounded-xl font-bold bg-slate-800 text-slate-400 hover:text-white';
         contCreate.classList.remove('hidden');
         contFill.classList.add('hidden');
       }
@@ -7121,967 +6476,6 @@ ${compareTextB}
         btnRunForms.innerHTML = `<i data-lucide="check-square" class="w-4 h-4"></i> Save &amp; Download Interactive Form`;
         lucide.createIcons();
       }
-    }
-
-    // ==========================================
-    // TOOL: COMPRESS WORD (DOCX)
-    // ==========================================
-    let compressWordFile = null;
-    let compressWordZipCache = null;
-    let compressWordMediaFiles = [];
-
-    const dropzoneCompressWord = document.getElementById('dropzone-compressword');
-    const inputCompressWord = document.getElementById('input-compressword');
-    const configCompressWord = document.getElementById('config-compressword');
-    const btnRunCompressWord = document.getElementById('btn-run-compressword');
-
-    dropzoneCompressWord.onclick = () => inputCompressWord.click();
-    inputCompressWord.onchange = async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      compressWordFile = file;
-
-      try {
-        document.getElementById('label-compressword-file').textContent = `${file.name} (${formatBytes(file.size)})`;
-        const buffer = await file.arrayBuffer();
-        const zip = await JSZip.loadAsync(buffer);
-        compressWordZipCache = zip;
-
-        // Scan for media files in the docx package
-        compressWordMediaFiles = [];
-        zip.forEach((relativePath, zipEntry) => {
-          if (relativePath.startsWith('word/media/') && !zipEntry.dir) {
-            compressWordMediaFiles.push({ path: relativePath, entry: zipEntry });
-          }
-        });
-
-        const countBadge = document.getElementById('compressword-media-count');
-        if (compressWordMediaFiles.length > 0) {
-          countBadge.textContent = `${compressWordMediaFiles.length} embedded images ready to compress`;
-          countBadge.className = 'font-bold text-blue-400';
-        } else {
-          countBadge.textContent = `0 images (Package XML stream recompression active)`;
-          countBadge.className = 'font-bold text-slate-400';
-        }
-
-        configCompressWord.classList.remove('hidden');
-        btnRunCompressWord.disabled = false;
-        showToast('Word document loaded! Choose compression strength.');
-      } catch (err) {
-        showToast('Error reading Word file: ' + err.message, false);
-      }
-    };
-
-    async function recompressImageBlob(blob, quality, maxDimension = 1920) {
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        const url = URL.createObjectURL(blob);
-        img.onload = () => {
-          URL.revokeObjectURL(url);
-          let w = img.width;
-          let h = img.height;
-
-          // Downscale if image is disproportionately massive
-          if (w > maxDimension || h > maxDimension) {
-            if (w > h) {
-              h = Math.round((h * maxDimension) / w);
-              w = maxDimension;
-            } else {
-              w = Math.round((w * maxDimension) / h);
-              h = maxDimension;
-            }
-          }
-
-          const canvas = document.createElement('canvas');
-          canvas.width = w;
-          canvas.height = h;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, w, h);
-
-          // If original was PNG or JPEG, convert to high-efficiency JPEG
-          canvas.toBlob((recompressedBlob) => {
-            if (recompressedBlob && recompressedBlob.size < blob.size) {
-              resolve(recompressedBlob);
-            } else {
-              // If recompressed isn't smaller, keep original
-              resolve(blob);
-            }
-          }, 'image/jpeg', quality);
-        };
-        img.onerror = () => {
-          URL.revokeObjectURL(url);
-          resolve(blob); // fallback to original
-        };
-        img.src = url;
-      });
-    }
-
-    async function executeCompressWord() {
-      if (!compressWordFile || !compressWordZipCache) return;
-      btnRunCompressWord.disabled = true;
-      btnRunCompressWord.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Compressing Word document...`;
-
-      try {
-        const quality = parseFloat(document.querySelector('input[name="compword-level"]:checked').value);
-        const totalMedia = compressWordMediaFiles.length;
-
-        if (totalMedia > 0) {
-          showProgress('Compressing Word Media & Streams', totalMedia);
-
-          for (let i = 0; i < totalMedia; i++) {
-            if (isBatchCancelled) {
-              showToast('Compression cancelled.', false);
-              break;
-            }
-            const item = compressWordMediaFiles[i];
-            updateProgress(i + 1, totalMedia, `Compressing image ${i + 1} of ${totalMedia}...`);
-
-            const arrayBuf = await item.entry.async('arraybuffer');
-            const originalBlob = new Blob([arrayBuf]);
-            
-            // Recompress image
-            const compressedBlob = await recompressImageBlob(originalBlob, quality);
-            const compressedBuffer = await compressedBlob.arrayBuffer();
-
-            // Replace image in zip package
-            compressWordZipCache.file(item.path, compressedBuffer);
-            await new Promise(r => setTimeout(r, 10));
-          }
-        }
-
-        if (!isBatchCancelled) {
-          if (totalMedia > 0) updateProgress(totalMedia, totalMedia, 'Packaging optimized DOCX stream...');
-          
-          // Re-generate docx zip package with maximum deflate compression
-          const compressedDocxBlob = await compressWordZipCache.generateAsync({
-            type: 'blob',
-            mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            compression: 'DEFLATE',
-            compressionOptions: { level: 9 }
-          });
-
-          const originalSize = compressWordFile.size;
-          const newSize = compressedDocxBlob.size;
-          const savings = Math.max(0, Math.round(((originalSize - newSize) / originalSize) * 100));
-
-          downloadBlob(compressedDocxBlob, `compressed-${compressWordFile.name}`, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-          showToast(`Word Document Compressed! ${formatBytes(originalSize)} → ${formatBytes(newSize)} (${savings}% saved)`);
-        }
-      } catch (err) {
-        showToast('Word compression error: ' + err.message, false);
-      } finally {
-        hideProgress();
-        btnRunCompressWord.disabled = false;
-        btnRunCompressWord.innerHTML = `<i data-lucide="minimize-2" class="w-4 h-4"></i> Compress Word Document`;
-        lucide.createIcons();
-      }
-    }
-
-    // ==========================================
-    // TOOL: COMPRESS IMAGES (BULK & SINGLE)
-    // ==========================================
-    let compressImageFiles = [];
-
-    const dropzoneCompressImg = document.getElementById('dropzone-compressimg');
-    const inputCompressImg = document.getElementById('input-compressimg');
-    const configCompressImg = document.getElementById('config-compressimg');
-    const btnRunCompressImg = document.getElementById('btn-run-compressimg');
-    const compImgListPreview = document.getElementById('compimg-list-preview');
-
-    dropzoneCompressImg.onclick = () => inputCompressImg.click();
-    inputCompressImg.onchange = (e) => {
-      const files = Array.from(e.target.files).filter(f => f.type.startsWith('image/'));
-      if (files.length === 0) return;
-      compressImageFiles = files;
-      renderCompressImgList();
-      configCompressImg.classList.remove('hidden');
-      btnRunCompressImg.disabled = false;
-      showToast(`Selected ${files.length} image(s) for compression.`);
-    };
-
-    function renderCompressImgList() {
-      if (!compImgListPreview) return;
-      compImgListPreview.innerHTML = '';
-      
-      const totalSize = compressImageFiles.reduce((acc, f) => acc + f.size, 0);
-      document.getElementById('label-compressimg-file').textContent = `${compressImageFiles.length} image(s) selected (${formatBytes(totalSize)})`;
-
-      compressImageFiles.forEach((file, idx) => {
-        const item = document.createElement('div');
-        item.className = 'flex items-center justify-between p-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs';
-        item.innerHTML = `
-          <div class="flex items-center gap-2 truncate">
-            <i data-lucide="image" class="w-4 h-4 text-blue-400 flex-shrink-0"></i>
-            <span class="text-white truncate font-medium">${file.name}</span>
-          </div>
-          <div class="flex items-center gap-3 ml-2 flex-shrink-0">
-            <span class="text-slate-400 font-mono">${formatBytes(file.size)}</span>
-            <button type="button" onclick="removeCompressImgFile(${idx})" class="p-1 rounded hover:bg-red-950 text-slate-400 hover:text-red-400">✕</button>
-          </div>
-        `;
-        compImgListPreview.appendChild(item);
-      });
-      lucide.createIcons();
-    }
-
-    function removeCompressImgFile(idx) {
-      compressImageFiles.splice(idx, 1);
-      if (compressImageFiles.length === 0) {
-        configCompressImg.classList.add('hidden');
-        btnRunCompressImg.disabled = true;
-        document.getElementById('label-compressimg-file').textContent = 'Click to select or drag & drop images';
-      } else {
-        renderCompressImgList();
-      }
-    }
-
-    async function compressSingleImageFile(file, qualityRatio, maxDimension, formatMode) {
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        const url = URL.createObjectURL(file);
-
-        img.onload = () => {
-          URL.revokeObjectURL(url);
-          let w = img.width;
-          let h = img.height;
-
-          if (maxDimension !== 'original') {
-            const max = parseInt(maxDimension, 10);
-            if (w > max || h > max) {
-              if (w > h) {
-                h = Math.round((h * max) / w);
-                w = max;
-              } else {
-                w = Math.round((w * max) / h);
-                h = max;
-              }
-            }
-          }
-
-          const canvas = document.createElement('canvas');
-          canvas.width = w;
-          canvas.height = h;
-          const ctx = canvas.getContext('2d');
-
-          // Smooth resampling
-          ctx.imageSmoothingEnabled = true;
-          ctx.imageSmoothingQuality = 'high';
-          ctx.drawImage(img, 0, 0, w, h);
-
-          // Output format
-          let mime = formatMode === 'auto' ? file.type : formatMode;
-          if (!mime || mime === 'image/png' && qualityRatio < 0.9) {
-            // PNG does not support lossy quality via toBlob in most browsers, default to JPEG or WEBP for real compression
-            mime = formatMode === 'auto' ? 'image/jpeg' : formatMode;
-          }
-
-          canvas.toBlob((blob) => {
-            if (blob) {
-              let ext = mime === 'image/jpeg' ? 'jpg' : (mime === 'image/webp' ? 'webp' : 'png');
-              let outName = file.name.replace(/\.[^/.]+$/, '') + '-compressed.' + ext;
-              resolve({ blob, name: outName, originalSize: file.size, newSize: blob.size });
-            } else {
-              reject(new Error('Canvas compression failed'));
-            }
-          }, mime, qualityRatio);
-        };
-
-        img.onerror = () => {
-          URL.revokeObjectURL(url);
-          reject(new Error(`Failed to load image ${file.name}`));
-        };
-
-        img.src = url;
-      });
-    }
-
-    async function executeCompressImages() {
-      if (compressImageFiles.length === 0) return;
-      btnRunCompressImg.disabled = true;
-      btnRunCompressImg.innerHTML = `<span class="animate-spin inline-block mr-2">&#9696;</span> Compressing images...`;
-
-      try {
-        const qualityRatio = parseInt(document.getElementById('compimg-quality-range').value, 10) / 100;
-        const maxDimension = document.getElementById('compimg-max-width').value;
-        const formatMode = document.getElementById('compimg-output-format').value;
-
-        const total = compressImageFiles.length;
-        showProgress('Compressing Images', total);
-
-        let totalOriginal = 0;
-        let totalCompressed = 0;
-        const results = [];
-
-        for (let i = 0; i < total; i++) {
-          if (isBatchCancelled) {
-            showToast('Image compression cancelled.', false);
-            break;
-          }
-
-          const file = compressImageFiles[i];
-          updateProgress(i + 1, total, `Compressing image ${i + 1} of ${total}: ${file.name}`);
-
-          const res = await compressSingleImageFile(file, qualityRatio, maxDimension, formatMode);
-          results.push(res);
-          totalOriginal += res.originalSize;
-          totalCompressed += res.newSize;
-
-          await new Promise(r => setTimeout(r, 10));
-        }
-
-        if (!isBatchCancelled && results.length > 0) {
-          const savings = Math.max(0, Math.round(((totalOriginal - totalCompressed) / totalOriginal) * 100));
-
-          if (results.length === 1) {
-            // Single file download
-            downloadBlob(results[0].blob, results[0].name, results[0].blob.type);
-            showToast(`Image compressed! ${formatBytes(totalOriginal)} → ${formatBytes(totalCompressed)} (${savings}% saved)`);
-          } else {
-            // Multiple images zip bundle
-            updateProgress(total, total, 'Creating ZIP archive of compressed images...');
-            const zip = new JSZip();
-            results.forEach(res => {
-              zip.file(res.name, res.blob);
-            });
-            const zipBlob = await zip.generateAsync({ type: 'blob' });
-            downloadBlob(zipBlob, `compressed-images.zip`, 'application/zip');
-            showToast(`All ${results.length} images compressed into ZIP! (${savings}% total savings)`);
-          }
-        }
-      } catch (err) {
-        showToast('Image compression error: ' + err.message, false);
-      } finally {
-        hideProgress();
-        btnRunCompressImg.disabled = false;
-        btnRunCompressImg.innerHTML = `<i data-lucide="minimize-2" class="w-4 h-4"></i> Compress &amp; Download Images`;
-        lucide.createIcons();
-      }
-    }
-
-    // ==========================================
-    // TOOL 29: SPLIT WORD (.DOCX)
-    // ==========================================
-    let splitWordFile = null;
-    let splitWordZipCache = null;
-    let splitWordOriginalXml = '';
-    let splitWordParsedBodyChildren = [];
-    let splitWordGeneratedParts = [];
-
-    const dropzoneSplitWord = document.getElementById('dropzone-splitword');
-    const inputSplitWord = document.getElementById('input-splitword');
-    const configSplitWord = document.getElementById('config-splitword');
-    const btnRunSplitWord = document.getElementById('btn-run-splitword');
-    const btnRunSplitWordZip = document.getElementById('btn-run-splitword-zip');
-
-    if (dropzoneSplitWord) {
-      dropzoneSplitWord.onclick = (e) => {
-        if (e && e.target !== inputSplitWord) {
-          inputSplitWord.click();
-        }
-      };
-      inputSplitWord.onclick = (e) => e.stopPropagation();
-      dropzoneSplitWord.ondragover = (e) => { e.preventDefault(); dropzoneSplitWord.classList.add('border-blue-500'); };
-      dropzoneSplitWord.ondragleave = () => dropzoneSplitWord.classList.remove('border-blue-500');
-      dropzoneSplitWord.ondrop = (e) => {
-        e.preventDefault();
-        dropzoneSplitWord.classList.remove('border-blue-500');
-        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-          handleSplitWordFile(e.dataTransfer.files[0]);
-        }
-      };
-      inputSplitWord.onchange = async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        splitWordFile = file;
-
-        try {
-          document.getElementById('label-splitword-file').textContent = `${file.name} (${formatBytes(file.size)})`;
-          const buffer = await file.arrayBuffer();
-          const zip = await JSZip.loadAsync(buffer);
-          splitWordZipCache = zip;
-
-          const docXmlFile = zip.file('word/document.xml');
-          if (!docXmlFile) {
-            showToast('Invalid Word document: word/document.xml missing', false);
-            return;
-          }
-
-          splitWordOriginalXml = await docXmlFile.async('string');
-          const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(splitWordOriginalXml, 'application/xml');
-          const body = xmlDoc.getElementsByTagName('w:body')[0];
-          if (!body) {
-            showToast('Unable to parse Word body elements', false);
-            return;
-          }
-
-          // Scan body child nodes (paragraphs, tables, etc.)
-          splitWordParsedBodyChildren = [];
-          let headingCount = 0;
-          let breakCount = 0;
-
-          const serializer = new XMLSerializer();
-          for (let i = 0; i < body.childNodes.length; i++) {
-            const node = body.childNodes[i];
-            if (node.nodeType === 1) { // Element node
-              const tagName = node.tagName.toLowerCase();
-              if (tagName === 'w:sectpr') continue; // Skip trailing section properties
-
-              const xmlStr = serializer.serializeToString(node);
-              const textContent = node.textContent ? node.textContent.trim() : '';
-
-              // Check if heading or break
-              let isHeading = false;
-              let isPageBreak = false;
-
-              if (tagName === 'w:p') {
-                const pPr = node.getElementsByTagName('w:pPr')[0];
-                if (pPr) {
-                  const pStyle = pPr.getElementsByTagName('w:pStyle')[0];
-                  if (pStyle) {
-                    const val = (pStyle.getAttribute('w:val') || '').toLowerCase();
-                    if (val.includes('heading') || val.includes('title') || val === 'h1' || val === 'h2') {
-                      isHeading = true;
-                    }
-                  }
-                  if (pPr.getElementsByTagName('w:pageBreakBefore').length > 0) {
-                    isPageBreak = true;
-                  }
-                }
-                if (node.getElementsByTagName('w:br').length > 0) {
-                  const brs = node.getElementsByTagName('w:br');
-                  for (let b = 0; b < brs.length; b++) {
-                    if (brs[b].getAttribute('w:type') === 'page') {
-                      isPageBreak = true;
-                    }
-                  }
-                }
-              }
-
-              if (isHeading) headingCount++;
-              if (isPageBreak) breakCount++;
-
-              splitWordParsedBodyChildren.push({
-                elementXml: xmlStr,
-                tagName: tagName,
-                textContent: textContent.substring(0, 80),
-                isHeading: isHeading,
-                isPageBreak: isPageBreak
-              });
-            }
-          }
-
-          document.getElementById('splitword-stat-paragraphs').textContent = splitWordParsedBodyChildren.length;
-          document.getElementById('splitword-stat-headings').textContent = headingCount;
-          document.getElementById('splitword-stat-breaks').textContent = breakCount;
-
-          // Set default recommended method
-          const methodSelect = document.getElementById('splitword-method');
-          if (headingCount > 1) {
-            methodSelect.value = 'headings';
-          } else if (breakCount > 0) {
-            methodSelect.value = 'pagebreaks';
-          } else {
-            methodSelect.value = 'parts';
-          }
-
-          onSplitWordMethodChange();
-          configSplitWord.classList.remove('hidden');
-          btnRunSplitWord.disabled = false;
-          btnRunSplitWordZip.disabled = false;
-          showToast(`Loaded ${file.name} (${splitWordParsedBodyChildren.length} elements detected)!`);
-        } catch (err) {
-          showToast('Error loading Word document: ' + err.message, false);
-        }
-      };
-    }
-
-    function onSplitWordMethodChange() {
-      const method = document.getElementById('splitword-method').value;
-      const paramContainer = document.getElementById('splitword-param-container');
-      const paramLabel = document.getElementById('splitword-param-label');
-      const paramValue = document.getElementById('splitword-param-value');
-
-      if (method === 'parts') {
-        paramContainer.classList.remove('hidden');
-        paramLabel.textContent = 'Number of Parts:';
-        paramValue.value = 2;
-        paramValue.min = 2;
-        paramValue.max = 20;
-      } else if (method === 'paragraphs') {
-        paramContainer.classList.remove('hidden');
-        paramLabel.textContent = 'Paras per File:';
-        paramValue.value = Math.max(5, Math.floor(splitWordParsedBodyChildren.length / 3) || 10);
-        paramValue.min = 1;
-        paramValue.max = 500;
-      } else {
-        paramContainer.classList.add('hidden');
-      }
-
-      updateSplitWordPreview();
-    }
-
-    function updateSplitWordPreview() {
-      if (!splitWordParsedBodyChildren.length) return;
-      const method = document.getElementById('splitword-method').value;
-      const paramValue = parseInt(document.getElementById('splitword-param-value').value) || 2;
-
-      let chunks = [];
-
-      if (method === 'headings') {
-        let currentChunk = [];
-        let chunkTitle = 'Introduction';
-        splitWordParsedBodyChildren.forEach((item, idx) => {
-          if (item.isHeading && currentChunk.length > 0) {
-            chunks.push({ title: chunkTitle, items: currentChunk });
-            currentChunk = [item];
-            chunkTitle = item.textContent || `Section ${chunks.length + 1}`;
-          } else {
-            if (item.isHeading && currentChunk.length === 0) {
-              chunkTitle = item.textContent || `Section 1`;
-            }
-            currentChunk.push(item);
-          }
-        });
-        if (currentChunk.length > 0) {
-          chunks.push({ title: chunkTitle, items: currentChunk });
-        }
-      } else if (method === 'pagebreaks') {
-        let currentChunk = [];
-        splitWordParsedBodyChildren.forEach((item, idx) => {
-          currentChunk.push(item);
-          if (item.isPageBreak) {
-            chunks.push({ title: `Page Part ${chunks.length + 1}`, items: currentChunk });
-            currentChunk = [];
-          }
-        });
-        if (currentChunk.length > 0) {
-          chunks.push({ title: `Page Part ${chunks.length + 1}`, items: currentChunk });
-        }
-      } else if (method === 'parts') {
-        const numParts = Math.max(2, paramValue);
-        const chunkSize = Math.ceil(splitWordParsedBodyChildren.length / numParts);
-        for (let i = 0; i < numParts; i++) {
-          const slice = splitWordParsedBodyChildren.slice(i * chunkSize, (i + 1) * chunkSize);
-          if (slice.length > 0) {
-            chunks.push({ title: `Part ${i + 1}`, items: slice });
-          }
-        }
-      } else if (method === 'paragraphs') {
-        const perFile = Math.max(1, paramValue);
-        for (let i = 0; i < splitWordParsedBodyChildren.length; i += perFile) {
-          const slice = splitWordParsedBodyChildren.slice(i, i + perFile);
-          chunks.push({ title: `Section ${chunks.length + 1} (${slice.length} paras)`, items: slice });
-        }
-      }
-
-      // Fallback if no headings or breaks triggered
-      if (chunks.length <= 1 && (method === 'headings' || method === 'pagebreaks')) {
-        const half = Math.ceil(splitWordParsedBodyChildren.length / 2);
-        chunks = [
-          { title: 'Part 1', items: splitWordParsedBodyChildren.slice(0, half) },
-          { title: 'Part 2', items: splitWordParsedBodyChildren.slice(half) }
-        ];
-      }
-
-      splitWordGeneratedParts = chunks;
-      document.getElementById('splitword-preview-count').textContent = chunks.length;
-
-      const container = document.getElementById('splitword-parts-list');
-      container.innerHTML = '';
-      chunks.forEach((chunk, idx) => {
-        const div = document.createElement('div');
-        div.className = 'flex items-center justify-between p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs';
-        div.innerHTML = `
-          <div class="flex items-center gap-2.5">
-            <div class="w-7 h-7 rounded-lg bg-blue-600/20 text-blue-400 font-bold flex items-center justify-center text-[11px]">${idx + 1}</div>
-            <div>
-              <span class="font-bold text-white block">${chunk.title || `Document Part ${idx + 1}`}</span>
-              <span class="text-slate-400 text-[11px]">${chunk.items.length} paragraphs/elements</span>
-            </div>
-          </div>
-          <button onclick="downloadSingleSplitWordPart(${idx})" class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-blue-400 hover:text-white border border-slate-700 font-semibold transition">
-            <i data-lucide="download" class="w-3.5 h-3.5"></i> Download Part ${idx + 1}
-          </button>
-        `;
-        container.appendChild(div);
-      });
-      lucide.createIcons();
-    }
-
-    async function generateDocxBlobFromChunk(chunk) {
-      const newZip = new JSZip();
-      splitWordZipCache.forEach((relPath, file) => {
-        if (relPath !== 'word/document.xml') {
-          newZip.file(relPath, file.async('uint8array'));
-        }
-      });
-
-      const sectPrMatch = splitWordOriginalXml.match(/<w:sectPr[\s\S]*?<\/w:sectPr>/);
-      const sectPr = sectPrMatch ? sectPrMatch[0] : '<w:sectPr/>';
-
-      const xmlHead = splitWordOriginalXml.split('<w:body>')[0] + '<w:body>';
-      const xmlFoot = sectPr + '</w:body></w:document>';
-
-      const combinedBody = chunk.items.map(item => item.elementXml).join('');
-      newZip.file('word/document.xml', xmlHead + combinedBody + xmlFoot);
-
-      return await newZip.generateAsync({
-        type: 'blob',
-        mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        compression: 'DEFLATE'
-      });
-    }
-
-    async function downloadSingleSplitWordPart(idx) {
-      if (!splitWordGeneratedParts[idx]) return;
-      showToast(`Generating Part ${idx + 1}...`);
-      const chunk = splitWordGeneratedParts[idx];
-      const blob = await generateDocxBlobFromChunk(chunk);
-      const origBase = splitWordFile.name.replace(/\.docx$/i, '');
-      downloadBlob(blob, `${origBase}_part_${idx + 1}.docx`);
-      showToast(`Part ${idx + 1} downloaded successfully!`);
-    }
-
-    async function executeSplitWordPrimary() {
-      if (!splitWordGeneratedParts.length) return;
-      downloadSingleSplitWordPart(0);
-    }
-
-    async function executeSplitWordZip() {
-      if (!splitWordGeneratedParts.length) return;
-      showProgress('Generating Split Word Documents...', splitWordGeneratedParts.length);
-
-      const bundleZip = new JSZip();
-      const origBase = splitWordFile.name.replace(/\.docx$/i, '');
-
-      for (let i = 0; i < splitWordGeneratedParts.length; i++) {
-        updateProgress(i + 1, splitWordGeneratedParts.length, `Creating ${origBase}_part_${i + 1}.docx...`);
-        const blob = await generateDocxBlobFromChunk(splitWordGeneratedParts[i]);
-        bundleZip.file(`${origBase}_part_${i + 1}.docx`, blob);
-      }
-
-      updateProgress(splitWordGeneratedParts.length, splitWordGeneratedParts.length, 'Packaging ZIP archive...');
-      const zipBlob = await bundleZip.generateAsync({ type: 'blob' });
-      hideProgress();
-      downloadBlob(zipBlob, `${origBase}_split_all_parts.zip`);
-      showToast('All split Word documents downloaded in ZIP archive!');
-    }
-
-    // ==========================================
-    // TOOL 30: MERGE WORD (.DOCX)
-    // ==========================================
-    let mergeWordFilesList = [];
-
-    const dropzoneMergeWord = document.getElementById('dropzone-mergeword');
-    const inputMergeWord = document.getElementById('input-mergeword');
-    const listMergeWord = document.getElementById('list-mergeword');
-    const itemsMergeWord = document.getElementById('items-mergeword');
-    const countMergeWord = document.getElementById('count-mergeword');
-    const btnRunMergeWord = document.getElementById('btn-run-mergeword');
-
-    if (dropzoneMergeWord) {
-      dropzoneMergeWord.onclick = (e) => {
-        if (e && e.target !== inputMergeWord) {
-          inputMergeWord.click();
-        }
-      };
-      inputMergeWord.onclick = (e) => e.stopPropagation();
-      dropzoneMergeWord.ondragover = (e) => { e.preventDefault(); dropzoneMergeWord.classList.add('border-blue-500'); };
-      dropzoneMergeWord.ondragleave = () => dropzoneMergeWord.classList.remove('border-blue-500');
-      dropzoneMergeWord.ondrop = (e) => {
-        e.preventDefault();
-        dropzoneMergeWord.classList.remove('border-blue-500');
-        const files = Array.from(e.dataTransfer.files || []);
-        if (files.length) {
-          files.forEach(f => {
-            if (f.name.toLowerCase().endsWith('.docx')) {
-              mergeWordFilesList.push(f);
-            }
-          });
-          renderMergeWordList();
-        }
-      };
-      inputMergeWord.onchange = (e) => {
-        const files = Array.from(e.target.files);
-        if (!files.length) return;
-        files.forEach(f => {
-          if (f.name.toLowerCase().endsWith('.docx')) {
-            mergeWordFilesList.push(f);
-          }
-        });
-        renderMergeWordList();
-      };
-    }
-
-    function renderMergeWordList() {
-      if (!itemsMergeWord) return;
-      itemsMergeWord.innerHTML = '';
-      countMergeWord.textContent = mergeWordFilesList.length;
-
-      if (mergeWordFilesList.length === 0) {
-        listMergeWord.classList.add('hidden');
-        btnRunMergeWord.disabled = true;
-        return;
-      }
-
-      listMergeWord.classList.remove('hidden');
-      btnRunMergeWord.disabled = mergeWordFilesList.length < 2;
-
-      mergeWordFilesList.forEach((file, index) => {
-        const item = document.createElement('div');
-        item.className = 'flex items-center justify-between p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs';
-        item.innerHTML = `
-          <div class="flex items-center gap-3 overflow-hidden">
-            <span class="w-6 h-6 rounded-lg bg-blue-600/20 text-blue-400 font-bold flex items-center justify-center flex-shrink-0 text-[11px]">${index + 1}</span>
-            <div class="truncate">
-              <span class="font-medium text-white block truncate">${file.name}</span>
-              <span class="text-slate-400 text-[11px]">${formatBytes(file.size)}</span>
-            </div>
-          </div>
-          <div class="flex items-center gap-1.5 flex-shrink-0">
-            <button onclick="moveMergeWordFile(${index}, -1)" ${index === 0 ? 'disabled' : ''} class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 disabled:opacity-30">
-              <i data-lucide="arrow-up" class="w-3.5 h-3.5"></i>
-            </button>
-            <button onclick="moveMergeWordFile(${index}, 1)" ${index === mergeWordFilesList.length - 1 ? 'disabled' : ''} class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 disabled:opacity-30">
-              <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
-            </button>
-            <button onclick="removeMergeWordFile(${index})" class="p-1.5 rounded-lg bg-slate-800 hover:bg-red-500/20 hover:text-red-400 text-slate-400 ml-1">
-              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-            </button>
-          </div>
-        `;
-        itemsMergeWord.appendChild(item);
-      });
-      lucide.createIcons();
-    }
-
-    function moveMergeWordFile(index, direction) {
-      const target = index + direction;
-      if (target >= 0 && target < mergeWordFilesList.length) {
-        const temp = mergeWordFilesList[index];
-        mergeWordFilesList[index] = mergeWordFilesList[target];
-        mergeWordFilesList[target] = temp;
-        renderMergeWordList();
-      }
-    }
-
-    function removeMergeWordFile(index) {
-      mergeWordFilesList.splice(index, 1);
-      renderMergeWordList();
-    }
-
-    function clearMergeWordList() {
-      mergeWordFilesList = [];
-      renderMergeWordList();
-      inputMergeWord.value = '';
-    }
-
-    function sortMergeWordFiles(order = 'asc') {
-      mergeWordFilesList.sort((a, b) => {
-        return order === 'asc' 
-          ? a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' })
-          : b.name.localeCompare(a.name, undefined, { numeric: true, sensitivity: 'base' });
-      });
-      renderMergeWordList();
-      showToast(`Word files sorted ${order.toUpperCase()}!`);
-    }
-
-    async function executeMergeWord() {
-      if (mergeWordFilesList.length < 2) {
-        showToast('Please select at least 2 Word documents to merge', false);
-        return;
-      }
-
-      showProgress('Merging Word Documents...', mergeWordFilesList.length);
-
-      try {
-        updateProgress(1, mergeWordFilesList.length, `Loading base template (${mergeWordFilesList[0].name})...`);
-        const baseBuffer = await mergeWordFilesList[0].arrayBuffer();
-        const baseZip = await JSZip.loadAsync(baseBuffer);
-        let baseDocXml = await baseZip.file('word/document.xml').async('string');
-
-        const sectPrMatch = baseDocXml.match(/<w:sectPr[\s\S]*?<\/w:sectPr>/);
-        const sectPr = sectPrMatch ? sectPrMatch[0] : '<w:sectPr/>';
-
-        let combinedBodyXml = baseDocXml.replace(/<w:sectPr[\s\S]*?<\/w:sectPr>/, '').replace(/<\/w:body>[\s\S]*?<\/w:document>/, '');
-
-        const insertPageBreak = document.getElementById('mergeword-pagebreak')?.checked ?? true;
-        const pageBreakXml = '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
-
-        for (let i = 1; i < mergeWordFilesList.length; i++) {
-          updateProgress(i + 1, mergeWordFilesList.length, `Combining document ${i + 1} (${mergeWordFilesList[i].name})...`);
-          const buf = await mergeWordFilesList[i].arrayBuffer();
-          const docZip = await JSZip.loadAsync(buf);
-          const docXml = await docZip.file('word/document.xml').async('string');
-
-          const bodyMatch = docXml.match(/<w:body>([\s\S]*?)<\/w:body>/);
-          if (bodyMatch) {
-            let innerBody = bodyMatch[1].replace(/<w:sectPr[\s\S]*?<\/w:sectPr>/g, '');
-            if (insertPageBreak) {
-              combinedBodyXml += pageBreakXml + innerBody;
-            } else {
-              combinedBodyXml += innerBody;
-            }
-          }
-        }
-
-        const finalDocXml = combinedBodyXml + sectPr + '</w:body></w:document>';
-        baseZip.file('word/document.xml', finalDocXml);
-
-        updateProgress(mergeWordFilesList.length, mergeWordFilesList.length, 'Finalizing merged Word document...');
-        const mergedBlob = await baseZip.generateAsync({
-          type: 'blob',
-          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-          compression: 'DEFLATE'
-        });
-
-        hideProgress();
-        downloadBlob(mergedBlob, 'merged_document.docx');
-        showToast('Successfully merged Word documents!');
-      } catch (err) {
-        hideProgress();
-        showToast('Error merging Word documents: ' + err.message, false);
-      }
-    }
-
-    // ==========================================
-    // TOOL 31: UNIVERSAL FILE COMPRESSOR
-    // ==========================================
-    let compressAnyFilesList = [];
-
-    const dropzoneCompressFile = document.getElementById('dropzone-compressfile');
-    const inputCompressFile = document.getElementById('input-compressfile');
-    const configCompressFile = document.getElementById('config-compressfile');
-    const btnRunCompressFile = document.getElementById('btn-run-compressfile');
-    const compFileListPreview = document.getElementById('compfile-list-preview');
-
-    if (dropzoneCompressFile) {
-      dropzoneCompressFile.onclick = (e) => {
-        if (e && e.target !== inputCompressFile) {
-          inputCompressFile.click();
-        }
-      };
-      inputCompressFile.onclick = (e) => e.stopPropagation();
-      dropzoneCompressFile.ondragover = (e) => { e.preventDefault(); dropzoneCompressFile.classList.add('border-blue-500'); };
-      dropzoneCompressFile.ondragleave = () => dropzoneCompressFile.classList.remove('border-blue-500');
-      dropzoneCompressFile.ondrop = (e) => {
-        e.preventDefault();
-        dropzoneCompressFile.classList.remove('border-blue-500');
-        const files = Array.from(e.dataTransfer.files || []);
-        if (files.length) {
-          files.forEach(f => compressAnyFilesList.push(f));
-          renderCompressAnyFilesList();
-        }
-      };
-      inputCompressFile.onchange = (e) => {
-        const files = Array.from(e.target.files);
-        if (!files.length) return;
-        files.forEach(f => compressAnyFilesList.push(f));
-        renderCompressAnyFilesList();
-      };
-    }
-
-    function renderCompressAnyFilesList() {
-      if (!compFileListPreview) return;
-      compFileListPreview.innerHTML = '';
-
-      if (compressAnyFilesList.length === 0) {
-        configCompressFile.classList.add('hidden');
-        btnRunCompressFile.disabled = true;
-        return;
-      }
-
-      configCompressFile.classList.remove('hidden');
-      btnRunCompressFile.disabled = false;
-
-      let totalSize = 0;
-      compressAnyFilesList.forEach(f => totalSize += f.size);
-      document.getElementById('compfile-total-size-badge').textContent = `${formatBytes(totalSize)} (${compressAnyFilesList.length} files)`;
-
-      if (compressAnyFilesList.length === 1) {
-        const base = compressAnyFilesList[0].name.replace(/\.[^/.]+$/, '');
-        document.getElementById('compfile-archive-name').value = `${base}_compressed.zip`;
-      } else {
-        document.getElementById('compfile-archive-name').value = `compressed_bundle_${compressAnyFilesList.length}_files.zip`;
-      }
-
-      compressAnyFilesList.forEach((file, index) => {
-        const div = document.createElement('div');
-        div.className = 'flex items-center justify-between p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs';
-        div.innerHTML = `
-          <div class="flex items-center gap-2.5 overflow-hidden">
-            <div class="w-8 h-8 rounded-lg bg-blue-600/20 text-blue-400 flex items-center justify-center flex-shrink-0">
-              <i data-lucide="file" class="w-4 h-4"></i>
-            </div>
-            <div class="truncate">
-              <span class="font-bold text-white block truncate">${file.name}</span>
-              <span class="text-slate-400 text-[11px]">${formatBytes(file.size)}</span>
-            </div>
-          </div>
-          <button onclick="removeCompressAnyFile(${index})" class="p-1.5 rounded-lg bg-slate-800 hover:bg-red-500/20 hover:text-red-400 text-slate-400">
-            <i data-lucide="x" class="w-4 h-4"></i>
-          </button>
-        `;
-        compFileListPreview.appendChild(div);
-      });
-      lucide.createIcons();
-    }
-
-    function removeCompressAnyFile(index) {
-      compressAnyFilesList.splice(index, 1);
-      renderCompressAnyFilesList();
-    }
-
-    async function executeCompressAnyFiles() {
-      if (!compressAnyFilesList.length) return;
-
-      const level = parseInt(document.getElementById('compfile-level').value) || 9;
-      let archiveName = document.getElementById('compfile-archive-name').value.trim() || 'archive.zip';
-      if (!archiveName.toLowerCase().endsWith('.zip')) archiveName += '.zip';
-
-      showProgress('Compressing Files (Ultra DEFLATE)...', compressAnyFilesList.length);
-
-      const zip = new JSZip();
-      let originalTotal = 0;
-
-      for (let i = 0; i < compressAnyFilesList.length; i++) {
-        const f = compressAnyFilesList[i];
-        originalTotal += f.size;
-        updateProgress(i + 1, compressAnyFilesList.length, `Packaging ${f.name} (${formatBytes(f.size)})...`);
-        zip.file(f.name, f);
-      }
-
-      updateProgress(compressAnyFilesList.length, compressAnyFilesList.length, `Applying Level ${level} Compression...`);
-
-      const compressedBlob = await zip.generateAsync({
-        type: 'blob',
-        compression: level === 0 ? 'STORE' : 'DEFLATE',
-        compressionOptions: {
-          level: level
-        }
-      }, (meta) => {
-        const percent = Math.round(meta.percent);
-        document.getElementById('progress-bar-fill').style.width = `${percent}%`;
-        document.getElementById('progress-percent').textContent = `${percent}%`;
-        document.getElementById('progress-status').textContent = `Deflating: ${percent}% complete...`;
-      });
-
-      hideProgress();
-
-      const compressedSize = compressedBlob.size;
-      const savedBytes = Math.max(0, originalTotal - compressedSize);
-      const savedPercent = originalTotal > 0 ? Math.round((savedBytes / originalTotal) * 100) : 0;
-
-      const savingsCard = document.getElementById('compfile-savings-card');
-      if (savingsCard) {
-        savingsCard.classList.remove('hidden');
-        document.getElementById('compfile-savings-text').textContent = `Reduced by ${savedPercent}% (${formatBytes(savedBytes)} saved)`;
-        document.getElementById('compfile-sizes-text').textContent = `${formatBytes(originalTotal)} → ${formatBytes(compressedSize)}`;
-      }
-
-      downloadBlob(compressedBlob, archiveName);
-      showToast(`Compression finished! Saved ${savedPercent}% (${formatBytes(savedBytes)})`);
     }
   </script>
 </body>
