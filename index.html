@@ -2789,6 +2789,9 @@
   </footer>
 
   <script>
+    // Global Category & Navigation State
+    let currentCategory = 'all';
+
     // Theme Management (Light / Dark Mode with LocalStorage persistence)
     let currentTheme = localStorage.getItem('pdforbit_theme') || 'dark';
 
@@ -2827,11 +2830,11 @@
           allToolsBtn.className = 'hidden sm:inline-flex items-center text-xs font-semibold text-slate-300 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition';
         }
       }
-      if (typeof currentCategory !== 'undefined' && document.getElementById('btn-cat-all')) {
+      if (typeof filterCategory === 'function' && document.getElementById('btn-cat-all')) {
         filterCategory(currentCategory);
       }
       localStorage.setItem('pdforbit_theme', theme);
-      lucide.createIcons();
+      if (window.lucide) lucide.createIcons();
     }
 
     function toggleTheme() {
@@ -2839,12 +2842,6 @@
       applyTheme(nextTheme);
       showToast(`Switched to ${nextTheme === 'light' ? 'Light' : 'Dark'} Mode!`);
     }
-
-    // Apply saved theme immediately
-    applyTheme(currentTheme);
-
-    // Initialize icons
-    lucide.createIcons();
 
     // Navigation & Views
     function showDashboard(resetCategory = false) {
@@ -2884,11 +2881,10 @@
       if (target) {
         target.classList.remove('hidden');
         document.getElementById('workspace-badge').textContent = `Tool: ${toolKey.toUpperCase()}`;
-        lucide.createIcons();
+        if (window.lucide) lucide.createIcons();
       }
     }
 
-    let currentCategory = 'all';
     function filterCategory(cat) {
       currentCategory = cat || 'all';
       const isLight = document.body.classList.contains('light-mode');
@@ -2914,6 +2910,12 @@
         }
       });
     }
+
+    // Apply saved theme immediately AFTER functions and state are defined
+    applyTheme(currentTheme);
+
+    // Initialize icons
+    if (window.lucide) lucide.createIcons();
 
     // Helper: Toast Notifications
     function showToast(msg, isSuccess = true) {
@@ -7472,7 +7474,21 @@ ${compareTextB}
     const btnRunSplitWordZip = document.getElementById('btn-run-splitword-zip');
 
     if (dropzoneSplitWord) {
-      dropzoneSplitWord.onclick = () => inputSplitWord.click();
+      dropzoneSplitWord.onclick = (e) => {
+        if (e && e.target !== inputSplitWord) {
+          inputSplitWord.click();
+        }
+      };
+      inputSplitWord.onclick = (e) => e.stopPropagation();
+      dropzoneSplitWord.ondragover = (e) => { e.preventDefault(); dropzoneSplitWord.classList.add('border-blue-500'); };
+      dropzoneSplitWord.ondragleave = () => dropzoneSplitWord.classList.remove('border-blue-500');
+      dropzoneSplitWord.ondrop = (e) => {
+        e.preventDefault();
+        dropzoneSplitWord.classList.remove('border-blue-500');
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          handleSplitWordFile(e.dataTransfer.files[0]);
+        }
+      };
       inputSplitWord.onchange = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -7765,7 +7781,27 @@ ${compareTextB}
     const btnRunMergeWord = document.getElementById('btn-run-mergeword');
 
     if (dropzoneMergeWord) {
-      dropzoneMergeWord.onclick = () => inputMergeWord.click();
+      dropzoneMergeWord.onclick = (e) => {
+        if (e && e.target !== inputMergeWord) {
+          inputMergeWord.click();
+        }
+      };
+      inputMergeWord.onclick = (e) => e.stopPropagation();
+      dropzoneMergeWord.ondragover = (e) => { e.preventDefault(); dropzoneMergeWord.classList.add('border-blue-500'); };
+      dropzoneMergeWord.ondragleave = () => dropzoneMergeWord.classList.remove('border-blue-500');
+      dropzoneMergeWord.ondrop = (e) => {
+        e.preventDefault();
+        dropzoneMergeWord.classList.remove('border-blue-500');
+        const files = Array.from(e.dataTransfer.files || []);
+        if (files.length) {
+          files.forEach(f => {
+            if (f.name.toLowerCase().endsWith('.docx')) {
+              mergeWordFilesList.push(f);
+            }
+          });
+          renderMergeWordList();
+        }
+      };
       inputMergeWord.onchange = (e) => {
         const files = Array.from(e.target.files);
         if (!files.length) return;
@@ -7921,7 +7957,23 @@ ${compareTextB}
     const compFileListPreview = document.getElementById('compfile-list-preview');
 
     if (dropzoneCompressFile) {
-      dropzoneCompressFile.onclick = () => inputCompressFile.click();
+      dropzoneCompressFile.onclick = (e) => {
+        if (e && e.target !== inputCompressFile) {
+          inputCompressFile.click();
+        }
+      };
+      inputCompressFile.onclick = (e) => e.stopPropagation();
+      dropzoneCompressFile.ondragover = (e) => { e.preventDefault(); dropzoneCompressFile.classList.add('border-blue-500'); };
+      dropzoneCompressFile.ondragleave = () => dropzoneCompressFile.classList.remove('border-blue-500');
+      dropzoneCompressFile.ondrop = (e) => {
+        e.preventDefault();
+        dropzoneCompressFile.classList.remove('border-blue-500');
+        const files = Array.from(e.dataTransfer.files || []);
+        if (files.length) {
+          files.forEach(f => compressAnyFilesList.push(f));
+          renderCompressAnyFilesList();
+        }
+      };
       inputCompressFile.onchange = (e) => {
         const files = Array.from(e.target.files);
         if (!files.length) return;
