@@ -235,7 +235,7 @@
       <!-- Categories Filter Tabs (Horizontal scroll on mobile, wrap on desktop) -->
       <div class="relative mb-6 sm:mb-8 -mx-4 px-4 sm:mx-0 sm:px-0">
         <div class="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar sm:flex-wrap sm:justify-center">
-          <button onclick="filterCategory('all')" id="btn-cat-all" class="cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-blue-600 text-white shadow-md shadow-blue-600/25 flex-shrink-0">All Tools (27)</button>
+          <button onclick="filterCategory('all')" id="btn-cat-all" class="cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-blue-600 text-white shadow-md shadow-blue-600/25 flex-shrink-0">All Tools (28)</button>
           <button onclick="filterCategory('edit-pdf')" id="btn-cat-edit-pdf" class="cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex items-center gap-1.5 flex-shrink-0"><i data-lucide="edit-3" class="w-3.5 h-3.5 text-blue-400"></i> Edit PDF <span class="bg-blue-600/30 text-blue-300 text-[9px] px-1.5 py-0.2 rounded-full font-bold">New!</span></button>
           <button onclick="filterCategory('intelligence')" id="btn-cat-intelligence" class="cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex items-center gap-1.5 flex-shrink-0"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-blue-400"></i> PDF Intelligence <span class="bg-blue-600/30 text-blue-300 text-[9px] px-1.5 py-0.2 rounded-full font-bold">New!</span></button>
           <button onclick="filterCategory('convert-to-pdf')" id="btn-cat-convert-to-pdf" class="cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700 flex-shrink-0">Convert to PDF</button>
@@ -628,6 +628,21 @@
               <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">Visual</span>
             </div>
             <p class="text-xs text-slate-400 leading-relaxed">See all Word pages visually &amp; click to select exact pages or enter page ranges to extract.</p>
+          </div>
+          <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <!-- 28. COMPRESS WORD (.DOCX) -->
+        <div data-cat="organize" onclick="openTool('compressword')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="file-archive" class="w-6 h-6"></i>
+            </div>
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Compress Word (.docx)</h3>
+              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">New!</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">Reduce Word document file size. Recompress embedded images and optimize XML while keeping perfect formatting.</p>
           </div>
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
@@ -2212,6 +2227,125 @@
                 <i data-lucide="scissors" class="w-4 h-4"></i> Extract Selected Pages (.docx)
               </button>
             </div>
+        <!-- ================= TOOL: COMPRESS WORD (.DOCX) ================= -->
+        <div id="tool-compressword-content" class="tool-content hidden">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+              <i data-lucide="file-archive" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h2 class="text-xl sm:text-2xl font-bold text-white">Compress Word (.docx)</h2>
+                <span class="text-[10px] bg-blue-600/30 text-blue-300 px-2 py-0.5 rounded-full font-bold">DOCX</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-400">Reduce DOCX file size by recompressing embedded images, stripping revision bloat, and applying maximum DEFLATE.</p>
+            </div>
+          </div>
+
+          <!-- Dropzone -->
+          <div id="dropzone-compressword" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
+            <input type="file" id="input-compressword" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="hidden">
+            <i data-lucide="file-archive" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
+            <p id="label-compressword-file" class="text-base font-semibold text-white mb-1">Click to select or drag &amp; drop a Word (.docx) file</p>
+            <p class="text-xs text-slate-400">Optimizes embedded media, cleans internal XML, and recompresses in memory</p>
+          </div>
+
+          <!-- Configuration Panel -->
+          <div id="config-compressword" class="mt-6 hidden space-y-5">
+            <!-- Analysis Summary -->
+            <div class="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+              <div>
+                <span class="text-slate-400 block text-[11px]">Original File Size</span>
+                <span id="compressword-stat-size" class="text-sm font-bold text-white">--</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block text-[11px]">Embedded Images</span>
+                <span id="compressword-stat-images" class="text-sm font-bold text-blue-400">--</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block text-[11px]">Media Status</span>
+                <span id="compressword-stat-media-size" class="text-sm font-bold text-amber-400">--</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block text-[11px]">Document Text</span>
+                <span id="compressword-stat-paragraphs" class="text-sm font-bold text-slate-200">--</span>
+              </div>
+            </div>
+
+            <!-- Compression Level Cards (exact match to Compress PDF) -->
+            <div class="bg-slate-950/60 border border-slate-800 rounded-2xl p-5 space-y-3">
+              <label class="block text-xs font-semibold text-slate-300">Compression Level:</label>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <label class="flex flex-col p-3.5 rounded-xl border border-blue-500/50 bg-blue-950/20 hover:border-blue-500 transition cursor-pointer">
+                  <div class="flex items-center gap-2 mb-1.5">
+                    <input type="radio" name="compword-level" value="recommended" checked class="text-blue-600">
+                    <span class="text-xs font-bold text-white">Recommended</span>
+                    <span class="text-[9px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold ml-auto">Balanced</span>
+                  </div>
+                  <span class="text-[11px] text-slate-400 leading-relaxed">Good quality with balanced size reduction. Recompresses images to 75% quality &amp; max 1920px.</span>
+                </label>
+                <label class="flex flex-col p-3.5 rounded-xl border border-slate-800 bg-slate-900/80 hover:border-blue-500/50 transition cursor-pointer">
+                  <div class="flex items-center gap-2 mb-1.5">
+                    <input type="radio" name="compword-level" value="extreme" class="text-blue-600">
+                    <span class="text-xs font-bold text-white">Extreme Compression</span>
+                    <span class="text-[9px] bg-red-600/30 text-red-300 px-1.5 py-0.5 rounded font-bold ml-auto">Smallest</span>
+                  </div>
+                  <span class="text-[11px] text-slate-400 leading-relaxed">Maximum reduction. Aggressively resizes images to max 1280px (58% quality) &amp; purges all revision bloat.</span>
+                </label>
+                <label class="flex flex-col p-3.5 rounded-xl border border-slate-800 bg-slate-900/80 hover:border-blue-500/50 transition cursor-pointer">
+                  <div class="flex items-center gap-2 mb-1.5">
+                    <input type="radio" name="compword-level" value="light" class="text-blue-600">
+                    <span class="text-xs font-bold text-white">Light Compression</span>
+                    <span class="text-[9px] bg-emerald-600/30 text-emerald-300 px-1.5 py-0.5 rounded font-bold ml-auto">High Res</span>
+                  </div>
+                  <span class="text-[11px] text-slate-400 leading-relaxed">Preserves highest visual fidelity up to 2560px (88% quality) with lossless XML clean &amp; level 9 DEFLATE.</span>
+                </label>
+              </div>
+
+              <!-- Optimization Checkboxes -->
+              <div class="pt-2 border-t border-slate-800/80 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-300">
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" id="compressword-opt-images" checked class="rounded text-blue-600 focus:ring-0">
+                  <span>Recompress and downscale embedded images</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" id="compressword-opt-rsid" checked class="rounded text-blue-600 focus:ring-0">
+                  <span>Remove revision history &amp; RSID tracking bloat</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Result Box (Hidden until compressed) -->
+            <div id="compressword-result-box" class="hidden p-5 bg-gradient-to-r from-blue-950/40 via-slate-900 to-indigo-950/40 border border-blue-500/30 rounded-2xl space-y-4">
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+                    <i data-lucide="check-circle" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-bold text-white">Compression Complete!</h4>
+                    <p id="compressword-result-summary" class="text-xs text-slate-300"></p>
+                  </div>
+                </div>
+                <div id="compressword-savings-badge" class="px-3 py-1.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold text-xs"></div>
+              </div>
+              <div class="flex items-center justify-end gap-3 pt-2">
+                <button id="btn-download-compressed-word" onclick="downloadLastCompressedWord()" class="flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-xs bg-emerald-600 hover:bg-emerald-500 text-white transition shadow-lg shadow-emerald-600/20">
+                  <i data-lucide="download" class="w-4 h-4"></i> Download Compressed DOCX
+                </button>
+              </div>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <span class="text-xs text-slate-400">100% private in-browser compression. Document is never uploaded to any server.</span>
+              <button id="btn-run-compressword" onclick="executeCompressWord()" class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+                <i data-lucide="file-archive" class="w-4 h-4"></i> Compress Word Document (.docx)
+              </button>
+            </div>
+          </div>
+        </div>
+
           </div>
         </div></div>
     </div>
@@ -7013,6 +7147,266 @@ ${compareTextB}
         showToast('Error creating ZIP bundle: ' + err.message, false);
       } finally {
         if (btnRunSplitWordZip) btnRunSplitWordZip.disabled = false;
+      }
+    }
+
+  
+    // ==========================================
+    // TOOL 28: COMPRESS WORD (.DOCX)
+    // ==========================================
+    let compressWordFile = null;
+    let compressWordZipBuffer = null;
+    let compressWordMediaEntries = [];
+    let lastCompressedWordBlob = null;
+    let lastCompressedWordFilename = '';
+
+    const dropzoneCompressWord = document.getElementById('dropzone-compressword');
+    const inputCompressWord = document.getElementById('input-compressword');
+    const configCompressWord = document.getElementById('config-compressword');
+    const btnRunCompressWord = document.getElementById('btn-run-compressword');
+
+    if (dropzoneCompressWord) {
+      dropzoneCompressWord.onclick = (e) => {
+        if (e && e.target !== inputCompressWord) {
+          inputCompressWord.click();
+        }
+      };
+      inputCompressWord.onclick = (e) => e.stopPropagation();
+      dropzoneCompressWord.ondragover = (e) => { e.preventDefault(); dropzoneCompressWord.classList.add('border-blue-500'); };
+      dropzoneCompressWord.ondragleave = () => dropzoneCompressWord.classList.remove('border-blue-500');
+      dropzoneCompressWord.ondrop = (e) => {
+        e.preventDefault();
+        dropzoneCompressWord.classList.remove('border-blue-500');
+        if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+          handleCompressWordFile(e.dataTransfer.files[0]);
+        }
+      };
+      inputCompressWord.onchange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+          handleCompressWordFile(e.target.files[0]);
+        }
+      };
+    }
+
+    async function handleCompressWordFile(file) {
+      if (!file) return;
+      if (!file.name.toLowerCase().endsWith('.docx')) {
+        showToast('Please select a valid Microsoft Word (.docx) document.', false);
+        return;
+      }
+
+      compressWordFile = file;
+      document.getElementById('label-compressword-file').textContent = `${file.name} (${formatBytes(file.size)})`;
+      const resultBox = document.getElementById('compressword-result-box');
+      if (resultBox) resultBox.classList.add('hidden');
+
+      try {
+        compressWordZipBuffer = await file.arrayBuffer();
+        const zip = await JSZip.loadAsync(compressWordZipBuffer);
+
+        compressWordMediaEntries = [];
+        for (const [path, fileEntry] of Object.entries(zip.files)) {
+          if (/^word\/media\/.+\.(png|jpe?g|webp|bmp|gif)$/i.test(path) && !fileEntry.dir) {
+            compressWordMediaEntries.push(path);
+          }
+        }
+
+        let paragraphCount = 0;
+        const docXmlEntry = zip.file('word/document.xml');
+        if (docXmlEntry) {
+          const docXml = await docXmlEntry.async('string');
+          const pMatches = docXml.match(/<w:p\b/g);
+          paragraphCount = pMatches ? pMatches.length : 0;
+        }
+
+        document.getElementById('compressword-stat-size').textContent = formatBytes(file.size);
+        document.getElementById('compressword-stat-images').textContent = `${compressWordMediaEntries.length} Images`;
+        document.getElementById('compressword-stat-media-size').textContent = compressWordMediaEntries.length > 0 ? 'High-Res Media' : 'Pure Text';
+        document.getElementById('compressword-stat-paragraphs').textContent = `${paragraphCount} Paragraphs`;
+
+        configCompressWord.classList.remove('hidden');
+        btnRunCompressWord.disabled = false;
+        lucide.createIcons();
+      } catch (err) {
+        showToast('Failed to analyze Word document: ' + err.message, false);
+      }
+    }
+
+    function compressDocxImage(uint8Array, filename, maxDim, quality) {
+      return new Promise((resolve) => {
+        try {
+          const ext = filename.split('.').pop().toLowerCase();
+          let mimeType = 'image/jpeg';
+          if (ext === 'png') mimeType = 'image/png';
+          else if (ext === 'webp') mimeType = 'image/webp';
+          else if (ext === 'bmp') mimeType = 'image/bmp';
+          else if (ext === 'gif') mimeType = 'image/gif';
+
+          const blob = new Blob([uint8Array], { type: mimeType });
+          const url = URL.createObjectURL(blob);
+          const img = new Image();
+
+          img.onload = () => {
+            URL.revokeObjectURL(url);
+            let width = img.naturalWidth || img.width;
+            let height = img.naturalHeight || img.height;
+
+            if (!width || !height) return resolve(null);
+
+            if (width > maxDim || height > maxDim) {
+              if (width >= height) {
+                height = Math.round((height * maxDim) / width);
+                width = maxDim;
+              } else {
+                width = Math.round((width * maxDim) / height);
+                height = maxDim;
+              }
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const outMime = (ext === 'png' || ext === 'gif') ? 'image/png' : 'image/jpeg';
+
+            canvas.toBlob((outBlob) => {
+              if (!outBlob) return resolve(null);
+              outBlob.arrayBuffer().then(buf => {
+                const outBytes = new Uint8Array(buf);
+                resolve(outBytes);
+              }).catch(() => resolve(null));
+            }, outMime, quality);
+          };
+
+          img.onerror = () => {
+            URL.revokeObjectURL(url);
+            resolve(null);
+          };
+
+          img.src = url;
+        } catch (e) {
+          resolve(null);
+        }
+      });
+    }
+
+    async function executeCompressWord() {
+      if (!compressWordFile || !compressWordZipBuffer) return;
+      btnRunCompressWord.disabled = true;
+
+      try {
+        const level = document.querySelector('input[name="compword-level"]:checked')?.value || 'recommended';
+        const optImages = document.getElementById('compressword-opt-images')?.checked ?? true;
+        const optRsid = document.getElementById('compressword-opt-rsid')?.checked ?? true;
+
+        let maxDim = 1920;
+        let quality = 0.75;
+        if (level === 'extreme') {
+          maxDim = 1280;
+          quality = 0.58;
+        } else if (level === 'light') {
+          maxDim = 2560;
+          quality = 0.88;
+        }
+
+        const totalSteps = 2 + (optImages ? compressWordMediaEntries.length : 0);
+        showProgress('Compressing Word Document', totalSteps);
+
+        const zip = await JSZip.loadAsync(compressWordZipBuffer);
+        let step = 0;
+
+        let imagesCompressedCount = 0;
+        let imageBytesSaved = 0;
+
+        if (optImages && compressWordMediaEntries.length > 0) {
+          for (let i = 0; i < compressWordMediaEntries.length; i++) {
+            if (isBatchCancelled) {
+              showToast('Compression cancelled.', false);
+              return;
+            }
+            const mediaPath = compressWordMediaEntries[i];
+            step++;
+            updateProgress(step, totalSteps, `Optimizing image ${i + 1} of ${compressWordMediaEntries.length}...`);
+
+            try {
+              const entry = zip.file(mediaPath);
+              if (entry) {
+                const rawBytes = await entry.async('uint8array');
+                const compressedBytes = await compressDocxImage(rawBytes, mediaPath, maxDim, quality);
+                if (compressedBytes && compressedBytes.length < rawBytes.length) {
+                  imageBytesSaved += (rawBytes.length - compressedBytes.length);
+                  imagesCompressedCount++;
+                  zip.file(mediaPath, compressedBytes);
+                }
+              }
+            } catch (e) {}
+            await new Promise(r => setTimeout(r, 0));
+          }
+        }
+
+        step++;
+        updateProgress(step, totalSteps, 'Optimizing XML & stripping revision tracking bloat...');
+        if (optRsid) {
+          for (const [path, fileEntry] of Object.entries(zip.files)) {
+            if (/^word\/.*\.xml$/i.test(path) && !fileEntry.dir) {
+              try {
+                const xmlStr = await fileEntry.async('string');
+                let cleaned = xmlStr.replace(/\s+w:rsid[A-Za-z0-9_-]+="[0-9A-Fa-f]+"/g, '');
+                cleaned = cleaned.replace(/<w:proofErr\b[^>]*\/>/g, '');
+                cleaned = cleaned.replace(/<w:r\s*><\/w:r>/g, '');
+                if (cleaned !== xmlStr) {
+                  zip.file(path, cleaned);
+                }
+              } catch (e) {}
+            }
+          }
+        }
+
+        step++;
+        updateProgress(step, totalSteps, 'Repacking Word archive with maximum compression...');
+        await new Promise(r => setTimeout(r, 20));
+
+        const compressedBlob = await zip.generateAsync({
+          type: 'blob',
+          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          compression: 'DEFLATE',
+          compressionOptions: { level: 9 }
+        });
+
+        const originalSize = compressWordFile.size;
+        const newSize = compressedBlob.size;
+        const savings = Math.max(0, Math.round(((originalSize - newSize) / originalSize) * 100));
+
+        lastCompressedWordBlob = compressedBlob;
+        lastCompressedWordFilename = `compressed-${compressWordFile.name}`;
+
+        downloadBlob(compressedBlob, lastCompressedWordFilename, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+
+        const resultBox = document.getElementById('compressword-result-box');
+        const resultSummary = document.getElementById('compressword-result-summary');
+        const savingsBadge = document.getElementById('compressword-savings-badge');
+
+        if (resultBox && resultSummary && savingsBadge) {
+          resultBox.classList.remove('hidden');
+          resultSummary.textContent = `${formatBytes(originalSize)} → ${formatBytes(newSize)} (saved ${formatBytes(Math.max(0, originalSize - newSize))})${imagesCompressedCount > 0 ? ` • ${imagesCompressedCount} images optimized` : ''}`;
+          savingsBadge.textContent = `${savings}% Smaller`;
+          lucide.createIcons();
+        }
+
+        showToast(`Compressed! ${formatBytes(originalSize)} → ${formatBytes(newSize)} (${savings}% saved)`);
+      } catch (err) {
+        showToast('Word compression error: ' + err.message, false);
+      } finally {
+        hideProgress();
+        btnRunCompressWord.disabled = false;
+      }
+    }
+
+    function downloadLastCompressedWord() {
+      if (lastCompressedWordBlob && lastCompressedWordFilename) {
+        downloadBlob(lastCompressedWordBlob, lastCompressedWordFilename, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
       }
     }
 
