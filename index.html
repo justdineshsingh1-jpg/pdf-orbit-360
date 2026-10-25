@@ -617,17 +617,17 @@
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
 
-        <!-- 27. SPLIT WORD (.DOCX) -->
+        <!-- 27. VISUAL SPLIT WORD (.DOCX) -->
         <div data-cat="organize" onclick="openTool('splitword')" class="tool-card group p-5 rounded-2xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-blue-500/50 transition-all cursor-pointer shadow-lg hover:shadow-blue-600/10 flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
               <i data-lucide="scissors" class="w-6 h-6"></i>
             </div>
             <div class="flex items-center gap-2 mb-1">
-              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Split Word (.docx)</h3>
-              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">New!</span>
+              <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Visual Split Word</h3>
+              <span class="text-[10px] bg-blue-600/30 text-blue-300 px-1.5 py-0.5 rounded font-bold">Visual</span>
             </div>
-            <p class="text-xs text-slate-400 leading-relaxed">Split Word files by headings, chapters, page breaks, or into custom parts. Separate DOCX downloads.</p>
+            <p class="text-xs text-slate-400 leading-relaxed">See all Word pages visually &amp; click to select exact pages or enter page ranges to extract.</p>
           </div>
           <span class="text-xs font-semibold text-blue-400 mt-4 flex items-center gap-1">Open Tool <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
         </div>
@@ -2153,7 +2153,7 @@
           </div>
         </div>
 
-        <!-- ================= TOOL: SPLIT WORD (.DOCX) ================= -->
+        <!-- ================= TOOL: VISUAL SPLIT WORD (.DOCX) ================= -->
         <div id="tool-splitword-content" class="tool-content hidden">
           <div class="flex items-center gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/30">
@@ -2161,101 +2161,59 @@
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <h2 class="text-xl sm:text-2xl font-bold text-white">Split Microsoft Word (.docx)</h2>
-                <span class="text-[10px] bg-blue-600/30 text-blue-300 px-2 py-0.5 rounded-full font-bold">DOCX</span>
+                <h2 class="text-xl sm:text-2xl font-bold text-white">Visual Split Word (.docx)</h2>
+                <span class="text-[10px] bg-blue-600/30 text-blue-300 px-2 py-0.5 rounded-full font-bold">Visual</span>
               </div>
-              <p class="text-xs sm:text-sm text-slate-400">Split large Word documents into multiple DOCX files by chapters, page breaks, or into equal parts.</p>
+              <p class="text-xs sm:text-sm text-slate-400">Click on page thumbnails or enter custom page ranges to extract exact pages into new Word documents.</p>
             </div>
           </div>
 
           <div id="dropzone-splitword" class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors bg-slate-950/40">
             <input type="file" id="input-splitword" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="hidden">
             <i data-lucide="file-type" class="w-14 h-14 text-blue-500 mx-auto mb-3"></i>
-            <p id="label-splitword-file" class="text-base font-semibold text-white mb-1">Click to select or drag &amp; drop a Word (.docx) file</p>
-            <p class="text-xs text-slate-400">Microsoft Word 2007+ (.docx) documents supported</p>
+            <p id="label-splitword-file" class="text-base font-semibold text-white mb-1">Select a Word (.docx) document to view &amp; split pages</p>
+            <p class="text-xs text-slate-400">Generates instant interactive visual page thumbnails</p>
           </div>
 
           <div id="config-splitword" class="mt-6 hidden space-y-4">
-            <!-- Document Analysis Banner -->
-            <div class="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-              <div>
-                <span class="text-slate-400 block text-[11px]">Total Paragraphs:</span>
-                <span id="splitword-total-p" class="text-sm font-bold text-white">0</span>
+            <!-- Controls Bar: Quick select buttons + Range input + Summary -->
+            <div class="p-3.5 bg-slate-950/80 border border-slate-800 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs">
+              <div class="flex flex-wrap items-center gap-2">
+                <button type="button" onclick="splitWordSelectAll(true)" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition font-semibold">Select All</button>
+                <button type="button" onclick="splitWordSelectAll(false)" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition font-semibold">Deselect All</button>
+                <button type="button" onclick="splitWordInvertSelection()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition font-semibold">Invert</button>
+                <button type="button" onclick="splitWordSelectOddEven('odd')" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition text-[11px]">Odd Pages</button>
+                <button type="button" onclick="splitWordSelectOddEven('even')" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition text-[11px]">Even Pages</button>
               </div>
-              <div>
-                <span class="text-slate-400 block text-[11px]">Headings Detected:</span>
-                <span id="splitword-total-h" class="text-sm font-bold text-blue-400">0</span>
+
+              <!-- Page Range input box -->
+              <div class="flex items-center gap-2 flex-1 sm:flex-initial min-w-[200px]">
+                <span class="text-slate-400 font-medium whitespace-nowrap">Page Range:</span>
+                <input type="text" id="splitword-range-input" oninput="handleSplitWordRangeInput(this.value)" placeholder="e.g. 1-3, 5" class="bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-blue-500 w-full sm:w-44 font-mono">
               </div>
-              <div>
-                <span class="text-slate-400 block text-[11px]">Page Breaks:</span>
-                <span id="splitword-total-pb" class="text-sm font-bold text-indigo-400">0</span>
-              </div>
-              <div>
-                <span class="text-slate-400 block text-[11px]">Document Size:</span>
-                <span id="splitword-file-size" class="text-sm font-bold text-slate-200">0 KB</span>
+
+              <div class="text-xs text-slate-300 font-medium whitespace-nowrap">
+                Selected: <span id="splitword-selected-summary" class="font-bold text-blue-400">0 of 0 pages</span>
               </div>
             </div>
 
-            <!-- Split Strategy Controls -->
-            <div class="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-3">
-              <label class="block text-xs font-bold text-slate-300">Choose Split Method:</label>
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <label class="flex items-center gap-2 p-3 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer hover:border-blue-500 transition">
-                  <input type="radio" name="splitword-method" value="headings" checked onchange="recalculateSplitWordParts()" class="text-blue-600 focus:ring-0">
-                  <div class="text-xs">
-                    <span class="font-bold text-white block">By Headings / Chapters</span>
-                    <span class="text-slate-400 text-[11px]">Splits whenever a chapter or heading is found</span>
-                  </div>
-                </label>
-                <label class="flex items-center gap-2 p-3 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer hover:border-blue-500 transition">
-                  <input type="radio" name="splitword-method" value="pagebreaks" onchange="recalculateSplitWordParts()" class="text-blue-600 focus:ring-0">
-                  <div class="text-xs">
-                    <span class="font-bold text-white block">By Page Breaks</span>
-                    <span class="text-slate-400 text-[11px]">Splits at explicit Word page breaks</span>
-                  </div>
-                </label>
-                <label class="flex items-center gap-2 p-3 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer hover:border-blue-500 transition">
-                  <input type="radio" name="splitword-method" value="parts" onchange="recalculateSplitWordParts()" class="text-blue-600 focus:ring-0">
-                  <div class="text-xs">
-                    <span class="font-bold text-white block">Into Equal Parts</span>
-                    <span class="text-slate-400 text-[11px]">Divide document into 2, 3, 4+ sections</span>
-                  </div>
-                </label>
-              </div>
-
-              <!-- Extra parameter for equal parts -->
-              <div id="splitword-parts-count-container" class="hidden flex items-center gap-3 pt-2">
-                <label class="text-xs text-slate-300 font-semibold">Number of split documents:</label>
-                <select id="splitword-parts-count" onchange="recalculateSplitWordParts()" class="bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white">
-                  <option value="2">2 Documents</option>
-                  <option value="3">3 Documents</option>
-                  <option value="4">4 Documents</option>
-                  <option value="5">5 Documents</option>
-                  <option value="6">6 Documents</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Generated Parts Preview List -->
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <h4 class="text-xs font-bold text-slate-300">Generated Split Parts: <span id="splitword-parts-summary" class="text-blue-400">0 parts</span></h4>
-                <button type="button" onclick="executeSplitWordZip()" id="btn-run-splitword-zip" class="text-xs text-blue-400 hover:text-white flex items-center gap-1 font-semibold px-2.5 py-1 rounded-lg bg-blue-600/10 hover:bg-blue-600 transition">
-                  <i data-lucide="archive" class="w-3.5 h-3.5"></i> Download All as ZIP
-                </button>
-              </div>
-              <div id="splitword-parts-list" class="space-y-2 max-h-72 overflow-y-auto custom-scroll p-1"></div>
-            </div>
+            <!-- Visual Page Cards Grid -->
+            <div id="splitword-thumbnails-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-h-[500px] overflow-y-auto custom-scroll p-4 bg-slate-950/50 rounded-2xl border border-slate-800/80"></div>
           </div>
 
-          <div class="mt-8 flex justify-end">
-            <button id="btn-run-splitword" onclick="executeSplitWordPrimary()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
-              <i data-lucide="scissors" class="w-4 h-4"></i> Split &amp; Download Part 1
-            </button>
+          <!-- Bottom Actions -->
+          <div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="text-xs text-slate-400">Click individual page cards or enter page ranges to include or exclude pages from output.</div>
+            <div class="flex items-center gap-3">
+              <button id="btn-run-splitword-zip" onclick="executeSplitWordZip()" disabled class="px-5 py-3 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 disabled:opacity-40 transition-all border border-slate-700 flex items-center gap-1.5">
+                <i data-lucide="archive" class="w-4 h-4"></i> Split Every Page to ZIP
+              </button>
+              <button id="btn-run-splitword" onclick="executeSplitWordExtractSelected()" disabled class="flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xl shadow-blue-600/30">
+                <i data-lucide="scissors" class="w-4 h-4"></i> Extract Selected Pages (.docx)
+              </button>
+            </div>
           </div>
-        </div>
-
-      </div>
+        </div></div>
     </div>
 
     <!-- REAL-TIME ASYNC BATCH PROGRESS MODAL -->
@@ -6596,20 +6554,20 @@ ${compareTextB}
     }
 
     // ==========================================
-    // TOOL: SPLIT WORD (.DOCX)
+    // TOOL: VISUAL SPLIT WORD (.DOCX)
     // ==========================================
     let splitWordFile = null;
     let splitWordZipBuffer = null;
     let splitWordXmlHeader = '';
     let splitWordSectPr = '';
-    let splitWordBodyNodes = [];
-    let splitWordCalculatedParts = [];
+    let splitWordPages = []; // array of { pageNumber, selected, heading, previewText, wordCount, nodes }
 
     const dropzoneSplitWord = document.getElementById('dropzone-splitword');
     const inputSplitWord = document.getElementById('input-splitword');
     const configSplitWord = document.getElementById('config-splitword');
     const btnRunSplitWord = document.getElementById('btn-run-splitword');
     const btnRunSplitWordZip = document.getElementById('btn-run-splitword-zip');
+    const splitWordRangeInput = document.getElementById('splitword-range-input');
 
     if (dropzoneSplitWord) {
       dropzoneSplitWord.onclick = (e) => {
@@ -6631,6 +6589,53 @@ ${compareTextB}
         const file = e.target.files[0];
         if (file) handleSplitWordFile(file);
       };
+    }
+
+    function escapeDocxHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function parseRangeString(str, maxPages) {
+      const selected = new Set();
+      const parts = str.split(/[,;\s]+/);
+      parts.forEach(part => {
+        part = part.trim();
+        if (!part) return;
+        if (part.includes('-')) {
+          const [startStr, endStr] = part.split('-');
+          const start = parseInt(startStr, 10);
+          const end = parseInt(endStr, 10);
+          if (!isNaN(start) && !isNaN(end)) {
+            const min = Math.max(1, Math.min(start, end));
+            const max = Math.min(maxPages, Math.max(start, end));
+            for (let p = min; p <= max; p++) selected.add(p - 1);
+          }
+        } else {
+          const page = parseInt(part, 10);
+          if (!isNaN(page) && page >= 1 && page <= maxPages) selected.add(page - 1);
+        }
+      });
+      return Array.from(selected).sort((a, b) => a - b);
+    }
+
+    function formatRangeIndices(indices) {
+      if (!indices || indices.length === 0) return '';
+      const sorted = [...new Set(indices)].sort((a, b) => a - b).map(x => x + 1);
+      const ranges = [];
+      let start = sorted[0];
+      let end = start;
+      for (let i = 1; i < sorted.length; i++) {
+        if (sorted[i] === end + 1) {
+          end = sorted[i];
+        } else {
+          ranges.push(start === end ? `${start}` : `${start}-${end}`);
+          start = sorted[i];
+          end = start;
+        }
+      }
+      ranges.push(start === end ? `${start}` : `${start}-${end}`);
+      return ranges.join(', ');
     }
 
     async function handleSplitWordFile(file) {
@@ -6674,10 +6679,8 @@ ${compareTextB}
 
         // Extract top-level elements: <w:p>, <w:tbl>, <w:sdt>
         const elementRegex = /<(w:p|w:tbl|w:sdt)(?:\s+[^>]*?)?(?:\/>|>[\s\S]*?<\/\1>)/g;
-        splitWordBodyNodes = [];
+        const allNodes = [];
         let m;
-        let headingCount = 0;
-        let pageBreakCount = 0;
 
         while ((m = elementRegex.exec(elementsXml)) !== null) {
           const rawXml = m[0];
@@ -6686,154 +6689,250 @@ ${compareTextB}
           const isHeading = /Heading[1-6]|heading[1-6]/i.test(rawXml) || (textPreview.length > 0 && textPreview.length < 70 && /^Chapter|^Section|^Part|\b[0-9]+\.\s/i.test(textPreview));
           const isPageBreak = /w:type="page"|w:lastRenderedPageBreak/.test(rawXml);
 
-          if (isHeading) headingCount++;
-          if (isPageBreak) pageBreakCount++;
-
-          splitWordBodyNodes.push({
+          allNodes.push({
             xml: rawXml,
             text: textPreview,
+            words: textPreview ? textPreview.split(/\s+/).length : 0,
             isHeading,
             isPageBreak
           });
         }
 
-        document.getElementById('splitword-total-p').textContent = splitWordBodyNodes.length;
-        document.getElementById('splitword-total-h').textContent = headingCount;
-        document.getElementById('splitword-total-pb').textContent = pageBreakCount;
-        document.getElementById('splitword-file-size').textContent = formatBytes(file.size);
+        if (allNodes.length === 0) {
+          showToast('Word document appears to be empty.', false);
+          return;
+        }
+
+        // Group nodes into visual pages
+        const hasExplicitPageBreaks = allNodes.some(n => n.isPageBreak);
+        splitWordPages = [];
+        let currentPageNodes = [];
+        let currentPageHeading = '';
+        let currentWords = 0;
+        let pageNum = 1;
+
+        allNodes.forEach((node) => {
+          if (node.isHeading && !currentPageHeading) {
+            currentPageHeading = node.text;
+          }
+
+          let triggerBreak = false;
+          if (hasExplicitPageBreaks) {
+            if (node.isPageBreak && currentPageNodes.length > 0) {
+              triggerBreak = true;
+            }
+          } else {
+            if (currentPageNodes.length > 0 && (currentWords + node.words > 240 || currentPageNodes.length >= 6)) {
+              triggerBreak = true;
+            }
+          }
+
+          if (triggerBreak) {
+            splitWordPages.push(createWordPageObject(pageNum, currentPageHeading, currentPageNodes));
+            pageNum++;
+            currentPageNodes = [];
+            currentPageHeading = node.isHeading ? node.text : '';
+            currentWords = 0;
+          }
+
+          currentPageNodes.push(node);
+          currentWords += node.words;
+        });
+
+        if (currentPageNodes.length > 0) {
+          splitWordPages.push(createWordPageObject(pageNum, currentPageHeading, currentPageNodes));
+        }
 
         configSplitWord.classList.remove('hidden');
         btnRunSplitWord.disabled = false;
+        if (btnRunSplitWordZip) btnRunSplitWordZip.disabled = false;
 
-        recalculateSplitWordParts();
-        showToast(`Parsed Word document: ${splitWordBodyNodes.length} paragraphs & sections.`);
+        renderVisualSplitWordThumbnails();
+        showToast(`Document loaded: ${splitWordPages.length} visual pages ready to split!`);
       } catch (err) {
         showToast('Error reading Word document: ' + err.message, false);
       }
     }
 
-    function recalculateSplitWordParts() {
-      if (!splitWordBodyNodes || splitWordBodyNodes.length === 0) return;
-
-      const methodEl = document.querySelector('input[name="splitword-method"]:checked');
-      const method = methodEl ? methodEl.value : 'headings';
-      const partsCountContainer = document.getElementById('splitword-parts-count-container');
-      if (partsCountContainer) {
-        partsCountContainer.classList.toggle('hidden', method !== 'parts');
-      }
-
-      splitWordCalculatedParts = [];
-
-      if (method === 'headings') {
-        let currentPart = [];
-        let currentHeading = 'Part 1 (Introduction)';
-
-        splitWordBodyNodes.forEach((node) => {
-          if (node.isHeading && currentPart.length > 0) {
-            splitWordCalculatedParts.push({
-              title: currentHeading,
-              nodes: currentPart
-            });
-            currentPart = [];
-            currentHeading = node.text ? node.text.substring(0, 45) : `Part ${splitWordCalculatedParts.length + 1}`;
-          } else if (node.isHeading && currentPart.length === 0) {
-            currentHeading = node.text ? node.text.substring(0, 45) : 'Part 1';
-          }
-          currentPart.push(node);
-        });
-        if (currentPart.length > 0) {
-          splitWordCalculatedParts.push({
-            title: currentHeading,
-            nodes: currentPart
-          });
-        }
-      } else if (method === 'pagebreaks') {
-        let currentPart = [];
-        let pageNum = 1;
-
-        splitWordBodyNodes.forEach((node) => {
-          if (node.isPageBreak && currentPart.length > 0) {
-            splitWordCalculatedParts.push({
-              title: `Document Section (Page ${pageNum})`,
-              nodes: currentPart
-            });
-            currentPart = [];
-            pageNum++;
-          }
-          currentPart.push(node);
-        });
-        if (currentPart.length > 0) {
-          splitWordCalculatedParts.push({
-            title: `Document Section (Page ${pageNum})`,
-            nodes: currentPart
-          });
-        }
-      } else {
-        const numParts = parseInt(document.getElementById('splitword-parts-count')?.value || '2', 10);
-        const count = Math.max(2, Math.min(splitWordBodyNodes.length, numParts));
-        const perPart = Math.ceil(splitWordBodyNodes.length / count);
-        for (let i = 0; i < count; i++) {
-          const slice = splitWordBodyNodes.slice(i * perPart, (i + 1) * perPart);
-          if (slice.length > 0) {
-            const firstText = slice.find(s => s.text)?.text || '';
-            splitWordCalculatedParts.push({
-              title: firstText ? (firstText.substring(0, 35) + '...') : `Part ${i + 1}`,
-              nodes: slice
-            });
-          }
-        }
-      }
-
-      if (splitWordCalculatedParts.length <= 1 && splitWordBodyNodes.length > 2) {
-        const half = Math.ceil(splitWordBodyNodes.length / 2);
-        splitWordCalculatedParts = [
-          { title: 'Part 1 (First Half)', nodes: splitWordBodyNodes.slice(0, half) },
-          { title: 'Part 2 (Second Half)', nodes: splitWordBodyNodes.slice(half) }
-        ];
-      }
-
-      renderSplitWordPartsList();
+    function createWordPageObject(pageNumber, heading, nodes) {
+      const texts = nodes.map(n => n.text).filter(Boolean);
+      const totalWords = nodes.reduce((acc, n) => acc + n.words, 0);
+      return {
+        pageNumber,
+        selected: true,
+        heading: heading || (nodes[0]?.isHeading ? nodes[0].text : ''),
+        previewText: texts.slice(0, 3).join(' ') || 'Paragraph content...',
+        wordCount: totalWords,
+        nodes: nodes.map(n => n.xml)
+      };
     }
 
-    function renderSplitWordPartsList() {
-      const listEl = document.getElementById('splitword-parts-list');
-      const summaryEl = document.getElementById('splitword-parts-summary');
-      if (!listEl) return;
+    function renderVisualSplitWordThumbnails() {
+      const grid = document.getElementById('splitword-thumbnails-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
 
-      listEl.innerHTML = '';
-      if (summaryEl) {
-        summaryEl.textContent = `${splitWordCalculatedParts.length} documents generated`;
-      }
+      splitWordPages.forEach((page, pageIdx) => {
+        const card = document.createElement('div');
+        card.id = `splitword-card-${pageIdx}`;
+        card.className = `relative flex flex-col p-2.5 rounded-xl border-2 cursor-pointer transition-all bg-slate-900/90 group select-none ${
+          page.selected ? 'border-blue-500 shadow-lg shadow-blue-500/10' : 'border-slate-800 opacity-60 hover:opacity-90'
+        }`;
+        card.onclick = () => toggleSplitWordSelection(pageIdx);
 
-      splitWordCalculatedParts.forEach((part, index) => {
-        const div = document.createElement('div');
-        div.className = 'flex items-center justify-between p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs hover:border-slate-700 transition';
-        div.innerHTML = `
-          <div class="flex items-center gap-2.5 overflow-hidden">
-            <div class="w-8 h-8 rounded-lg bg-blue-600/20 text-blue-400 flex items-center justify-center font-bold text-xs flex-shrink-0">
-              ${index + 1}
+        const safePreview = escapeDocxHtml(page.previewText);
+        const safeHeading = page.heading ? escapeDocxHtml(page.heading) : '';
+
+        card.innerHTML = `
+          <div class="relative overflow-hidden rounded-lg bg-white p-3 aspect-[1/1.35] shadow-inner flex flex-col justify-between text-slate-900 border border-slate-200">
+            <div class="space-y-1.5 overflow-hidden">
+              ${safeHeading ? `<div class="text-[11px] font-extrabold text-blue-700 leading-tight truncate">${safeHeading}</div>` : ''}
+              <div class="text-[9px] text-slate-700 leading-snug line-clamp-6 font-serif">
+                ${safePreview}
+              </div>
             </div>
-            <div class="truncate">
-              <span class="font-bold text-white block truncate">${part.title}</span>
-              <span class="text-slate-400 text-[11px]">${part.nodes.length} paragraphs/tables</span>
+            <div class="pt-2 border-t border-slate-200 flex items-center justify-between text-[8px] text-slate-400">
+              <span>${page.wordCount} words</span>
+              <span class="font-bold">Page ${page.pageNumber}</span>
+            </div>
+            <div id="splitword-check-${pageIdx}" class="absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center shadow transition-all ${
+              page.selected ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-400'
+            }">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
             </div>
           </div>
-          <button type="button" onclick="downloadSingleSplitWordPart(${index})" class="px-3 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white font-semibold transition text-xs flex items-center gap-1 flex-shrink-0">
-            <i data-lucide="download" class="w-3.5 h-3.5"></i> Download Part
-          </button>
+          <div class="flex items-center justify-between mt-2 px-1">
+            <span class="text-xs font-bold text-slate-300">Page ${page.pageNumber}</span>
+            <button type="button" onclick="event.stopPropagation(); downloadSingleSplitWordPage(${pageIdx})" class="text-slate-400 hover:text-blue-400 p-0.5" title="Download only Page ${page.pageNumber} as .docx">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            </button>
+          </div>
         `;
-        listEl.appendChild(div);
+
+        grid.appendChild(card);
       });
 
+      updateSplitWordSummaryAndRange();
       if (window.lucide) lucide.createIcons();
     }
 
-    async function generateDocxBlobForPart(partIndex) {
-      if (!splitWordCalculatedParts[partIndex] || !splitWordZipBuffer) return null;
-      const part = splitWordCalculatedParts[partIndex];
+    function toggleSplitWordSelection(pageIdx) {
+      if (!splitWordPages[pageIdx]) return;
+      splitWordPages[pageIdx].selected = !splitWordPages[pageIdx].selected;
 
-      const nodesXml = part.nodes.map(n => n.xml).join('\n');
-      const finalDocXml = splitWordXmlHeader + '\n' + nodesXml + (splitWordSectPr ? '\n' + splitWordSectPr : '') + '\n</w:body>\n</w:document>';
+      const card = document.getElementById(`splitword-card-${pageIdx}`);
+      const check = document.getElementById(`splitword-check-${pageIdx}`);
+
+      if (card && check) {
+        if (splitWordPages[pageIdx].selected) {
+          card.className = 'relative flex flex-col p-2.5 rounded-xl border-2 cursor-pointer transition-all bg-slate-900/90 group select-none border-blue-500 shadow-lg shadow-blue-500/10';
+          check.className = 'absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center shadow transition-all bg-blue-600 text-white';
+        } else {
+          card.className = 'relative flex flex-col p-2.5 rounded-xl border-2 cursor-pointer transition-all bg-slate-900/90 group select-none border-slate-800 opacity-60 hover:opacity-90';
+          check.className = 'absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center shadow transition-all bg-slate-200 text-slate-400';
+        }
+      }
+
+      updateSplitWordSummaryAndRange();
+    }
+
+    function splitWordSelectAll(select) {
+      splitWordPages.forEach((p, idx) => {
+        p.selected = select;
+        const card = document.getElementById(`splitword-card-${idx}`);
+        const check = document.getElementById(`splitword-check-${idx}`);
+        if (card && check) {
+          card.className = select
+            ? 'relative flex flex-col p-2.5 rounded-xl border-2 cursor-pointer transition-all bg-slate-900/90 group select-none border-blue-500 shadow-lg shadow-blue-500/10'
+            : 'relative flex flex-col p-2.5 rounded-xl border-2 cursor-pointer transition-all bg-slate-900/90 group select-none border-slate-800 opacity-60 hover:opacity-90';
+          check.className = select
+            ? 'absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center shadow transition-all bg-blue-600 text-white'
+            : 'absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center shadow transition-all bg-slate-200 text-slate-400';
+        }
+      });
+      updateSplitWordSummaryAndRange();
+    }
+
+    function splitWordInvertSelection() {
+      splitWordPages.forEach((p, idx) => {
+        p.selected = !p.selected;
+        const card = document.getElementById(`splitword-card-${idx}`);
+        const check = document.getElementById(`splitword-check-${idx}`);
+        if (card && check) {
+          card.className = p.selected
+            ? 'relative flex flex-col p-2.5 rounded-xl border-2 cursor-pointer transition-all bg-slate-900/90 group select-none border-blue-500 shadow-lg shadow-blue-500/10'
+            : 'relative flex flex-col p-2.5 rounded-xl border-2 cursor-pointer transition-all bg-slate-900/90 group select-none border-slate-800 opacity-60 hover:opacity-90';
+          check.className = p.selected
+            ? 'absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center shadow transition-all bg-blue-600 text-white'
+            : 'absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center shadow transition-all bg-slate-200 text-slate-400';
+        }
+      });
+      updateSplitWordSummaryAndRange();
+    }
+
+    function splitWordSelectOddEven(type) {
+      splitWordPages.forEach((p, idx) => {
+        p.selected = (type === 'odd') ? (p.pageNumber % 2 !== 0) : (p.pageNumber % 2 === 0);
+        const card = document.getElementById(`splitword-card-${idx}`);
+        const check = document.getElementById(`splitword-check-${idx}`);
+        if (card && check) {
+          card.className = p.selected
+            ? 'relative flex flex-col p-2.5 rounded-xl border-2 cursor-pointer transition-all bg-slate-900/90 group select-none border-blue-500 shadow-lg shadow-blue-500/10'
+            : 'relative flex flex-col p-2.5 rounded-xl border-2 cursor-pointer transition-all bg-slate-900/90 group select-none border-slate-800 opacity-60 hover:opacity-90';
+          check.className = p.selected
+            ? 'absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center shadow transition-all bg-blue-600 text-white'
+            : 'absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center shadow transition-all bg-slate-200 text-slate-400';
+        }
+      });
+      updateSplitWordSummaryAndRange();
+    }
+
+    function handleSplitWordRangeInput(val) {
+      if (!splitWordPages.length) return;
+      const selectedIndices = parseRangeString(val, splitWordPages.length);
+
+      splitWordPages.forEach((p, idx) => {
+        p.selected = selectedIndices.includes(idx);
+        const card = document.getElementById(`splitword-card-${idx}`);
+        const check = document.getElementById(`splitword-check-${idx}`);
+        if (card && check) {
+          card.className = p.selected
+            ? 'relative flex flex-col p-2.5 rounded-xl border-2 cursor-pointer transition-all bg-slate-900/90 group select-none border-blue-500 shadow-lg shadow-blue-500/10'
+            : 'relative flex flex-col p-2.5 rounded-xl border-2 cursor-pointer transition-all bg-slate-900/90 group select-none border-slate-800 opacity-60 hover:opacity-90';
+          check.className = p.selected
+            ? 'absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center shadow transition-all bg-blue-600 text-white'
+            : 'absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center shadow transition-all bg-slate-200 text-slate-400';
+        }
+      });
+
+      updateSplitWordSummaryOnly();
+    }
+
+    function updateSplitWordSummaryAndRange() {
+      updateSplitWordSummaryOnly();
+
+      const rangeInput = document.getElementById('splitword-range-input');
+      if (rangeInput && document.activeElement !== rangeInput) {
+        const selectedIndices = splitWordPages.map((p, idx) => p.selected ? idx : -1).filter(i => i !== -1);
+        rangeInput.value = formatRangeIndices(selectedIndices);
+      }
+    }
+
+    function updateSplitWordSummaryOnly() {
+      const selectedCount = splitWordPages.filter(p => p.selected).length;
+      const totalCount = splitWordPages.length;
+      const summaryEl = document.getElementById('splitword-selected-summary');
+      if (summaryEl) {
+        summaryEl.textContent = `${selectedCount} of ${totalCount} pages`;
+      }
+      if (btnRunSplitWord) {
+        btnRunSplitWord.disabled = selectedCount === 0;
+      }
+    }
+
+    async function generateDocxBlobForNodes(nodeXmlList) {
+      if (!nodeXmlList || !nodeXmlList.length || !splitWordZipBuffer) return null;
+      const finalDocXml = splitWordXmlHeader + '\n' + nodeXmlList.join('\n') + (splitWordSectPr ? '\n' + splitWordSectPr : '') + '\n</w:body>\n</w:document>';
 
       const zip = await JSZip.loadAsync(splitWordZipBuffer);
       zip.file('word/document.xml', finalDocXml);
@@ -6843,51 +6942,80 @@ ${compareTextB}
       });
     }
 
-    async function downloadSingleSplitWordPart(partIndex) {
-      if (!splitWordCalculatedParts[partIndex] || !splitWordFile) return;
+    async function downloadSingleSplitWordPage(pageIdx) {
+      if (!splitWordPages[pageIdx] || !splitWordFile) return;
+      const page = splitWordPages[pageIdx];
       try {
-        showToast(`Generating Part ${partIndex + 1}...`);
-        const blob = await generateDocxBlobForPart(partIndex);
+        showToast(`Generating Page ${page.pageNumber}...`);
+        const blob = await generateDocxBlobForNodes(page.nodes);
         if (!blob) return;
         const baseName = splitWordFile.name.replace(/\.[^/.]+$/, '');
-        downloadBlob(blob, `${baseName}_Part_${partIndex + 1}.docx`, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-        showToast(`Downloaded Part ${partIndex + 1} successfully!`);
+        downloadBlob(blob, `${baseName}_Page_${page.pageNumber}.docx`, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        showToast(`Downloaded Page ${page.pageNumber} successfully!`);
       } catch (err) {
-        showToast('Error generating split part: ' + err.message, false);
+        showToast('Error generating page: ' + err.message, false);
       }
     }
 
-    async function executeSplitWordPrimary() {
-      if (splitWordCalculatedParts.length > 0) {
-        await downloadSingleSplitWordPart(0);
+    async function executeSplitWordExtractSelected() {
+      const selectedPages = splitWordPages.filter(p => p.selected);
+      if (!selectedPages.length || !splitWordFile) {
+        showToast('Please select at least one page to extract.', false);
+        return;
+      }
+
+      btnRunSplitWord.disabled = true;
+      showToast('Extracting selected pages into unified Word document...');
+
+      try {
+        const allSelectedNodes = selectedPages.flatMap(p => p.nodes);
+        const blob = await generateDocxBlobForNodes(allSelectedNodes);
+        if (!blob) return;
+
+        const baseName = splitWordFile.name.replace(/\.[^/.]+$/, '');
+        const selectedPageNumbers = selectedPages.map(p => p.pageNumber - 1);
+        const rangeStr = formatRangeIndices(selectedPageNumbers).replace(/[, ]+/g, '_');
+        downloadBlob(blob, `${baseName}_pages_${rangeStr}.docx`, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        showToast(`Extracted ${selectedPages.length} pages into new Word document successfully!`);
+      } catch (err) {
+        showToast('Extraction error: ' + err.message, false);
+      } finally {
+        btnRunSplitWord.disabled = false;
       }
     }
 
     async function executeSplitWordZip() {
-      if (!splitWordCalculatedParts.length || !splitWordFile) return;
+      const pagesToExport = splitWordPages.filter(p => p.selected).length > 0 
+        ? splitWordPages.filter(p => p.selected) 
+        : splitWordPages;
+
+      if (!pagesToExport.length || !splitWordFile) return;
+
       if (btnRunSplitWordZip) btnRunSplitWordZip.disabled = true;
-      showToast('Creating ZIP archive with all split Word files...');
+      showToast('Generating individual Word files for ZIP archive...');
 
       try {
         const zipBundle = new JSZip();
         const baseName = splitWordFile.name.replace(/\.[^/.]+$/, '');
 
-        for (let i = 0; i < splitWordCalculatedParts.length; i++) {
-          const blob = await generateDocxBlobForPart(i);
+        for (let i = 0; i < pagesToExport.length; i++) {
+          const page = pagesToExport[i];
+          const blob = await generateDocxBlobForNodes(page.nodes);
           if (blob) {
-            zipBundle.file(`${baseName}_Part_${i + 1}.docx`, blob);
+            zipBundle.file(`${baseName}_Page_${page.pageNumber}.docx`, blob);
           }
         }
 
         const zipBlob = await zipBundle.generateAsync({ type: 'blob' });
-        downloadBlob(zipBlob, `${baseName}_split_parts.zip`, 'application/zip');
-        showToast(`Downloaded all ${splitWordCalculatedParts.length} split documents in a single ZIP!`);
+        downloadBlob(zipBlob, `${baseName}_all_split_pages.zip`, 'application/zip');
+        showToast(`Downloaded ${pagesToExport.length} separate Word pages in a ZIP archive!`);
       } catch (err) {
         showToast('Error creating ZIP bundle: ' + err.message, false);
       } finally {
         if (btnRunSplitWordZip) btnRunSplitWordZip.disabled = false;
       }
     }
+
   </script>
 </body>
 </html>
